@@ -1,368 +1,288 @@
-/* =========================
-   RESET GLOBAL
-   ========================= */
+/* =====================================================
+   RESET DE BASE
+   Supprime les marges/paddings par défaut
+   et facilite les calculs de tailles
+===================================================== */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Inclut padding et border dans les tailles */
+    box-sizing: border-box;
 }
 
-/* =========================
-   STYLE GLOBAL PAGE
-   ========================= */
+/* =====================================================
+   STYLE GLOBAL
+===================================================== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 100%);
-    min-height: 100vh; /* Toujours pleine hauteur */
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     padding: 20px;
 }
 
-/* Conteneur central */
+/* =====================================================
+   CONTENEUR PRINCIPAL
+   Centre le contenu et limite la largeur
+===================================================== */
 .container {
-    max-width: 1000px;
-    margin: 0 auto; /* Centrage horizontal */
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* =========================
-   HEADER
-   ========================= */
-header {
-    text-align: center;
+/* =====================================================
+   EN-TÊTE
+===================================================== */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.email-info {
+    color: #7f8c8d;
     margin-bottom: 30px;
 }
 
-header h1 {
-    color: #1e40af;
-    font-size: 2rem;
-    margin-bottom: 5px;
+/* =====================================================
+   SECTIONS
+===================================================== */
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
 }
 
-header h2 {
-    color: #3b82f6;
-    font-size: 1.3rem;
-    font-weight: normal;
+.section h2 {
+    color: #34495e;
+    margin-bottom: 15px;
+    font-size: 20px;
 }
 
-header p {
-    color: #64748b;
-    margin-top: 10px;
-}
-
-/* =========================
-   CARTE PRINCIPALE (MIND MAP)
-   ========================= */
-.mind-map {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    padding: 25px;
-}
-
-/* =========================
-   NŒUDS (SECTIONS DÉPLIABLES)
-   ========================= */
-.node {
+/* =====================================================
+   FORMULAIRE
+===================================================== */
+.form-group {
     margin-bottom: 15px;
 }
 
-/* En-tête cliquable */
-.node-header {
-    display: flex;
-    align-items: center;
-    padding: 12px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: white;
-    font-weight: 600;
-    user-select: none;
-}
-
-.node-header:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* Icône à gauche */
-.node-header .icon {
-    margin-right: 10px;
-    font-size: 1.2rem;
-}
-
-/* Bouton + / - à droite */
-.node-header .toggle {
-    margin-left: auto;
-    font-size: 1.5rem;
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
     font-weight: bold;
 }
 
-/* Contenu masqué par défaut */
-.node-content {
-    display: none;
-    margin-top: 10px;
-    margin-left: 20px;
-    padding-left: 20px;
-    border-left: 3px solid #cbd5e1;
+/* Champs de formulaire */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
-/* Contenu visible */
-.node-content.open {
-    display: block;
+/* Zone de texte ajustable verticalement */
+textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
-/* =========================
-   COULEURS DES NŒUDS
-   ========================= */
-.bg-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-.bg-green { background: linear-gradient(135deg, #16a34a, #15803d); }
-.bg-green-light { background: linear-gradient(135deg, #22c55e, #16a34a); }
-.bg-orange { background: linear-gradient(135deg, #ea580c, #c2410c); }
-.bg-purple { background: linear-gradient(135deg, #9333ea, #7e22ce); }
-.bg-teal { background: linear-gradient(135deg, #0d9488, #0f766e); }
-.bg-red { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-
-/* =========================
-   FORMULAIRES
-   ========================= */
-.form-section {
-    background: #f8fafc;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 10px;
-}
-
-/* Grille responsive automatique */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+/* =====================================================
+   CASES À COCHER / RADIOS
+===================================================== */
+.checkbox-group {
+    display: flex;
     gap: 15px;
+    flex-wrap: wrap; /* permet le retour à la ligne sur petits écrans */
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    font-size: 0.85rem;
-    color: #475569;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: all 0.2s;
-}
-
-/* Focus accessible */
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-/* =========================
-   CHECKBOX & RADIO
-   ========================= */
-.checkbox-group,
-.radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.checkbox-item,
-.radio-item {
+.checkbox-label {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    background: white;
-    border-radius: 8px;
+    gap: 8px;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 2px solid transparent;
 }
 
-.checkbox-item:hover,
-.radio-item:hover {
-    background: #e0f2fe;
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
 }
 
-.checkbox-item.selected,
-.radio-item.selected {
-    background: #dbeafe;
-    border-color: #3b82f6;
-}
-
-.checkbox-item input,
-.radio-item input {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-    accent-color: #2563eb;
-}
-
-/* =========================
+/* =====================================================
    TABLEAU
-   ========================= */
-.prises-table {
+===================================================== */
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.prises-table th {
-    background: #e2e8f0;
-    padding: 12px;
-    text-align: left;
-    font-weight: 600;
-    color: #334155;
-}
-
-.prises-table td {
+th, td {
     padding: 10px;
-    border-bottom: 1px solid #e2e8f0;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-/* =========================
-   GRILLES DIVERSES
-   ========================= */
-.protection-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.schema-area {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-/* Zone de dessin */
-.drawing-zone {
-    border: 2px dashed #94a3b8;
-    border-radius: 10px;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64748b;
-    background: white;
-}
-
-/* =========================
-   RÉSUMÉ
-   ========================= */
-.summary {
-    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 25px;
-    border: 1px solid #86efac;
-}
-
-.summary-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-/* =========================
-   BOUTON
-   ========================= */
-.submit-btn {
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    margin: 25px auto 0;
-    padding: 15px 30px;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+/* En-tête du tableau */
+th {
+    background-color: #3498db;
     color: white;
-    border-radius: 10px;
-    font-size: 1.1rem;
+}
+
+/* Champs à l'intérieur du tableau */
+td input,
+td select {
+    width: 100%;
+}
+
+/* =====================================================
+   BOUTONS
+===================================================== */
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* boutons l’un sous l’autre sur mobile */
+}
+
+.submit-btn,
+.copy-btn {
+    flex: 1;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
     cursor: pointer;
 }
-/* =========================
-   RESPONSIVE TABLETTE
-   ========================= */
-@media (max-width: 768px) {
 
+/* Bouton envoyer */
+.submit-btn {
+    background-color: #27ae60;
+}
+
+.submit-btn:hover {
+    background-color: #229954;
+}
+
+/* Bouton copier */
+.copy-btn {
+    background-color: #3498db;
+}
+
+.copy-btn:hover {
+    background-color: #2980b9;
+}
+
+/* =====================================================
+   RÉSUMÉ
+===================================================== */
+.summary {
+    background-color: #e8f5e9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.summary h3 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+#summaryText {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* =====================================================
+   ZONE DE PRÉVISUALISATION EMAIL
+===================================================== */
+.preview-zone {
+    background-color: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.preview-zone h3 {
+    color: #856404;
+    margin-bottom: 10px;
+}
+
+#emailPreview {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+/* =====================================================
+   RESPONSIVE – TABLETTE (≤ 768px)
+===================================================== */
+@media (max-width: 768px) {
     body {
         padding: 15px;
     }
 
-    header h1 {
-        font-size: 1.7rem;
-    }
-
-    header h2 {
-        font-size: 1.1rem;
-    }
-
-    .mind-map {
+    .container {
         padding: 20px;
     }
 
-    .node-header {
-        font-size: 0.95rem;
-        padding: 10px 14px;
+    h1 {
+        font-size: 24px;
     }
 
-    .node-content {
-        margin-left: 10px;
-        padding-left: 10px;
+    .section h2 {
+        font-size: 18px;
     }
 }
 
-/* =========================
-   RESPONSIVE MOBILE
-   ========================= */
+/* =====================================================
+   RESPONSIVE – MOBILE (≤ 480px)
+===================================================== */
 @media (max-width: 480px) {
-
     body {
         padding: 10px;
     }
 
-    header h1 {
-        font-size: 1.4rem;
+    .container {
+        padding: 15px;
+        border-radius: 0; /* plein écran sur mobile */
     }
 
-    header h2 {
-        font-size: 1rem;
+    h1 {
+        font-size: 20px;
     }
 
-    .form-grid,
-    .protection-grid,
-    .schema-area {
-        grid-template-columns: 1fr; /* Une seule colonne */
-    }
-
-    .node-header {
+    /* Boutons en colonne */
+    .button-group {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
     }
 
-    .node-header .toggle {
-        align-self: flex-end;
+    /* Texte plus lisible */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
     }
 
-    .drawing-zone {
-        height: 160px;
-        font-size: 0.95rem;
-    }
-
-    .submit-btn {
-        font-size: 1rem;
-        padding: 12px;
+    /* Tableau scrollable horizontalement */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }

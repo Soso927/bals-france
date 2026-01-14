@@ -4,61 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Demande de Devis Simple</title>
+    <title>Demande de Devis - Avec Export Email</title>
+    
 </head>
 <body>
     <div class="container">
         <!-- EN-TÊTE -->
-        <h1>📋 Demande de Devis - Coffret de Chantier</h1>
-        <!-- <p class="email-info">📧 À envoyer à : <strong>info@bals-france.fr</strong></p> -->
+        <h1> Demande de Devis - Coffret de Chantier</h1>
+        <p class="email-info">📧 À envoyer à : <strong>info@bals-france.fr</strong></p>
         
         <!-- SECTION 1 : CONTACT -->
         <div class="section">
-            <h2> Informations de Contact</h2>
+            <h2>Informations de Contact</h2>
             
             <div class="form-group">
                 <label>Distributeur :</label>
-                <input type="text" id="distributeur" placeholder="Nom du distributeur">
+                <input type="text" id="distributeur" placeholder="Nom du distributeur" onchange="updatePreview()">
             </div>
             
             <div class="form-group">
                 <label>Contact :</label>
-                <input type="text" id="contact" placeholder="Nom du contact">
+                <input type="text" id="contact" placeholder="Nom du contact" onchange="updatePreview()">
             </div>
             
             <div class="form-group">
                 <label>Affaire / Référence :</label>
-                <input type="text" id="affaire" placeholder="Référence de l'affaire">
+                <input type="text" id="affaire" placeholder="Référence de l'affaire" onchange="updatePreview()">
             </div>
             
             <div class="form-group">
                 <label>Téléphone :</label>
-                <input type="tel" id="telephone" placeholder="01 23 45 67 89">
+                <input type="tel" id="telephone" placeholder="01 23 45 67 89" onchange="updatePreview()">
             </div>
             
             <div class="form-group">
                 <label>Email :</label>
-                <input type="email" id="email" placeholder="contact@exemple.fr">
+                <input type="email" id="email" placeholder="contact@exemple.fr" onchange="updatePreview()">
             </div>
         </div>
         
         <!-- SECTION 2 : TYPE DE COFFRET -->
         <div class="section">
-            <h2>📦 Type de Coffret</h2>
+            <h2> Type de Coffret</h2>
             
             <div class="checkbox-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" value="Fixe" onchange="updateSummary()">
+                    <input type="checkbox" name="typeCoffret" value="Fixe" onchange="updatePreview()">
                     Fixe
                 </label>
                 
                 <label class="checkbox-label">
-                    <input type="checkbox" value="Mobile" onchange="updateSummary()">
+                    <input type="checkbox" name="typeCoffret" value="Mobile" onchange="updatePreview()">
                     Mobile
                 </label>
                 
                 <label class="checkbox-label">
-                    <input type="checkbox" value="Mobile sur pied" onchange="updateSummary()">
+                    <input type="checkbox" name="typeCoffret" value="Mobile sur pied" onchange="updatePreview()">
                     Mobile sur pied
                 </label>
             </div>
@@ -66,21 +67,21 @@
         
         <!-- SECTION 3 : MATÉRIAUX -->
         <div class="section">
-            <h2>Matériaux</h2>
+            <h2> Matériaux</h2>
             
             <div class="checkbox-group">
                 <label class="checkbox-label">
-                    <input type="radio" name="materiau" value="Caoutchouc" onchange="updateSummary()">
+                    <input type="radio" name="materiaux" value="Caoutchouc" onchange="updatePreview()">
                     Caoutchouc
                 </label>
                 
                 <label class="checkbox-label">
-                    <input type="radio" name="materiau" value="Métallique" onchange="updateSummary()">
+                    <input type="radio" name="materiaux" value="Métallique" onchange="updatePreview()">
                     Métallique
                 </label>
                 
                 <label class="checkbox-label">
-                    <input type="radio" name="materiau" value="Plastique" onchange="updateSummary()">
+                    <input type="radio" name="materiaux" value="Plastique" onchange="updatePreview()">
                     Plastique
                 </label>
             </div>
@@ -88,174 +89,402 @@
         
         <!-- SECTION 4 : INDICE DE PROTECTION -->
         <div class="section">
-            <h2>🛡️ Indice de Protection (IP)</h2>
+            <h2> Indice de Protection (IP)</h2>
             
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP44" onchange="updateSummary()">
+                    <input type="radio" name="ip" value="IP44 - Protection contre projections d'eau" onchange="updatePreview()">
                     IP44 - Protection contre projections d'eau
                 </label>
             </div>
             
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP54" onchange="updateSummary()">
+                    <input type="radio" name="ip" value="IP54 - Protection contre poussières et projections" onchange="updatePreview()">
                     IP54 - Protection contre poussières et projections
                 </label>
             </div>
             
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP67" onchange="updateSummary()">
+                    <input type="radio" name="ip" value="IP67 - Étanche à la poussière et immersion temporaire" onchange="updatePreview()">
                     IP67 - Étanche à la poussière et immersion temporaire
                 </label>
             </div>
         </div>
         
-        <!-- SECTION 5 : PRISES -->
+        <!-- SECTION 5 : PROTECTION -->
         <div class="section">
-            <h2>🔌 Prises</h2>
+            <h2>Protection</h2>
+            
+            <div class="form-group">
+                <label>Protection de tête :</label>
+                <select id="protectionTete" onchange="updatePreview()">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="Sans">Sans</option>
+                    <option value="Interrupteur">Interrupteur</option>
+                    <option value="Inter différentiel">Inter différentiel</option>
+                    <option value="Disjoncteur">Disjoncteur</option>
+                    <option value="Disjoncteur Diff.">Disjoncteur Diff.</option>
+                    <option value="Arrêt d'urgence">Arrêt d'urgence</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Protection des prises :</label>
+                <select id="protectionPrises" onchange="updatePreview()">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="Sans">Sans</option>
+                    <option value="Par prise">Par prise</option>
+                    <option value="Par groupe de prises">Par groupe de prises</option>
+                    <option value="Disjoncteur">Disjoncteur</option>
+                    <option value="Disjoncteur Diff.">Disjoncteur Diff.</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- SECTION 6 : PRISES -->
+        <div class="section">
+            <h2> Prises</h2>
             
             <table>
                 <thead>
                     <tr>
                         <th>Type de prise</th>
                         <th>Quantité</th>
+                        <th>Brochage</th>
+                        <th>Tension</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>NF 10/16A (domestique)</td>
-                        <td><input type="number" id="prise_nf" min="0" value="0"></td>
+                        <td><input type="number" id="prise_nf_qte" min="0" value="0" onchange="updatePreview()"></td>
+                        <td>
+                            <select id="prise_nf_brochage" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="2P">2P</option>
+                                <option value="2P+T">2P+T</option>
+                            </select>
+                        </td>
+                        <td>230V</td>
                     </tr>
                     <tr>
                         <td>CEI 16A</td>
-                        <td><input type="number" id="prise_16a" min="0" value="0"></td>
+                        <td><input type="number" id="prise_16a_qte" min="0" value="0" onchange="updatePreview()"></td>
+                        <td>
+                            <select id="prise_16a_brochage" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="2P+T">2P+T</option>
+                                <option value="3P+T">3P+T</option>
+                                <option value="3P+N+T">3P+N+T</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="prise_16a_tension" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="230V">230V</option>
+                                <option value="400V">400V</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>CEI 32A</td>
-                        <td><input type="number" id="prise_32a" min="0" value="0"></td>
+                        <td><input type="number" id="prise_32a_qte" min="0" value="0" onchange="updatePreview()"></td>
+                        <td>
+                            <select id="prise_32a_brochage" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="2P+T">2P+T</option>
+                                <option value="3P+T">3P+T</option>
+                                <option value="3P+N+T">3P+N+T</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="prise_32a_tension" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="230V">230V</option>
+                                <option value="400V">400V</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>CEI 63A</td>
-                        <td><input type="number" id="prise_63a" min="0" value="0"></td>
+                        <td><input type="number" id="prise_63a_qte" min="0" value="0" onchange="updatePreview()"></td>
+                        <td>
+                            <select id="prise_63a_brochage" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="2P+T">2P+T</option>
+                                <option value="3P+T">3P+T</option>
+                                <option value="3P+N+T">3P+N+T</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="prise_63a_tension" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="230V">230V</option>
+                                <option value="400V">400V</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CEI 125A</td>
+                        <td><input type="number" id="prise_125a_qte" min="0" value="0" onchange="updatePreview()"></td>
+                        <td>
+                            <select id="prise_125a_brochage" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="2P+T">2P+T</option>
+                                <option value="3P+T">3P+T</option>
+                                <option value="3P+N+T">3P+N+T</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="prise_125a_tension" onchange="updatePreview()">
+                                <option value="">--</option>
+                                <option value="230V">230V</option>
+                                <option value="400V">400V</option>
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         
-        <!-- SECTION 6 : OBSERVATIONS -->
+        <!-- SECTION 7 : OBSERVATIONS -->
         <div class="section">
-            <h2>📝 Observations</h2>
+            <h2>Observations</h2>
             
             <div class="form-group">
                 <label>Informations complémentaires :</label>
-                <textarea id="observations" placeholder="Ajoutez vos remarques, besoins particuliers..."></textarea>
+                <textarea id="observations" placeholder="Ajoutez vos remarques, besoins particuliers..." onchange="updatePreview()"></textarea>
             </div>
         </div>
         
-        <!-- RÉSUMÉ -->
-        <div class="summary">
-            <h3>📊 Résumé de votre sélection</h3>
-            <div id="summaryText">
-                Remplissez le formulaire pour voir le résumé...
+        <!-- PRÉVISUALISATION DE L'EMAIL -->
+        <div class="preview-zone">
+            <h3> Prévisualisation de l'email</h3>
+            <div id="emailPreview">
+Remplissez le formulaire pour voir la prévisualisation...
             </div>
         </div>
         
-        <!-- BOUTON D'ENVOI -->
-        <button class="submit-btn" onclick="envoyerEmail()">
-            📧 Envoyer la demande de devis
-        </button>
+        <!-- BOUTONS D'ACTION -->
+        <div class="button-group">
+            <button class="copy-btn" onclick="copierTexte()">
+                Copier le texte
+            </button>
+            <button class="submit-btn" onclick="envoyerEmail()">
+                 Ouvrir dans l'email
+            </button>
+        </div>
     </div>
     
     <script>
-        // ========== FONCTION 1 : METTRE À JOUR LE RÉSUMÉ ==========
-        // Cette fonction collecte toutes les informations du formulaire
-        // et affiche un résumé en temps réel
-        function updateSummary() {
-            let resume = ""; // Variable pour stocker le texte du résumé
+        // ========== FONCTION PRINCIPALE : GÉNÉRER LE CONTENU DE L'EMAIL ==========
+        function genererContenuEmail() {
+            // 1. RÉCUPÉRER LES INFORMATIONS DE CONTACT
+            let distributeur = document.getElementById('distributeur').value || "(non renseigné)";
+            let contact = document.getElementById('contact').value || "(non renseigné)";
+            let affaire = document.getElementById('affaire').value || "(non renseigné)";
+            let telephone = document.getElementById('telephone').value || "(non renseigné)";
+            let email = document.getElementById('email').value || "(non renseigné)";
             
-            // 1. Récupérer le type de coffret
-            let types = []; // Tableau pour stocker les types sélectionnés
-            // Chercher toutes les cases cochées pour le type
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(function(checkbox) {
-                types.push(checkbox.value);
+            // 2. CONSTRUIRE L'EMAIL
+            let contenu = "";
+            contenu += "╔════════════════════════════════════════════════════════════╗\n";
+            contenu += "║     DEMANDE DE DEVIS - COFFRET DE CHANTIER                 ║\n";
+            contenu += "╚════════════════════════════════════════════════════════════╝\n\n";
+            
+            // Section Contact
+            contenu += "┌─────────────────────────────────────────────────────────┐\n";
+            contenu += "│   INFORMATIONS DE CONTACT                             │\n";
+            contenu += "└─────────────────────────────────────────────────────────┘\n";
+            contenu += "Distributeur       : " + distributeur + "\n";
+            contenu += "Contact            : " + contact + "\n";
+            contenu += "Affaire/Référence  : " + affaire + "\n";
+            contenu += "Téléphone          : " + telephone + "\n";
+            contenu += "Email              : " + email + "\n";
+            contenu += "\n";
+            
+            // Section Type de coffret
+            let typesCoffret = [];
+            document.querySelectorAll('input[name="typeCoffret"]:checked').forEach(function(checkbox) {
+                typesCoffret.push(checkbox.value);
             });
             
-            if (types.length > 0) {
-                resume += "<strong>Type :</strong> " + types.join(", ") + "<br>";
+            if (typesCoffret.length > 0) {
+                contenu += "┌─────────────────────────────────────────────────────────┐\n";
+                contenu += "│   TYPE DE COFFRET                                     │\n";
+                contenu += "└─────────────────────────────────────────────────────────┘\n";
+                typesCoffret.forEach(function(type) {
+                    contenu += "  ✓ " + type + "\n";
+                });
+                contenu += "\n";
             }
             
-            // 2. Récupérer le matériau sélectionné
-            let materiau = document.querySelector('input[name="materiau"]:checked');
-            if (materiau) {
-                resume += "<strong>Matériau :</strong> " + materiau.value + "<br>";
+            // Section Matériaux
+            let materiaux = document.querySelector('input[name="materiaux"]:checked');
+            if (materiaux) {
+                contenu += "┌─────────────────────────────────────────────────────────┐\n";
+                contenu += "│   MATÉRIAUX                                            │\n";
+                contenu += "└─────────────────────────────────────────────────────────┘\n";
+                contenu += "  ➤ " + materiaux.value + "\n\n";
             }
             
-            // 3. Récupérer l'indice de protection
+            // Section IP
             let ip = document.querySelector('input[name="ip"]:checked');
             if (ip) {
-                resume += "<strong>IP :</strong> " + ip.value + "<br>";
+                contenu += "┌─────────────────────────────────────────────────────────┐\n";
+                contenu += "│   INDICE DE PROTECTION                                │\n";
+                contenu += "└─────────────────────────────────────────────────────────┘\n";
+                contenu += "  ➤ " + ip.value + "\n\n";
             }
             
-            // 4. Afficher le résumé dans la div
-            let summaryDiv = document.getElementById('summaryText');
-            if (resume === "") {
-                summaryDiv.innerHTML = "Remplissez le formulaire pour voir le résumé...";
-            } else {
-                summaryDiv.innerHTML = resume;
+            // Section Protection
+            let protTete = document.getElementById('protectionTete').value;
+            let protPrises = document.getElementById('protectionPrises').value;
+            
+            if (protTete || protPrises) {
+                contenu += "┌─────────────────────────────────────────────────────────┐\n";
+                contenu += "│  PROTECTION                                          │\n";
+                contenu += "└─────────────────────────────────────────────────────────┘\n";
+                if (protTete) contenu += "Protection de tête  : " + protTete + "\n";
+                if (protPrises) contenu += "Protection prises   : " + protPrises + "\n";
+                contenu += "\n";
             }
+            
+            // Section Prises - DÉTAILLÉE
+            contenu += "┌─────────────────────────────────────────────────────────┐\n";
+            contenu += "│   PRISES                                              │\n";
+            contenu += "└─────────────────────────────────────────────────────────┘\n";
+            
+            let aucunePrise = true;
+            
+            // NF 10/16A
+            let nfQte = document.getElementById('prise_nf_qte').value;
+            let nfBrochage = document.getElementById('prise_nf_brochage').value;
+            if (nfQte && parseInt(nfQte) > 0) {
+                contenu += "NF 10/16A (domestique)\n";
+                contenu += "  → Quantité : " + nfQte + "\n";
+                contenu += "  → Brochage : " + (nfBrochage || "non spécifié") + "\n";
+                contenu += "  → Tension  : 230V\n\n";
+                aucunePrise = false;
+            }
+            
+            // CEI 16A
+            let cei16Qte = document.getElementById('prise_16a_qte').value;
+            let cei16Brochage = document.getElementById('prise_16a_brochage').value;
+            let cei16Tension = document.getElementById('prise_16a_tension').value;
+            if (cei16Qte && parseInt(cei16Qte) > 0) {
+                contenu += "CEI 16A\n";
+                contenu += "  → Quantité : " + cei16Qte + "\n";
+                contenu += "  → Brochage : " + (cei16Brochage || "non spécifié") + "\n";
+                contenu += "  → Tension  : " + (cei16Tension || "non spécifié") + "\n\n";
+                aucunePrise = false;
+            }
+            
+            // CEI 32A
+            let cei32Qte = document.getElementById('prise_32a_qte').value;
+            let cei32Brochage = document.getElementById('prise_32a_brochage').value;
+            let cei32Tension = document.getElementById('prise_32a_tension').value;
+            if (cei32Qte && parseInt(cei32Qte) > 0) {
+                contenu += "CEI 32A\n";
+                contenu += "  → Quantité : " + cei32Qte + "\n";
+                contenu += "  → Brochage : " + (cei32Brochage || "non spécifié") + "\n";
+                contenu += "  → Tension  : " + (cei32Tension || "non spécifié") + "\n\n";
+                aucunePrise = false;
+            }
+            
+            // CEI 63A
+            let cei63Qte = document.getElementById('prise_63a_qte').value;
+            let cei63Brochage = document.getElementById('prise_63a_brochage').value;
+            let cei63Tension = document.getElementById('prise_63a_tension').value;
+            if (cei63Qte && parseInt(cei63Qte) > 0) {
+                contenu += "CEI 63A\n";
+                contenu += "  → Quantité : " + cei63Qte + "\n";
+                contenu += "  → Brochage : " + (cei63Brochage || "non spécifié") + "\n";
+                contenu += "  → Tension  : " + (cei63Tension || "non spécifié") + "\n\n";
+                aucunePrise = false;
+            }
+            
+            // CEI 125A
+            let cei125Qte = document.getElementById('prise_125a_qte').value;
+            let cei125Brochage = document.getElementById('prise_125a_brochage').value;
+            let cei125Tension = document.getElementById('prise_125a_tension').value;
+            if (cei125Qte && parseInt(cei125Qte) > 0) {
+                contenu += "CEI 125A\n";
+                contenu += "  → Quantité : " + cei125Qte + "\n";
+                contenu += "  → Brochage : " + (cei125Brochage || "non spécifié") + "\n";
+                contenu += "  → Tension  : " + (cei125Tension || "non spécifié") + "\n\n";
+                aucunePrise = false;
+            }
+            
+            if (aucunePrise) {
+                contenu += "  (aucune prise spécifiée)\n\n";
+            }
+            
+            // Section Observations
+            let observations = document.getElementById('observations').value;
+            if (observations) {
+                contenu += "┌─────────────────────────────────────────────────────────┐\n";
+                contenu += "│   OBSERVATIONS                                        │\n";
+                contenu += "└─────────────────────────────────────────────────────────┘\n";
+                contenu += observations + "\n\n";
+            }
+            
+            // Footer
+            contenu += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+            contenu += "           BALS France - Coffrets sur mesure\n";
+            contenu += "                 info@bals-france.fr\n";
+            contenu += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+            
+            return contenu;
         }
         
-        // ========== FONCTION 2 : ENVOYER L'EMAIL ==========
-        // Cette fonction prépare un email avec toutes les informations
+        // ========== FONCTION : METTRE À JOUR LA PRÉVISUALISATION ==========
+        function updatePreview() {
+            let contenu = genererContenuEmail();
+            document.getElementById('emailPreview').textContent = contenu;
+        }
+        
+        // ========== FONCTION : COPIER LE TEXTE DANS LE PRESSE-PAPIERS ==========
+        function copierTexte() {
+            let contenu = genererContenuEmail();
+            
+            // Créer un élément textarea temporaire
+            let textarea = document.createElement('textarea');
+            textarea.value = contenu;
+            document.body.appendChild(textarea);
+            
+            // Sélectionner et copier le texte
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Supprimer l'élément temporaire
+            document.body.removeChild(textarea);
+            
+            // Message de confirmation
+            alert('✅ Le contenu a été copié dans le presse-papiers !\n\nVous pouvez maintenant le coller dans votre email.');
+        }
+        
+        // ========== FONCTION : OUVRIR LE CLIENT EMAIL ==========
         function envoyerEmail() {
-            // 1. Récupérer les informations de contact
-            let distributeur = document.getElementById('distributeur').value;
-            let contact = document.getElementById('contact').value;
-            let affaire = document.getElementById('affaire').value;
-            let telephone = document.getElementById('telephone').value;
-            let email = document.getElementById('email').value;
-            let observations = document.getElementById('observations').value;
+            let affaire = document.getElementById('affaire').value || "Sans référence";
+            let contenu = genererContenuEmail();
             
-            // 2. Récupérer les prises
-            let priseNF = document.getElementById('prise_nf').value;
-            let prise16A = document.getElementById('prise_16a').value;
-            let prise32A = document.getElementById('prise_32a').value;
-            let prise63A = document.getElementById('prise_63a').value;
-            
-            // 3. Construire le corps de l'email
-            let corpsEmail = "DEMANDE DE DEVIS - COFFRET DE CHANTIER\n\n";
-            corpsEmail += "=== INFORMATIONS DE CONTACT ===\n";
-            corpsEmail += "Distributeur : " + distributeur + "\n";
-            corpsEmail += "Contact : " + contact + "\n";
-            corpsEmail += "Affaire : " + affaire + "\n";
-            corpsEmail += "Téléphone : " + telephone + "\n";
-            corpsEmail += "Email : " + email + "\n\n";
-            
-            corpsEmail += "=== PRISES ===\n";
-            if (priseNF > 0) corpsEmail += "NF 10/16A : " + priseNF + "\n";
-            if (prise16A > 0) corpsEmail += "CEI 16A : " + prise16A + "\n";
-            if (prise32A > 0) corpsEmail += "CEI 32A : " + prise32A + "\n";
-            if (prise63A > 0) corpsEmail += "CEI 63A : " + prise63A + "\n";
-            
-            if (observations) {
-                corpsEmail += "\n=== OBSERVATIONS ===\n";
-                corpsEmail += observations;
-            }
-            
-            // 4. Créer le lien mailto
-            let sujet = "Demande de devis - " + affaire;
+            // Créer le lien mailto
+            let sujet = "Demande de devis coffret - " + affaire;
             let lienEmail = "mailto:info@bals-france.fr";
             lienEmail += "?subject=" + encodeURIComponent(sujet);
-            lienEmail += "&body=" + encodeURIComponent(corpsEmail);
+            lienEmail += "&body=" + encodeURIComponent(contenu);
             
-            // 5. Ouvrir le client email
+            // Ouvrir le client email
             window.location.href = lienEmail;
-            
-            // 6. Message de confirmation
-            alert("✅ Votre client email va s'ouvrir avec les informations pré-remplies !");
         }
+        
+        // Initialiser la prévisualisation au chargement de la page
+        window.onload = function() {
+            updatePreview();
+        };
     </script>
 </body>
 </html>
