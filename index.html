@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Demande de Devis Simple</title>
+</head>
+<body>
+    <div class="container">
+        <!-- EN-TÊTE -->
+        <h1>📋 Demande de Devis - Coffret de Chantier</h1>
+        <!-- <p class="email-info">📧 À envoyer à : <strong>info@bals-france.fr</strong></p> -->
+        
+        <!-- SECTION 1 : CONTACT -->
+        <div class="section">
+            <h2> Informations de Contact</h2>
+            
+            <div class="form-group">
+                <label>Distributeur :</label>
+                <input type="text" id="distributeur" placeholder="Nom du distributeur">
+            </div>
+            
+            <div class="form-group">
+                <label>Contact :</label>
+                <input type="text" id="contact" placeholder="Nom du contact">
+            </div>
+            
+            <div class="form-group">
+                <label>Affaire / Référence :</label>
+                <input type="text" id="affaire" placeholder="Référence de l'affaire">
+            </div>
+            
+            <div class="form-group">
+                <label>Téléphone :</label>
+                <input type="tel" id="telephone" placeholder="01 23 45 67 89">
+            </div>
+            
+            <div class="form-group">
+                <label>Email :</label>
+                <input type="email" id="email" placeholder="contact@exemple.fr">
+            </div>
+        </div>
+        
+        <!-- SECTION 2 : TYPE DE COFFRET -->
+        <div class="section">
+            <h2>📦 Type de Coffret</h2>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" value="Fixe" onchange="updateSummary()">
+                    Fixe
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" value="Mobile" onchange="updateSummary()">
+                    Mobile
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" value="Mobile sur pied" onchange="updateSummary()">
+                    Mobile sur pied
+                </label>
+            </div>
+        </div>
+        
+        <!-- SECTION 3 : MATÉRIAUX -->
+        <div class="section">
+            <h2>Matériaux</h2>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="radio" name="materiau" value="Caoutchouc" onchange="updateSummary()">
+                    Caoutchouc
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="radio" name="materiau" value="Métallique" onchange="updateSummary()">
+                    Métallique
+                </label>
+                
+                <label class="checkbox-label">
+                    <input type="radio" name="materiau" value="Plastique" onchange="updateSummary()">
+                    Plastique
+                </label>
+            </div>
+        </div>
+        
+        <!-- SECTION 4 : INDICE DE PROTECTION -->
+        <div class="section">
+            <h2>🛡️ Indice de Protection (IP)</h2>
+            
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="radio" name="ip" value="IP44" onchange="updateSummary()">
+                    IP44 - Protection contre projections d'eau
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="radio" name="ip" value="IP54" onchange="updateSummary()">
+                    IP54 - Protection contre poussières et projections
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="radio" name="ip" value="IP67" onchange="updateSummary()">
+                    IP67 - Étanche à la poussière et immersion temporaire
+                </label>
+            </div>
+        </div>
+        
+        <!-- SECTION 5 : PRISES -->
+        <div class="section">
+            <h2>🔌 Prises</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type de prise</th>
+                        <th>Quantité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>NF 10/16A (domestique)</td>
+                        <td><input type="number" id="prise_nf" min="0" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>CEI 16A</td>
+                        <td><input type="number" id="prise_16a" min="0" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>CEI 32A</td>
+                        <td><input type="number" id="prise_32a" min="0" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>CEI 63A</td>
+                        <td><input type="number" id="prise_63a" min="0" value="0"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- SECTION 6 : OBSERVATIONS -->
+        <div class="section">
+            <h2>📝 Observations</h2>
+            
+            <div class="form-group">
+                <label>Informations complémentaires :</label>
+                <textarea id="observations" placeholder="Ajoutez vos remarques, besoins particuliers..."></textarea>
+            </div>
+        </div>
+        
+        <!-- RÉSUMÉ -->
+        <div class="summary">
+            <h3>📊 Résumé de votre sélection</h3>
+            <div id="summaryText">
+                Remplissez le formulaire pour voir le résumé...
+            </div>
+        </div>
+        
+        <!-- BOUTON D'ENVOI -->
+        <button class="submit-btn" onclick="envoyerEmail()">
+            📧 Envoyer la demande de devis
+        </button>
+    </div>
+    
+    <script>
+        // ========== FONCTION 1 : METTRE À JOUR LE RÉSUMÉ ==========
+        // Cette fonction collecte toutes les informations du formulaire
+        // et affiche un résumé en temps réel
+        function updateSummary() {
+            let resume = ""; // Variable pour stocker le texte du résumé
+            
+            // 1. Récupérer le type de coffret
+            let types = []; // Tableau pour stocker les types sélectionnés
+            // Chercher toutes les cases cochées pour le type
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(function(checkbox) {
+                types.push(checkbox.value);
+            });
+            
+            if (types.length > 0) {
+                resume += "<strong>Type :</strong> " + types.join(", ") + "<br>";
+            }
+            
+            // 2. Récupérer le matériau sélectionné
+            let materiau = document.querySelector('input[name="materiau"]:checked');
+            if (materiau) {
+                resume += "<strong>Matériau :</strong> " + materiau.value + "<br>";
+            }
+            
+            // 3. Récupérer l'indice de protection
+            let ip = document.querySelector('input[name="ip"]:checked');
+            if (ip) {
+                resume += "<strong>IP :</strong> " + ip.value + "<br>";
+            }
+            
+            // 4. Afficher le résumé dans la div
+            let summaryDiv = document.getElementById('summaryText');
+            if (resume === "") {
+                summaryDiv.innerHTML = "Remplissez le formulaire pour voir le résumé...";
+            } else {
+                summaryDiv.innerHTML = resume;
+            }
+        }
+        
+        // ========== FONCTION 2 : ENVOYER L'EMAIL ==========
+        // Cette fonction prépare un email avec toutes les informations
+        function envoyerEmail() {
+            // 1. Récupérer les informations de contact
+            let distributeur = document.getElementById('distributeur').value;
+            let contact = document.getElementById('contact').value;
+            let affaire = document.getElementById('affaire').value;
+            let telephone = document.getElementById('telephone').value;
+            let email = document.getElementById('email').value;
+            let observations = document.getElementById('observations').value;
+            
+            // 2. Récupérer les prises
+            let priseNF = document.getElementById('prise_nf').value;
+            let prise16A = document.getElementById('prise_16a').value;
+            let prise32A = document.getElementById('prise_32a').value;
+            let prise63A = document.getElementById('prise_63a').value;
+            
+            // 3. Construire le corps de l'email
+            let corpsEmail = "DEMANDE DE DEVIS - COFFRET DE CHANTIER\n\n";
+            corpsEmail += "=== INFORMATIONS DE CONTACT ===\n";
+            corpsEmail += "Distributeur : " + distributeur + "\n";
+            corpsEmail += "Contact : " + contact + "\n";
+            corpsEmail += "Affaire : " + affaire + "\n";
+            corpsEmail += "Téléphone : " + telephone + "\n";
+            corpsEmail += "Email : " + email + "\n\n";
+            
+            corpsEmail += "=== PRISES ===\n";
+            if (priseNF > 0) corpsEmail += "NF 10/16A : " + priseNF + "\n";
+            if (prise16A > 0) corpsEmail += "CEI 16A : " + prise16A + "\n";
+            if (prise32A > 0) corpsEmail += "CEI 32A : " + prise32A + "\n";
+            if (prise63A > 0) corpsEmail += "CEI 63A : " + prise63A + "\n";
+            
+            if (observations) {
+                corpsEmail += "\n=== OBSERVATIONS ===\n";
+                corpsEmail += observations;
+            }
+            
+            // 4. Créer le lien mailto
+            let sujet = "Demande de devis - " + affaire;
+            let lienEmail = "mailto:info@bals-france.fr";
+            lienEmail += "?subject=" + encodeURIComponent(sujet);
+            lienEmail += "&body=" + encodeURIComponent(corpsEmail);
+            
+            // 5. Ouvrir le client email
+            window.location.href = lienEmail;
+            
+            // 6. Message de confirmation
+            alert("✅ Votre client email va s'ouvrir avec les informations pré-remplies !");
+        }
+    </script>
+</body>
+</html>
