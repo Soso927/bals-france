@@ -13,9 +13,10 @@
    STYLE GLOBAL
 ===================================================== */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif; /* Etelka n'étant pas standard, on garde Arial */
     background-color: #f5f5f5;
     padding: 20px;
+    color: #000000;
 }
 
 /* =====================================================
@@ -35,13 +36,18 @@ body {
    EN-TÊTE
 ===================================================== */
 h1 {
-    color: #2c3e50;
+    color: #0095DA; /* Bals Blue */
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .email-info {
-    color: #7f8c8d;
+    color: #B3B3B3; /* Light Grey */
     margin-bottom: 30px;
+}
+
+.email-info strong {
+    color: #ED1C24; /* Bals Red */
 }
 
 /* =====================================================
@@ -52,12 +58,14 @@ h1 {
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
+    border-left: 4px solid #0095DA; /* Accent Bals Blue */
 }
 
 .section h2 {
-    color: #34495e;
+    color: #0095DA; /* Bals Blue */
     margin-bottom: 15px;
     font-size: 20px;
+    font-weight: bold;
 }
 
 /* =====================================================
@@ -70,7 +78,7 @@ h1 {
 label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: #000000;
     font-weight: bold;
 }
 
@@ -79,13 +87,26 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="number"],
+input[type="file"],
 select,
 textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 2px solid #B3B3B3;
     border-radius: 5px;
     font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #0095DA; /* Bals Blue au focus */
 }
 
 /* Zone de texte ajustable verticalement */
@@ -94,13 +115,24 @@ textarea {
     min-height: 100px;
 }
 
+/* Style pour les champs file */
+input[type="file"] {
+    padding: 8px;
+    cursor: pointer;
+}
+
+small {
+    color: #B3B3B3;
+    font-size: 12px;
+}
+
 /* =====================================================
    CASES À COCHER / RADIOS
 ===================================================== */
 .checkbox-group {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap; /* permet le retour à la ligne sur petits écrans */
+    flex-wrap: wrap;
 }
 
 .checkbox-label {
@@ -108,11 +140,15 @@ textarea {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    color: #000000;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
     cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #0095DA; /* Bals Blue pour les checkboxes */
 }
 
 /* =====================================================
@@ -126,20 +162,22 @@ table {
 
 th, td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #B3B3B3;
     text-align: left;
 }
 
 /* En-tête du tableau */
 th {
-    background-color: #3498db;
+    background-color: #0095DA; /* Bals Blue */
     color: white;
+    font-weight: bold;
 }
 
 /* Champs à l'intérieur du tableau */
 td input,
 td select {
     width: 100%;
+    border: 1px solid #B3B3B3;
 }
 
 /* =====================================================
@@ -148,7 +186,7 @@ td select {
 .button-group {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap; /* boutons l’un sous l’autre sur mobile */
+    flex-wrap: wrap;
 }
 
 .submit-btn,
@@ -161,43 +199,52 @@ td select {
     font-weight: bold;
     color: white;
     cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Bouton envoyer */
+/* Bouton envoyer - Bals Blue */
 .submit-btn {
-    background-color: #27ae60;
+    background-color: #0095DA; /* Bals Blue */
 }
 
 .submit-btn:hover {
-    background-color: #229954;
+    background-color: #007AB8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 149, 218, 0.3);
 }
 
-/* Bouton copier */
+/* Bouton copier - Bals Red */
 .copy-btn {
-    background-color: #3498db;
+    background-color: #ED1C24; /* Bals Red */
 }
 
 .copy-btn:hover {
-    background-color: #2980b9;
+    background-color: #C91A20;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(237, 28, 36, 0.3);
 }
 
 /* =====================================================
    RÉSUMÉ
 ===================================================== */
 .summary {
-    background-color: #e8f5e9;
+    background-color: #E6F5FC; /* Bleu très clair */
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    border-left: 4px solid #0095DA;
 }
 
 .summary h3 {
-    color: #2e7d32;
+    color: #0095DA; /* Bals Blue */
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 #summaryText {
-    color: #555;
+    color: #000000;
     line-height: 1.6;
 }
 
@@ -205,28 +252,104 @@ td select {
    ZONE DE PRÉVISUALISATION EMAIL
 ===================================================== */
 .preview-zone {
-    background-color: #fff3cd;
-    border: 2px solid #ffc107;
+    background-color: #F9F9F9;
+    border: 2px solid #0095DA; /* Bals Blue */
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
 }
 
 .preview-zone h3 {
-    color: #856404;
+    color: #0095DA; /* Bals Blue */
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 #emailPreview {
     background-color: white;
     padding: 15px;
     border-radius: 5px;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     font-size: 12px;
     white-space: pre-wrap;
     max-height: 400px;
     overflow-y: auto;
-    border: 1px solid #ddd;
+    border: 1px solid #B3B3B3;
+    color: #000000;
+}
+
+/* Scrollbar personnalisée */
+#emailPreview::-webkit-scrollbar {
+    width: 8px;
+}
+
+#emailPreview::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#emailPreview::-webkit-scrollbar-thumb {
+    background: #0095DA;
+    border-radius: 4px;
+}
+
+#emailPreview::-webkit-scrollbar-thumb:hover {
+    background: #007AB8;
+}
+
+/* =====================================================
+   LISTE DES FICHIERS
+===================================================== */
+#listeFichiers {
+    margin-top: 15px;
+}
+
+#listeFichiers > div {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #0095DA;
+}
+
+#listeFichiers strong {
+    color: #0095DA;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#listeFichiers .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: white;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    border: 1px solid #B3B3B3;
+}
+
+#listeFichiers .file-item span {
+    color: #000000;
+}
+
+#listeFichiers .file-item small {
+    color: #B3B3B3;
+}
+
+#listeFichiers button {
+    background-color: #ED1C24; /* Bals Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#listeFichiers button:hover {
+    background-color: #C91A20;
 }
 
 /* =====================================================
@@ -260,7 +383,7 @@ td select {
 
     .container {
         padding: 15px;
-        border-radius: 0; /* plein écran sur mobile */
+        border-radius: 0;
     }
 
     h1 {
@@ -270,6 +393,11 @@ td select {
     /* Boutons en colonne */
     .button-group {
         flex-direction: column;
+    }
+
+    .submit-btn,
+    .copy-btn {
+        width: 100%;
     }
 
     /* Texte plus lisible */
