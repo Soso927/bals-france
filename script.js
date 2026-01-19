@@ -11,8 +11,13 @@ const state = {
     materiau: '',
     ip: '',
     protections: {
-        tete: '',
-        departs: ''
+        tete: [],
+        prises: []
+    },
+    caracteristiquesProtections: {
+        calibre: '',
+        sensibilite: '',
+        pouvoir: ''
     },
     sockets: [],
     observations: ''
@@ -51,7 +56,6 @@ function selectCard(label, category) {
     
     if(category === 'type') state.type = input.value;
     if(category === 'mat') state.materiau = input.value;
-    if(category === 'prot_departs') state.protections.departs = input.value;
 
     updateSummary();
     updateProgress();
@@ -66,7 +70,6 @@ function selectToggle(label, category) {
     input.checked = true;
 
     if(category === 'ip') state.ip = input.value;
-    if(category === 'prot_tete') state.protections.tete = input.value;
 
     updateSummary();
     updateProgress();
@@ -95,6 +98,25 @@ function collectFormData() {
     state.affaire = document.getElementById('affaire').value;
     state.email = document.getElementById('email').value;
     state.observations = document.getElementById('observations').value;
+    
+    // Nouvelles caractéristiques de protection
+    state.caracteristiquesProtections.calibre = document.getElementById('calibreProtections')?.value || '';
+    state.caracteristiquesProtections.sensibilite = document.getElementById('sensibiliteDiff')?.value || '';
+    state.caracteristiquesProtections.pouvoir = document.getElementById('pouvoirCoupure')?.value || '';
+}
+
+function collectProtections() {
+    // Collecter les protections de tête
+    state.protections.tete = [];
+    document.querySelectorAll('input[name="protTete"]:checked').forEach(input => {
+        state.protections.tete.push(input.value);
+    });
+    
+    // Collecter les protections des prises
+    state.protections.prises = [];
+    document.querySelectorAll('input[name="protPrises"]:checked').forEach(input => {
+        state.protections.prises.push(input.value);
+    });
 }
 
 function collectSocketData() {
@@ -152,8 +174,11 @@ function updateProgress() {
     if(state.sockets.length > 0) score += 20;
 
     // Section 4: Protections (10 points)
-    if(state.protections.tete) score += 5;
-    if(state.protections.departs) score += 5;
+    if(state.protections.tete.length > 0) score += 3;
+    if(state.protections.prises.length > 0) score += 3;
+    if(state.caracteristiquesProtections.calibre) score += 2;
+    if(state.caracteristiquesProtections.sensibilite) score += 1;
+    if(state.caracteristiquesProtections.pouvoir) score += 1;
 
     const bar = document.getElementById('progressBar');
     const percentage = Math.min(Math.round((score / totalPossible) * 100), 100);
@@ -176,6 +201,7 @@ function updateProgress() {
 function updateSummary() {
     collectFormData();
     collectSocketData();
+    collectProtections();
 
     const list = document.getElementById('summaryList');
     let html = '';
@@ -190,7 +216,7 @@ function updateSummary() {
 
     // 2. Caractéristiques Coffret
     if (state.type || state.materiau) {
-        if (html !== '') html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 0.75rem 0;">`;
+        if (html !== '') html += `<hr style="border:0; border-top:1px solid #E0E0E0; margin: 0.75rem 0;">`;
         html += `<div class="summary-item"><strong>Coffret</strong> <span>${state.type || ''} ${state.materiau ? '('+state.materiau+')' : ''}</span></div>`;
     }
     if (state.ip) {
@@ -199,30 +225,52 @@ function updateSummary() {
 
     // 3. Prises
     if (state.sockets.length > 0) {
-        if (html !== '') html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 0.75rem 0;">`;
-        html += `<div class="summary-item" style="font-weight:700; color:var(--white); margin-bottom:0.75rem; font-size:1rem;">🔌 Prises:</div>`;
+        if (html !== '') html += `<hr style="border:0; border-top:1px solid #E0E0E0; margin: 0.75rem 0;">`;
+        html += `<div class="summary-item" style="font-weight:700; color:#0095DA; margin-bottom:0.75rem; font-size:1rem;">🔌 Prises:</div>`;
         state.sockets.forEach(s => {
             html += `<div class="summary-item"><strong>${s.qty}x ${s.name}</strong> <span style="font-size:0.85rem; opacity:0.8">${s.detail}</span></div>`;
         });
     }
 
     // 4. Protections
-    if (state.protections.tete || state.protections.departs) {
-        if (html !== '') html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 0.75rem 0;">`;
-        html += `<div class="summary-item" style="font-weight:700; color:var(--white); margin-bottom:0.75rem; font-size:1rem;">⚡ Protections:</div>`;
-        if(state.protections.tete) html += `<div class="summary-item"><strong>Tête</strong> <span>${state.protections.tete}</span></div>`;
-        if(state.protections.departs) html += `<div class="summary-item"><strong>Départs</strong> <span>${state.protections.departs}</span></div>`;
+    if (state.protections.tete.length > 0 || state.protections.prises.length > 0) {
+        if (html !== '') html += `<hr style="border:0; border-top:1px solid #E0E0E0; margin: 0.75rem 0;">`;
+        html += `<div class="summary-item" style="font-weight:700; color:#0095DA; margin-bottom:0.75rem; font-size:1rem;">⚡ Protections:</div>`;
+        
+        if (state.protections.tete.length > 0) {
+            html += `<div class="summary-item"><strong>Tête</strong> <span>${state.protections.tete.join(', ')}</span></div>`;
+        }
+        if (state.protections.prises.length > 0) {
+            html += `<div class="summary-item"><strong>Prises</strong> <span>${state.protections.prises.join(', ')}</span></div>`;
+        }
+        if (state.caracteristiquesProtections.calibre) {
+            html += `<div class="summary-item"><strong>Calibre</strong> <span>${state.caracteristiquesProtections.calibre}</span></div>`;
+        }
+        if (state.caracteristiquesProtections.sensibilite) {
+            html += `<div class="summary-item"><strong>Sensibilité diff.</strong> <span>${state.caracteristiquesProtections.sensibilite}</span></div>`;
+        }
+        if (state.caracteristiquesProtections.pouvoir) {
+            html += `<div class="summary-item"><strong>Pouvoir coupure</strong> <span>${state.caracteristiquesProtections.pouvoir}</span></div>`;
+        }
     }
 
     // 5. Observations
     if (state.observations) {
-        if (html !== '') html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 0.75rem 0;">`;
-        html += `<div class="summary-item" style="font-weight:700; color:var(--white); margin-bottom:0.75rem; font-size:1rem;">💬 Observations:</div>`;
-        html += `<div class="summary-item" style="font-style:italic;"><span>${state.observations}</span></div>`;
+        if (html !== '') html += `<hr style="border:0; border-top:1px solid #E0E0E0; margin: 0.75rem 0;">`;
+        html += `<div class="summary-item" style="font-weight:700; color:#0095DA; margin-bottom:0.5rem; font-size:1rem;">💬 Observations:</div>`;
+        html += `<div class="summary-item" style="display:block;"><span style="white-space:pre-wrap; font-size:0.85rem; color:#666;">${state.observations}</span></div>`;
     }
 
     if (html === '') {
-        list.innerHTML = '<div class="empty-state">Configurez votre coffret pour voir apparaître le détail ici.</div>';
+        list.innerHTML = `
+            <div class="empty-state">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="#0095DA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
+                </svg>
+                <p>Configurez votre coffret</p>
+                <small>Les informations apparaîtront ici</small>
+            </div>
+        `;
     } else {
         list.innerHTML = html;
     }
@@ -234,7 +282,7 @@ function updateSummary() {
 
 function generateMailto() {
     collectFormData();
-
+    
     let body = `DEMANDE DE DEVIS - COFFRET DE CHANTIER BALS\n`;
     body += `================================================\n\n`;
     
@@ -265,11 +313,15 @@ function generateMailto() {
 
     body += `⚡ PROTECTIONS\n`;
     body += `------------------------------------------------\n`;
-    body += `Protection de tête : ${state.protections.tete || 'Non définie'}\n`;
-    body += `Protection départs : ${state.protections.departs || 'Non définie'}\n\n`;
+    body += `Protection de tête : ${state.protections.tete.length > 0 ? state.protections.tete.join(', ') : 'Non définie'}\n`;
+    body += `Protection prises  : ${state.protections.prises.length > 0 ? state.protections.prises.join(', ') : 'Non définie'}\n`;
+    if (state.caracteristiquesProtections.calibre) body += `Calibre            : ${state.caracteristiquesProtections.calibre}\n`;
+    if (state.caracteristiquesProtections.sensibilite) body += `Sensibilité diff.  : ${state.caracteristiquesProtections.sensibilite}\n`;
+    if (state.caracteristiquesProtections.pouvoir) body += `Pouvoir de coupure : ${state.caracteristiquesProtections.pouvoir}\n`;
+    body += `\n`;
 
     if(state.observations) {
-        body += `💬 OBSERVATIONS TECHNIQUES\n`;
+        body += `💬 OBSERVATIONS\n`;
         body += `------------------------------------------------\n`;
         body += `${state.observations}\n\n`;
     }
@@ -320,11 +372,15 @@ function copierTexte() {
 
     contenu += `⚡ PROTECTIONS\n`;
     contenu += `------------------------------------------------\n`;
-    contenu += `Protection de tête : ${state.protections.tete || 'Non définie'}\n`;
-    contenu += `Protection départs : ${state.protections.departs || 'Non définie'}\n\n`;
+    contenu += `Protection de tête : ${state.protections.tete.length > 0 ? state.protections.tete.join(', ') : 'Non définie'}\n`;
+    contenu += `Protection prises  : ${state.protections.prises.length > 0 ? state.protections.prises.join(', ') : 'Non définie'}\n`;
+    if (state.caracteristiquesProtections.calibre) contenu += `Calibre            : ${state.caracteristiquesProtections.calibre}\n`;
+    if (state.caracteristiquesProtections.sensibilite) contenu += `Sensibilité diff.  : ${state.caracteristiquesProtections.sensibilite}\n`;
+    if (state.caracteristiquesProtections.pouvoir) contenu += `Pouvoir de coupure : ${state.caracteristiquesProtections.pouvoir}\n`;
+    contenu += `\n`;
 
     if(state.observations) {
-        contenu += `💬 OBSERVATIONS TECHNIQUES\n`;
+        contenu += `💬 OBSERVATIONS\n`;
         contenu += `------------------------------------------------\n`;
         contenu += `${state.observations}\n\n`;
     }
@@ -350,6 +406,81 @@ function copierTexte() {
         alert('❌ Erreur lors de la copie. Veuillez réessayer.');
         console.error('Erreur de copie:', err);
     });
+}
+
+// =====================================================
+//    RÉINITIALISER LE FORMULAIRE
+// =====================================================
+
+function resetForm() {
+    // Demander confirmation
+    if (!confirm('⚠️ Êtes-vous sûr de vouloir réinitialiser le formulaire ?\n\nToutes les données seront perdues.')) {
+        return;
+    }
+
+    // Réinitialiser l'état
+    state.distributeur = '';
+    state.contactDist = '';
+    state.installateur = '';
+    state.affaire = '';
+    state.email = '';
+    state.type = '';
+    state.materiau = '';
+    state.ip = '';
+    state.protections.tete = [];
+    state.protections.prises = [];
+    state.caracteristiquesProtections.calibre = '';
+    state.caracteristiquesProtections.sensibilite = '';
+    state.caracteristiquesProtections.pouvoir = '';
+    state.sockets = [];
+    state.observations = '';
+
+    // Réinitialiser tous les champs texte
+    document.getElementById('distributeur').value = '';
+    document.getElementById('contactDist').value = '';
+    document.getElementById('installateur').value = '';
+    document.getElementById('affaire').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('observations').value = '';
+    
+    // Réinitialiser les champs de caractéristiques
+    if(document.getElementById('calibreProtections')) document.getElementById('calibreProtections').value = '';
+    if(document.getElementById('sensibiliteDiff')) document.getElementById('sensibiliteDiff').value = '';
+    if(document.getElementById('pouvoirCoupure')) document.getElementById('pouvoirCoupure').value = '';
+
+    // Réinitialiser toutes les cartes sélectionnables
+    document.querySelectorAll('.selectable-card').forEach(card => card.classList.remove('active'));
+    document.querySelectorAll('.selectable-card input[type="radio"]').forEach(radio => radio.checked = false);
+
+    // Réinitialiser tous les toggles
+    document.querySelectorAll('.toggle-label').forEach(label => label.classList.remove('active'));
+    document.querySelectorAll('.toggle-label input[type="radio"]').forEach(radio => radio.checked = false);
+
+    // Réinitialiser toutes les checkboxes
+    document.querySelectorAll('.checkbox-card').forEach(card => card.classList.remove('active'));
+    document.querySelectorAll('.checkbox-card input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+        const icon = checkbox.closest('.checkbox-card').querySelector('.checkbox-icon');
+        if (icon) icon.textContent = '☐';
+    });
+
+    // Réinitialiser toutes les quantités de prises
+    document.querySelectorAll('.qty-input').forEach(input => input.value = 0);
+
+    // Réinitialiser tous les selects de détails
+    document.querySelectorAll('.detail-select').forEach(select => select.value = '');
+
+    // Mettre à jour l'affichage
+    updateSummary();
+    updateProgress();
+
+    // Feedback visuel
+    const summaryList = document.getElementById('summaryList');
+    summaryList.style.transition = 'opacity 0.3s ease';
+    summaryList.style.opacity = '0.5';
+    setTimeout(() => {
+        summaryList.style.opacity = '1';
+    }, 300);
 }
 
 // =====================================================
@@ -396,9 +527,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Ajouter les listeners sur les checkboxes (protection de tête et prises)
+    document.querySelectorAll('.checkbox-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const input = this.querySelector('input[type="checkbox"]');
+            const icon = this.querySelector('.checkbox-icon');
+            
+            // Toggle l'état
+            input.checked = !input.checked;
+            
+            // Toggle la classe active
+            if (input.checked) {
+                this.classList.add('active');
+                icon.textContent = '☑';
+            } else {
+                this.classList.remove('active');
+                icon.textContent = '☐';
+            }
+            
+            // Mettre à jour
+            collectProtections();
+            updateSummary();
+            updateProgress();
+        });
+    });
+
     // Mise à jour initiale
     collectFormData();
     collectSocketData();
+    collectProtections();
     updateSummary();
     updateProgress();
 });

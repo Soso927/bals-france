@@ -15,9 +15,21 @@
             <div class="form-wrapper">
                 <!-- EN-TÊTE -->
                 <div class="header-section">
-                    <h1>⚡ Configurateur de Devis</h1>
+                    <div class="logo-container">
+                        <svg width="120" height="40" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Figurative mark (plug icon) -->
+                            <rect x="20" y="20" width="50" height="15" fill="#0095DA"/>
+                            <rect x="35" y="37" width="50" height="15" fill="#ED1C24"/>
+                            <rect x="20" y="54" width="50" height="15" fill="#0095DA"/>
+                            <rect x="35" y="71" width="50" height="15" fill="#ED1C24"/>
+                            <rect x="20" y="88" width="50" height="15" fill="#0095DA"/>
+                            <!-- Text "Bals" -->
+                            <text x="100" y="75" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#0095DA">Bals</text>
+                        </svg>
+                    </div>
+                    <h1>Configurateur de Devis</h1>
                     <p class="subtitle">Coffret de Chantier BALS</p>
-                    <p class="email-info">📧 Destination : <strong>info@bals-france.fr</strong></p>
+                    <div class="header-divider"></div>
                 </div>
 
                 <!-- BARRE DE PROGRESSION -->
@@ -32,19 +44,19 @@
                 <div class="section-card">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-title">
-                            <span class="section-icon">📋</span>
+                            <span class="section-number">01</span>
                             <h2>Informations de Contact</h2>
                         </div>
                         <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <div class="form-group">
-                            <label>Distributeur *</label>
-                            <input type="text" id="distributeur" class="input-field" placeholder="Nom du distributeur">
+                            <label>Société </label>
+                            <input type="text" id="distributeur" class="input-field" placeholder="Nom de la société">
                         </div>
 
                         <div class="form-group">
-                            <label>Contact Distributeur</label>
+                            <label>Contact Société</label>
                             <input type="text" id="contactDist" class="input-field" placeholder="Nom du contact">
                         </div>
 
@@ -54,12 +66,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Référence Affaire *</label>
+                            <label>Référence Affaire </label>
                             <input type="text" id="affaire" class="input-field" placeholder="Référence de l'affaire">
                         </div>
 
                         <div class="form-group">
-                            <label>Email *</label>
+                            <label>Email </label>
                             <input type="email" id="email" class="input-field" placeholder="contact@exemple.fr">
                         </div>
                     </div>
@@ -69,8 +81,8 @@
                 <div class="section-card">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-title">
-                            <span class="section-icon">🔧</span>
-                            <h2>Caractéristiques Techniques</h2>
+                            <span class="section-number">02</span>
+                            <h2>Caractéristiques Techniques général</h2>
                         </div>
                         <span class="section-toggle">▼</span>
                     </div>
@@ -82,50 +94,66 @@
                                 <label class="selectable-card" onclick="selectCard(this, 'type')">
                                     <input type="radio" name="type" value="Fixe">
                                     <div class="card-content">
-                                        <span class="card-icon">📦</span>
+                                        <div class="card-icon-bg">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="16" height="16" stroke="currentColor" stroke-width="2" rx="2"/>
+                                                <path d="M4 9H20M9 4V20" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </div>
                                         <span class="card-label">Fixe</span>
                                     </div>
                                 </label>
                                 <label class="selectable-card" onclick="selectCard(this, 'type')">
                                     <input type="radio" name="type" value="Mobile">
                                     <div class="card-content">
-                                        <span class="card-icon">🚚</span>
+                                        <div class="card-icon-bg">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                                                <circle cx="7" cy="19" r="2" stroke="currentColor" stroke-width="2"/>
+                                                <circle cx="17" cy="19" r="2" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </div>
                                         <span class="card-label">Mobile</span>
                                     </div>
                                 </label>
                                 <label class="selectable-card" onclick="selectCard(this, 'type')">
                                     <input type="radio" name="type" value="Mobile sur pied">
                                     <div class="card-content">
-                                        <span class="card-icon">🏗️</span>
+                                        <div class="card-icon-bg">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="6" y="4" width="12" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M12 14V22M8 22H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
                                         <span class="card-label">Mobile sur pied</span>
                                     </div>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Matériau -->
+                        <!-- Matériaux -->
                         <div class="form-group">
-                            <label>Matériau *</label>
+                            <label>Matériaux *</label>
                             <div class="selection-grid">
                                 <label class="selectable-card" onclick="selectCard(this, 'mat')">
                                     <input type="radio" name="materiau" value="Caoutchouc">
                                     <div class="card-content">
-                                        <span class="card-icon">♻️</span>
                                         <span class="card-label">Caoutchouc</span>
+                                        <small></small>
                                     </div>
                                 </label>
                                 <label class="selectable-card" onclick="selectCard(this, 'mat')">
                                     <input type="radio" name="materiau" value="Métallique">
                                     <div class="card-content">
-                                        <span class="card-icon">🔩</span>
                                         <span class="card-label">Métallique</span>
+                                        <small></small>
                                     </div>
                                 </label>
                                 <label class="selectable-card" onclick="selectCard(this, 'mat')">
                                     <input type="radio" name="materiau" value="Plastique">
                                     <div class="card-content">
-                                        <span class="card-icon">🧱</span>
                                         <span class="card-label">Plastique</span>
+                                        <small></small>
                                     </div>
                                 </label>
                             </div>
@@ -143,7 +171,7 @@
                                 <label class="toggle-label" onclick="selectToggle(this, 'ip')">
                                     <input type="radio" name="ip" value="IP54">
                                     <span>IP54</span>
-                                    <small>Poussière + projections</small>
+                                    <small>Poussières + projections</small>
                                 </label>
                                 <label class="toggle-label" onclick="selectToggle(this, 'ip')">
                                     <input type="radio" name="ip" value="IP67">
@@ -159,8 +187,8 @@
                 <div class="section-card">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-title">
-                            <span class="section-icon">🔌</span>
-                            <h2>Configuration des Prises</h2>
+                            <span class="section-number">03</span>
+                            <h2>Caractéristiques Techniques des prises</h2>
                         </div>
                         <span class="section-toggle">▼</span>
                     </div>
@@ -301,84 +329,134 @@
                     </div>
                 </div>
 
-                <!-- SECTION 4 : PROTECTIONS & OBSERVATIONS -->
+
+                <!-- SECTION 4 : CARACTÉRISTIQUES TECHNIQUES DES PROTECTIONS -->
                 <div class="section-card">
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-title">
-                            <span class="section-icon">⚡</span>
-                            <h2>Protections & Observations</h2>
+                            <span class="section-number">04</span>
+                            <h2>Caractéristiques techniques des protections</h2>
                         </div>
                         <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <!-- Protection de tête -->
                         <div class="form-group">
-                            <label>Protection de tête</label>
-                            <div class="toggle-group">
-                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
-                                    <input type="radio" name="protTete" value="Sans">
-                                    <span>Sans</span>
-                                </label>
-                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
-                                    <input type="radio" name="protTete" value="Interrupteur">
-                                    <span>Interrupteur</span>
-                                </label>
-                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
-                                    <input type="radio" name="protTete" value="Inter différentiel">
-                                    <span>Inter diff.</span>
-                                </label>
-                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
-                                    <input type="radio" name="protTete" value="Disjoncteur">
-                                    <span>Disjoncteur</span>
-                                </label>
-                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
-                                    <input type="radio" name="protTete" value="Disjoncteur Diff.">
-                                    <span>Disjoncteur Diff.</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Protection départs -->
-                        <div class="form-group">
-                            <label>Protection des départs</label>
-                            <div class="selection-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
-                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
-                                    <input type="radio" name="protDeparts" value="Sans">
-                                    <div class="card-content">
-                                        <span class="card-label">Sans</span>
+                            <label>Protection de tête *</label>
+                            <p class="field-description">Sélectionnez un ou plusieurs types de protection de tête</p>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Sans">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Sans</span>
                                     </div>
                                 </label>
-                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
-                                    <input type="radio" name="protDeparts" value="Par prise">
-                                    <div class="card-content">
-                                        <span class="card-label">Par prise</span>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Interrupteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Interrupteur</span>
                                     </div>
                                 </label>
-                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
-                                    <input type="radio" name="protDeparts" value="Par groupe">
-                                    <div class="card-content">
-                                        <span class="card-label">Par groupe</span>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Inter différentiel">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Inter différentiel</span>
                                     </div>
                                 </label>
-                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
-                                    <input type="radio" name="protDeparts" value="Disjoncteur">
-                                    <div class="card-content">
-                                        <span class="card-label">Disjoncteur</span>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Disjoncteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur</span>
                                     </div>
                                 </label>
-                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
-                                    <input type="radio" name="protDeparts" value="Disjoncteur Diff.">
-                                    <div class="card-content">
-                                        <span class="card-label">Disj. Diff.</span>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Disjoncteur Diff.">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur Diff.</span>
                                     </div>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Observations -->
+                        <!-- Protection des prises -->
                         <div class="form-group">
-                            <label>Observations techniques</label>
-                            <textarea id="observations" class="input-field" rows="4" placeholder="Ajoutez vos remarques, besoins particuliers..."></textarea>
+                            <label>Protection des prises *</label>
+                            <p class="field-description">Sélectionnez un ou plusieurs types de protection des prises</p>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Sans">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Sans</span>
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Par prise">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Par prise</span>
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Par groupe">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Par groupe</span>
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Disjoncteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur</span>
+                                    </div>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Disjoncteur Diff.">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur Diff.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Caractéristiques supplémentaires -->
+                        <!-- <div class="form-group">
+                            <label>Calibre des protections</label>
+                            <input type="text" id="calibreProtections" class="input-field" placeholder="Ex: 16A, 32A, 63A...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sensibilité différentielle</label>
+                            <input type="text" id="sensibiliteDiff" class="input-field" placeholder="Ex: 30mA, 300mA...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pouvoir de coupure</label>
+                            <input type="text" id="pouvoirCoupure" class="input-field" placeholder="Ex: 6kA, 10kA...">
+                        </div> -->
+                    </div>
+                </div>
+
+                <!-- SECTION 5 : OBSERVATIONS -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">05</span>
+                            <h2>Observations</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Remarques et besoins spécifiques</label>
+                            <textarea id="observations" class="input-field" rows="6" placeholder="Ajoutez vos remarques, besoins particuliers, contraintes techniques, délais..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -389,26 +467,44 @@
         <div class="summary-column">
             <div class="summary-sticky">
                 <div class="summary-header">
-                    <h3>📋 Résumé de Configuration</h3>
+                    <h3>Résumé de Configuration</h3>
+                    <p class="summary-subtitle">Devis en temps réel</p>
                 </div>
                 <div class="summary-content" id="summaryList">
                     <div class="empty-state">
-                        Configurez votre coffret pour voir apparaître le détail ici.
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>Configurez votre coffret</p>
+                        <small>Les informations apparaîtront ici</small>
                     </div>
                 </div>
-                <div class="summary-actions">
-                    <button type="button" class="btn btn-secondary" onclick="copierTexte()">
-                        📋 Copier
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="generateMailto()">
-                        📧 Envoyer Devis
-                    </button>
-                </div>
+                <div class="summary-footer">
+                    <div class="summary-actions">
+                        <button type="button" class="btn btn-icon" onclick="resetForm()" title="Réinitialiser">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 7L5 21M5 7L19 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="copierTexte()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 16H6C4.89543 16 4 15.1046 4 14V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V8M10 20H18C19.1046 20 20 19.1046 20 18V10C20 8.89543 19.1046 8 18 8H10C8.89543 8 8 8.89543 8 10V18C8 19.1046 8.89543 20 10 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Copier
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="generateMailto()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Envoyer
+                        </button>
+                    </div>
+                    <p class="summary-help">📧 Destination : <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b12151d143b191a1708561d091a15181e551d09">[email&#160;protected]</a></strong></p>
+                         </div>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
