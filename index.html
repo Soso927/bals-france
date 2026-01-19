@@ -5,359 +5,410 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Demande de Devis - Avec Export Email</title>
-
+    <title>Configurateur de Devis BALS - Coffret de Chantier</title>
 </head>
 
 <body>
-    <form id="devisForm" class="container">
-        <!-- EN-TÊTE -->
-        <h1> Demande de Devis - Coffret de Chantier</h1>
-        <p class="email-info">📧 À envoyer à : <strong>info@bals-france.fr</strong></p>
+    <div class="app-container">
+        <!-- COLONNE GAUCHE : FORMULAIRE -->
+        <div class="form-column">
+            <div class="form-wrapper">
+                <!-- EN-TÊTE -->
+                <div class="header-section">
+                    <h1>⚡ Configurateur de Devis</h1>
+                    <p class="subtitle">Coffret de Chantier BALS</p>
+                    <p class="email-info">📧 Destination : <strong>info@bals-france.fr</strong></p>
+                </div>
 
-        <!-- SECTION 1 : CONTACT -->
-        <div class="section">
-            <h2>Informations de Contact</h2>
+                <!-- BARRE DE PROGRESSION -->
+                <div class="progress-container">
+                    <div class="progress-label">Progression du devis (0%)</div>
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label>Distributeur :</label>
-                <input type="text" id="distributeur" placeholder="Nom du distributeur" onchange="updatePreview()"
-                    required>
-            </div>
+                <!-- SECTION 1 : INFORMATIONS DE CONTACT -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-icon">📋</span>
+                            <h2>Informations de Contact</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Distributeur *</label>
+                            <input type="text" id="distributeur" class="input-field" placeholder="Nom du distributeur">
+                        </div>
 
-            <div class="form-group">
-                <label>Contact :</label>
-                <input type="text" id="contact" placeholder="Nom du contact" onchange="updatePreview()" required>
-            </div>
+                        <div class="form-group">
+                            <label>Contact Distributeur</label>
+                            <input type="text" id="contactDist" class="input-field" placeholder="Nom du contact">
+                        </div>
 
-            <div class="form-group">
-                <label>Affaire / Référence :</label>
-                <input type="text" id="affaire" placeholder="Référence de l'affaire" onchange="updatePreview()"
-                    required>
-            </div>
+                        <div class="form-group">
+                            <label>Installateur</label>
+                            <input type="text" id="installateur" class="input-field" placeholder="Nom de l'installateur">
+                        </div>
 
-            <div class="form-group">
-                <label>Téléphone :</label>
-                <input type="tel" id="telephone" placeholder="01 23 45 67 89" onchange="updatePreview()" required>
-            </div>
+                        <div class="form-group">
+                            <label>Référence Affaire *</label>
+                            <input type="text" id="affaire" class="input-field" placeholder="Référence de l'affaire">
+                        </div>
 
-            <div class="form-group">
-                <label>Email :</label>
-                <input type="email" id="email" placeholder="contact@exemple.fr" onchange="updatePreview()" required>
-            </div>
-        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" class="input-field" placeholder="contact@exemple.fr">
+                        </div>
+                    </div>
+                </div>
 
-        <!-- SECTION 2 : TYPE DE COFFRET -->
-        <div class="section">
-            <h2> Type de Coffret</h2>
+                <!-- SECTION 2 : CARACTÉRISTIQUES TECHNIQUES -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-icon">🔧</span>
+                            <h2>Caractéristiques Techniques</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <!-- Type de coffret -->
+                        <div class="form-group">
+                            <label>Type de coffret *</label>
+                            <div class="selection-grid">
+                                <label class="selectable-card" onclick="selectCard(this, 'type')">
+                                    <input type="radio" name="type" value="Fixe">
+                                    <div class="card-content">
+                                        <span class="card-icon">📦</span>
+                                        <span class="card-label">Fixe</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'type')">
+                                    <input type="radio" name="type" value="Mobile">
+                                    <div class="card-content">
+                                        <span class="card-icon">🚚</span>
+                                        <span class="card-label">Mobile</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'type')">
+                                    <input type="radio" name="type" value="Mobile sur pied">
+                                    <div class="card-content">
+                                        <span class="card-icon">🏗️</span>
+                                        <span class="card-label">Mobile sur pied</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
 
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="typeCoffret" value="Fixe" onchange="updatePreview()" required>
-                    Fixe
-                </label>
+                        <!-- Matériau -->
+                        <div class="form-group">
+                            <label>Matériau *</label>
+                            <div class="selection-grid">
+                                <label class="selectable-card" onclick="selectCard(this, 'mat')">
+                                    <input type="radio" name="materiau" value="Caoutchouc">
+                                    <div class="card-content">
+                                        <span class="card-icon">♻️</span>
+                                        <span class="card-label">Caoutchouc</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'mat')">
+                                    <input type="radio" name="materiau" value="Métallique">
+                                    <div class="card-content">
+                                        <span class="card-icon">🔩</span>
+                                        <span class="card-label">Métallique</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'mat')">
+                                    <input type="radio" name="materiau" value="Plastique">
+                                    <div class="card-content">
+                                        <span class="card-icon">🧱</span>
+                                        <span class="card-label">Plastique</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
 
-                <label class="checkbox-label">
-                    <input type="checkbox" name="typeCoffret" value="Mobile" onchange="updatePreview()" required>
-                    Mobile
-                </label>
+                        <!-- Indice de protection -->
+                        <div class="form-group">
+                            <label>Indice de Protection (IP) *</label>
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this, 'ip')">
+                                    <input type="radio" name="ip" value="IP44">
+                                    <span>IP44</span>
+                                    <small>Projections d'eau</small>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'ip')">
+                                    <input type="radio" name="ip" value="IP54">
+                                    <span>IP54</span>
+                                    <small>Poussière + projections</small>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'ip')">
+                                    <input type="radio" name="ip" value="IP67">
+                                    <span>IP67</span>
+                                    <small>Immersion temporaire</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label class="checkbox-label">
-                    <input type="checkbox" name="typeCoffret" value="Mobile sur pied" onchange="updatePreview()"
-                        required>
-                    Mobile sur pied
-                </label>
-            </div>
-        </div>
+                <!-- SECTION 3 : CONFIGURATION DES PRISES -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-icon">🔌</span>
+                            <h2>Configuration des Prises</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Type de prise</th>
+                                    <th>Quantité</th>
+                                    <th>Brochage</th>
+                                    <th>Tension</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- NF 10/16A -->
+                                <tr>
+                                    <td><strong>NF 10/16A</strong><br><small>Domestique</small></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="NF 10/16A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>2P+T</td>
+                                    <td>230V</td>
+                                </tr>
 
-        <!-- SECTION 3 : MATÉRIAUX -->
-        <div class="section">
-            <h2> Matériaux</h2>
+                                <!-- CEI 16A -->
+                                <tr>
+                                    <td><strong>CEI 16A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 16A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="radio" name="materiaux" value="Caoutchouc" onchange="updatePreview()" required>
-                    Caoutchouc
-                </label>
+                                <!-- CEI 32A -->
+                                <tr>
+                                    <td><strong>CEI 32A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 32A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                <label class="checkbox-label">
-                    <input type="radio" name="materiaux" value="Métallique" onchange="updatePreview()" required>
-                    Métallique
-                </label>
+                                <!-- CEI 63A -->
+                                <tr>
+                                    <td><strong>CEI 63A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 63A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                <label class="checkbox-label">
-                    <input type="radio" name="materiaux" value="Plastique" onchange="updatePreview()" required>
-                    Plastique
-                </label>
-            </div>
-        </div>
+                                <!-- CEI 125A -->
+                                <tr>
+                                    <td><strong>CEI 125A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 125A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-        <!-- SECTION 4 : INDICE DE PROTECTION -->
-        <div class="section">
-            <h2> Indice de Protection (IP)</h2>
+                <!-- SECTION 4 : PROTECTIONS & OBSERVATIONS -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-icon">⚡</span>
+                            <h2>Protections & Observations</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <!-- Protection de tête -->
+                        <div class="form-group">
+                            <label>Protection de tête</label>
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
+                                    <input type="radio" name="protTete" value="Sans">
+                                    <span>Sans</span>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
+                                    <input type="radio" name="protTete" value="Interrupteur">
+                                    <span>Interrupteur</span>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
+                                    <input type="radio" name="protTete" value="Inter différentiel">
+                                    <span>Inter diff.</span>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
+                                    <input type="radio" name="protTete" value="Disjoncteur">
+                                    <span>Disjoncteur</span>
+                                </label>
+                                <label class="toggle-label" onclick="selectToggle(this, 'prot_tete')">
+                                    <input type="radio" name="protTete" value="Disjoncteur Diff.">
+                                    <span>Disjoncteur Diff.</span>
+                                </label>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP44 - Protection contre projections d'eau"
-                        onchange="updatePreview()" required>
-                    IP44 - Protection contre projections d'eau
-                </label>
-            </div>
+                        <!-- Protection départs -->
+                        <div class="form-group">
+                            <label>Protection des départs</label>
+                            <div class="selection-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
+                                    <input type="radio" name="protDeparts" value="Sans">
+                                    <div class="card-content">
+                                        <span class="card-label">Sans</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
+                                    <input type="radio" name="protDeparts" value="Par prise">
+                                    <div class="card-content">
+                                        <span class="card-label">Par prise</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
+                                    <input type="radio" name="protDeparts" value="Par groupe">
+                                    <div class="card-content">
+                                        <span class="card-label">Par groupe</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
+                                    <input type="radio" name="protDeparts" value="Disjoncteur">
+                                    <div class="card-content">
+                                        <span class="card-label">Disjoncteur</span>
+                                    </div>
+                                </label>
+                                <label class="selectable-card" onclick="selectCard(this, 'prot_departs')">
+                                    <input type="radio" name="protDeparts" value="Disjoncteur Diff.">
+                                    <div class="card-content">
+                                        <span class="card-label">Disj. Diff.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP54 - Protection contre poussières et projections"
-                        onchange="updatePreview()" required>
-                    IP54 - Protection contre poussières et projections
-                </label>
-            </div>
-
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="radio" name="ip" value="IP67 - Étanche à la poussière et immersion temporaire"
-                        onchange="updatePreview()" required>
-                    IP67 - Étanche à la poussière et immersion temporaire
-                </label>
-            </div>
-        </div>
-
-        <!-- SECTION 5 : PROTECTION -->
-        <div class="section">
-            <h2>Protection</h2>
-
-            <div class="form-group">
-                <label>Protection de tête :</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Sans" onchange="updatePreview()">
-                        Sans
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Interrupteur" onchange="updatePreview()"
-                            required>
-                        Interrupteur
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Inter différentiel"
-                            onchange="updatePreview()" required>
-                        Inter différentiel
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Disjoncteur" onchange="updatePreview()"
-                            required>
-                        Disjoncteur
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Disjoncteur Diff."
-                            onchange="updatePreview()" required>
-                        Disjoncteur Diff.
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Arrêt d'urgence" onchange="updatePreview()"
-                            required>
-                        Arrêt d'urgence
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionTete" value="Je ne sais pas" onchange="updatePreview()">
-                        Je ne sais pas
-                    </label>
+                        <!-- Observations -->
+                        <div class="form-group">
+                            <label>Observations techniques</label>
+                            <textarea id="observations" class="input-field" rows="4" placeholder="Ajoutez vos remarques, besoins particuliers..."></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label>Protection des prises :</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Sans" onchange="updatePreview()">
-                        Sans
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Par prise" onchange="updatePreview()">
-                        Par prise
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Par groupe de prises"
-                            onchange="updatePreview()">
-                        Par groupe de prises
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Disjoncteur" onchange="updatePreview()">
-                        Disjoncteur
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Disjoncteur Diff."
-                            onchange="updatePreview()">
-                        Disjoncteur Diff.
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="protectionPrises" value="Je ne sais pas"
-                            onchange="updatePreview()">
-                        Je ne sais pas
-                    </label>
+        <!-- COLONNE DROITE : RÉSUMÉ -->
+        <div class="summary-column">
+            <div class="summary-sticky">
+                <div class="summary-header">
+                    <h3>📋 Résumé de Configuration</h3>
+                </div>
+                <div class="summary-content" id="summaryList">
+                    <div class="empty-state">
+                        Configurez votre coffret pour voir apparaître le détail ici.
+                    </div>
+                </div>
+                <div class="summary-actions">
+                    <button type="button" class="btn btn-secondary" onclick="copierTexte()">
+                        📋 Copier
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="generateMailto()">
+                        📧 Envoyer Devis
+                    </button>
                 </div>
             </div>
         </div>
-
-        <!-- SECTION 6 : PRISES -->
-        <div class="section">
-            <h2> Prises</h2>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type de prise</th>
-                        <th>Quantité</th>
-                        <th>Brochage</th>
-                        <th>Tension</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>NF 10/16A (domestique)</td>
-                        <td><input type="number" id="prise_nf_qte" min="0" value="0" onchange="updatePreview()"></td>
-                        <td>
-                            <option value="2P+T">2P+T</option>
-                        </td>
-                        <td>230V</td>
-                    </tr>
-                    <tr>
-                        <td>CEI 16A</td>
-                        <td><input type="number" id="prise_16a_qte" min="0" value="0" onchange="updatePreview()"></td>
-                        <td>
-                            <select id="prise_16a_brochage" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="2P+T">2P+T</option>
-                                <option value="3P+T">3P+T</option>
-                                <option value="3P+N+T">3P+N+T</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select id="prise_16a_tension" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="230V">230V</option>
-                                <option value="400V">400V</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>CEI 32A</td>
-                        <td><input type="number" id="prise_32a_qte" min="0" value="0" onchange="updatePreview()"></td>
-                        <td>
-                            <select id="prise_32a_brochage" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="2P+T">2P+T</option>
-                                <option value="3P+T">3P+T</option>
-                                <option value="3P+N+T">3P+N+T</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select id="prise_32a_tension" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="230V">230V</option>
-                                <option value="400V">400V</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>CEI 63A</td>
-                        <td><input type="number" id="prise_63a_qte" min="0" value="0" onchange="updatePreview()"></td>
-                        <td>
-                            <select id="prise_63a_brochage" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="2P+T">2P+T</option>
-                                <option value="3P+T">3P+T</option>
-                                <option value="3P+N+T">3P+N+T</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select id="prise_63a_tension" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="230V">230V</option>
-                                <option value="400V">400V</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>CEI 125A</td>
-                        <td><input type="number" id="prise_125a_qte" min="0" value="0" onchange="updatePreview()"></td>
-                        <td>
-                            <select id="prise_125a_brochage" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="2P+T">2P+T</option>
-                                <option value="3P+T">3P+T</option>
-                                <option value="3P+N+T">3P+N+T</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select id="prise_125a_tension" onchange="updatePreview()">
-                                <option value="">--</option>
-                                <option value="230V">230V</option>
-                                <option value="400V">400V</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-       <!-- SECTION 7 : PIÈCES JOINTES -->
-<div class="section">
-    <h2>📎 Pièces jointes (facultatif)</h2>
-    
-    <div class="form-group">
-        <label>Ajouter des documents (PDF, images) :</label>
-        <input type="file" id="pieceJointes" multiple accept=".pdf,.jpg,.jpeg,.png,.gif" onchange="afficherFichiers()">
-        <small style="color: #666; display: block; margin-top: 5px;">
-            Vous pouvez sélectionner plusieurs fichiers (formats acceptés : PDF, JPG, PNG, GIF)
-        </small>
     </div>
-    
-    <!-- Liste des fichiers sélectionnés -->
-    <div id="listeFichiers" style="margin-top: 15px;"></div>
-</div>
 
-        <!-- SECTION 8 : OBSERVATIONS -->
-        <div class="section">
-            <h2>Observations</h2>
-
-            <div class="form-group">
-                <label>Informations complémentaires :</label>
-                <textarea id="observations" placeholder="Ajoutez vos remarques, besoins particuliers..."
-                    onchange="updatePreview()"></textarea>
-            </div>
-        </div>
-
-
-        <!-- PRÉVISUALISATION DE L'EMAIL -->
-        <div class="preview-zone">
-            <h3> Prévisualisation de l'email</h3>
-            <div id="emailPreview">
-                Remplissez le formulaire pour voir la prévisualisation...
-            </div>
-        </div>
-
-        <!-- BOUTONS D'ACTION -->
-        <div class="button-group">
-            <button class="copy-btn" onclick="copierTexte()">
-                Copier le texte
-            </button>
-            <button type="submit" class="submit-btn">
-                ✉️ Valider et envoyer par email
-            </button>
-        </div>
-        </div>
-    </form>
+    <script src="script.js"></script>
 </body>
 
 </html>
