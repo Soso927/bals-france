@@ -68,7 +68,7 @@ body {
 
 /* Colonne droite : résumé */
 .summary-column {
-    background: linear-gradient(180deg, var(--bals-black) 0%, #1a1a1a 100%);
+    background:  rgba(228,228,228,0.93);
     border-left: 1px solid rgba(255,255,255,0.1);
     position: sticky;       /* Reste visible en scrollant */
     top: 0;
@@ -513,7 +513,7 @@ textarea.input-field {
 }
 
 .summary-header h3 {
-    color: var(--white);
+    color: black;
     font-size: 1.2rem;
     margin-bottom: 4px;
 }
@@ -546,7 +546,7 @@ textarea.input-field {
 }
 
 .summary-item span {
-    color: var(--white);
+    color: black;
     font-size: 0.9rem;
 }
 
@@ -625,12 +625,13 @@ textarea.input-field {
 /* Bouton secondaire (transparent) */
 .btn-secondary {
     background: rgba(255, 255, 255, 0.08);
-    color: var(--white);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: black;
+    border: 1px solid black;
 }
 
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.12);
+
 }
 
 /* Bouton icône (petit) */
@@ -690,5 +691,93 @@ textarea.input-field {
     
     .btn {
         width: 100%;
+    }
+}
+
+/* =====================================================
+   NOUVEAU : MENU DE NAVIGATION
+   Style professionnel respectant la charte graphique BALS
+   Couleurs : Bleu #0095DA et Rouge #ED1C24
+===================================================== */
+
+/* Conteneur du menu */
+.nav-menu {
+    background: var(--white);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+    border-top: 4px solid var(--bals-blue);  /* Ligne bleue BALS en haut */
+}
+
+/* Titre du menu */
+.nav-title {
+    font-size: 0.85rem;
+    color: var(--bals-black);
+    margin-bottom: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Conteneur des liens */
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Style de chaque lien - Style professionnel */
+.nav-link {
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid var(--bals-light-grey);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--bals-black);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    position: relative;
+}
+
+/* Survol d'un lien - Bordure bleue BALS */
+.nav-link:hover {
+    border-color: var(--bals-blue);
+    color: var(--bals-blue);
+    background: rgba(0, 149, 218, 0.05);
+}
+
+/* Lien actif (page actuelle) - Fond bleu BALS */
+.nav-link.active {
+    background: var(--bals-blue);
+    border-color: var(--bals-blue);
+    color: var(--white);
+}
+
+/* Lien actif au survol - Légèrement plus foncé */
+.nav-link.active:hover {
+    background: #007AB8;
+    border-color: #007AB8;
+    color: var(--white);
+}
+
+/* Lien désactivé - Grisé */
+.nav-link.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    border-style: dashed;
+}
+
+/* Responsive : navigation en colonne sur mobile */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+    }
+    
+    .nav-link {
+        width: 100%;
+        text-align: center;
     }
 }
