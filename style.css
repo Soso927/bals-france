@@ -489,6 +489,8 @@ textarea.input-field {
 
 /* Selects dans le tableau */
 .detail-select {
+    width: 100%;
+    /* margin: 7%; */
     padding: 8px 12px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -768,6 +770,31 @@ textarea.input-field {
     cursor: not-allowed;
     pointer-events: none;
     border-style: dashed;
+}
+
+/* Le HTML et le body prennent toute la hauteur */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Le conteneur principal prend toute la page */
+.app-container {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* La colonne résumé prend toute la hauteur */
+.summary-column {
+    min-height: 100vh;
+}
+
+/* Le contenu sticky reste collé en haut */
+.summary-sticky {
+    height: 100vh;
 }
 
 /* Responsive : navigation en colonne sur mobile */

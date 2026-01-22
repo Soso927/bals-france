@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<!-- =====================================================
+     PAGE HTML - COFFRET ÉVÉNEMENTIEL
+     
+     Qu'est-ce que c'est ?
+     ---------------------
+     C'est un formulaire web pour créer des devis de coffrets 
+     électriques événementiels pour l'entreprise BALS.
+     
+     Comment ça marche ?
+     -------------------
+     1. L'utilisateur remplit le formulaire (coordonnées, options)
+     2. Le résumé à droite se met à jour automatiquement
+     3. L'utilisateur peut envoyer le devis par email
+     
+     Structure du fichier :
+     ----------------------
+     1. <head> = Paramètres de la page (titre, CSS)
+     2. <body> = Contenu visible de la page
+        - Colonne gauche = Formulaire avec 5 sections
+        - Colonne droite = Résumé du devis
+===================================================== -->
+<html lang="fr">
+
+<head>
+    <!-- ===== MÉTADONNÉES ===== -->
+
+    <!-- Permet d'afficher les accents français correctement (é, è, ê, etc.) -->
+    <meta charset="UTF-8">
+
+    <!-- Rend le site adaptatif sur mobile (responsive design) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Lien vers le fichier CSS qui contient tous les styles visuels -->
+    <!-- Le CSS définit les couleurs, tailles, espacements, etc. -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Titre affiché dans l'onglet du navigateur -->
+    <title>Configurateur de Devis BALS - Coffret Événementiel</title>
+</head>
+
+<body>
+    <!-- ===== CONTENEUR PRINCIPAL ===== -->
+    <!-- Utilise CSS Flexbox pour créer 2 colonnes côte à côte -->
+    <div class="app-container">
+
+        <!-- =====================================================
+             COLONNE GAUCHE : LE FORMULAIRE
+             C'est ici que l'utilisateur entre ses informations
+        ===================================================== -->
+        <div class="form-column">
+            <div class="form-wrapper">
+
+                <!-- =====================================================
+                     EN-TÊTE : Logo BALS + Titre de la page
+                ===================================================== -->
+                <div class="header-section">
+
+                    <!-- LOGO BALS en SVG (image vectorielle) -->
+                    <!-- SVG = image qui ne pixelise jamais, quelle que soit la taille -->
+                    <div class="logo-container">
+                        <svg width="120" height="40" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 5 rectangles qui forment l'icône de prise -->
+                            <!-- fill="#0095DA" = couleur bleue BALS -->
+                            <!-- fill="#ED1C24" = couleur rouge BALS -->
+                            <rect x="20" y="20" width="50" height="15" fill="#0095DA" />
+                            <rect x="35" y="37" width="50" height="15" fill="#ED1C24" />
+                            <rect x="20" y="54" width="50" height="15" fill="#0095DA" />
+                            <rect x="35" y="71" width="50" height="15" fill="#ED1C24" />
+                            <rect x="20" y="88" width="50" height="15" fill="#0095DA" />
+                            <!-- Le texte "Bals" à côté de l'icône -->
+                            <text x="100" y="75" font-family="Arial, sans-serif" font-size="60" font-weight="bold"
+                                fill="#0095DA">Bals</text>
+                        </svg>
+                    </div>
+
+                    <!-- Titre principal de la page -->
+                    <h1>Configurateur de Devis</h1>
+
+                    <!-- Sous-titre pour identifier le type de coffret -->
+                    <p class="subtitle">Coffret Événementiel BALS</p>
+
+                    <!-- Ligne décorative sous le titre -->
+                    <div class="header-divider"></div>
+                </div>
+
+                <!-- =====================================================
+                     MENU DE NAVIGATION
+                     Permet de changer de type de coffret
+                     
+                     Classes CSS utilisées :
+                     - "active" = page actuelle (surlignée)
+                     - "disabled" = lien désactivé (grisé)
+                ===================================================== -->
+                <div class="nav-menu">
+                    <p class="nav-title">Type de coffret</p>
+                    <div class="nav-links">
+                        <!-- Lien vers coffret de chantier -->
+                        <a href="index.html" class="nav-link">
+                            Coffret Chantier
+                        </a>
+
+                        <!-- Lien vers coffret d'étage -->
+                        <a href="coffret-etage.html" class="nav-link">
+                            Coffret d'Étage
+                        </a>
+
+                        <!-- Lien vers coffret industrie -->
+                        <a href="coffret-industrie.html" class="nav-link">
+                            Coffret Industrie
+                        </a>
+
+                        <!-- PAGE ACTUELLE : coffret événementiel (class="active") -->
+                        <a href="coffret-evenementiel.html" class="nav-link active">
+                            Coffret Événementiel
+                        </a>
+                        
+                        <a href="#" class="nav-link disabled">
+                            Prise industrielle
+                        </a>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     BARRE DE PROGRESSION
+                     Montre visuellement l'avancement du formulaire
+                     
+                     Le JavaScript calcule le pourcentage et modifie
+                     la largeur de la barre verte
+                ===================================================== -->
+                <div class="progress-container">
+                    <!-- Texte qui affiche le pourcentage (mis à jour par JS) -->
+                    <div class="progress-label">Progression du devis (0%)</div>
+
+                    <!-- Conteneur de la barre -->
+                    <div class="progress-bar-wrapper">
+                        <!-- La barre verte elle-même (largeur modifiée par JS) -->
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 1 : INFORMATIONS DE CONTACT
+                     
+                     Collecte les coordonnées du client :
+                     - Société
+                     - Contact
+                     - Installateur
+                     - Référence affaire
+                     - Email
+                ===================================================== -->
+                <div class="section-card">
+                    <!-- En-tête cliquable : cliquer ouvre/ferme la section -->
+                    <!-- onclick="toggleSection(this)" = appelle une fonction JS -->
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <!-- Numéro de la section -->
+                            <span class="section-number">01</span>
+                            <!-- Titre de la section -->
+                            <h2>Informations de Contact</h2>
+                        </div>
+                        <!-- Flèche qui change selon l'état ouvert/fermé -->
+                        <span class="section-toggle">▼</span>
+                    </div>
+
+                    <!-- Contenu de la section (champs de formulaire) -->
+                    <div class="section-content">
+                        <!-- Chaque form-group contient un champ -->
+                        <div class="form-group">
+                            <label>Société</label>
+                            <!-- input type="text" = champ de texte simple -->
+                            <!-- id = identifiant unique pour récupérer la valeur en JS -->
+                            <input type="text" id="distributeur" class="input-field"
+                                placeholder="Nom de la société...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact de la société</label>
+                            <input type="text" id="contactDist" class="input-field"
+                                placeholder="Nom du contact...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Installateur</label>
+                            <input type="text" id="installateur" class="input-field"
+                                placeholder="Nom de l'installateur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Référence Affaire</label>
+                            <input type="text" id="affaire" class="input-field" placeholder="Référence du projet...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <!-- input type="email" = champ email avec validation automatique -->
+                            <input type="email" id="email" class="input-field" placeholder="exemple@entreprise.fr">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 2 : CARACTÉRISTIQUES TECHNIQUES
+                     
+                     Options :
+                     - Type de montage (Fixe, Mobile, Mobile sur pied)
+                     - Matériau (Caoutchouc, Métallique, Plastique, etc.)
+                     - Indice de protection IP (IP44, IP54, IP67)
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">02</span>
+                            <h2>Caractéristiques Techniques</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+
+                        <!-- ===== SOUS-SECTION : TYPE DE MONTAGE ===== -->
+                        <div class="form-group">
+                            <label>Type de montage</label>
+                            <p class="help-text">Sélectionnez le mode d'installation du coffret</p>
+
+                            <!-- Grid de cartes sélectionnables -->
+                            <div class="card-grid">
+                                <!-- Chaque carte est cliquable -->
+                                <!-- onclick="selectCard(this)" = fonction JS pour gérer la sélection -->
+                                
+                                <!-- CARTE 1 : Fixe -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <!-- Radio button caché (la carte entière est cliquable) -->
+                                    <!-- name="montage" = tous les radios du même groupe -->
+                                    <input type="radio" name="montage" value="Fixe">
+                                    <div class="card-content">
+                                        <!-- Icône de la carte -->
+                                        <div class="card-icon"></div>
+                                        <!-- Titre de l'option -->
+                                        <div class="card-label">Fixe</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 2 : Mobile -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="montage" value="Mobile">
+                                    <div class="card-content">
+                                        <div class="card-icon"></div>
+                                        <div class="card-label">Mobile</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 3 : Mobile sur pied -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="montage" value="Mobile sur pied">
+                                    <div class="card-content">
+                                        <div class="card-icon"></div>
+                                        <div class="card-label">Mobile sur pied</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : MATÉRIAU ===== -->
+                        <div class="form-group">
+                            <label>Matériau du coffret</label>
+                            <p class="help-text">Choisissez le matériau de fabrication</p>
+
+                            <div class="card-grid">
+                                <!-- CARTE 1 : Caoutchouc -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="materiau" value="Caoutchouc">
+                                    <div class="card-content">
+                                        <div class="card-label">Caoutchouc</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 2 : Métallique (fixe) -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="materiau" value="Métallique (fixe)">
+                                    <div class="card-content">
+                                        <div class="card-label">Métallique (fixe)</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 3 : Plastique -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="materiau" value="Plastique">
+                                    <div class="card-content">
+                                        <div class="card-label">Plastique</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 4 : Gamme EVOBOX (mobile) -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="materiau" value="Gamme EVOBOX (mobile)">
+                                    <div class="card-content">
+                                        <div class="card-label">Gamme EVOBOX</div>
+                                    </div>
+                                </label>
+
+                                <!-- CARTE 5 : Flight-cases (mobile) -->
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="materiau" value="Flight-cases (mobile)">
+                                    <div class="card-content">
+                                        <div class="card-label">Flight-cases</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : INDICE DE PROTECTION IP ===== -->
+                        <div class="form-group">
+                            <label>Indice de Protection (IP)</label>
+                            <p class="help-text">Niveau de protection contre l'eau et la poussière</p>
+
+                            <!-- Groupe de boutons toggle (style différent des cartes) -->
+                            <div class="toggle-group">
+                                <!-- TOGGLE 1 : IP44 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP44">
+                                    <span class="toggle-text">
+                                        <strong>IP44</strong>
+                                        <small>Protection contre les éclaboussures</small>
+                                    </span>
+                                </label>
+
+                                <!-- TOGGLE 2 : IP54 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP54">
+                                    <span class="toggle-text">
+                                        <strong>IP54</strong>
+                                        <small>Protection contre la poussière et projections d'eau</small>
+                                    </span>
+                                </label>
+
+                                <!-- TOGGLE 3 : IP67 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP67">
+                                    <span class="toggle-text">
+                                        <strong>IP67</strong>
+                                        <small>Étanche à la poussière et à l'immersion</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 3 : CONFIGURATION DES PRISES
+                     
+                     Tableau pour sélectionner :
+                     - Le nombre de prises de chaque type
+                     - Le brochage (2P+T, 3P+T, 3P+N+T)
+                     - La tension (230V, 400V)
+                     
+                     Types de prises disponibles :
+                     - NF domestique 10/16A
+                     - CEI 32A
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">03</span>
+                            <h2>Configuration des Prises</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Sélectionnez vos prises</label>
+                            <p class="help-text">Définissez la quantité, le brochage et la tension</p>
+
+                            <!-- Tableau responsive -->
+                            <div class="table-wrapper">
+                                <table class="config-table">
+                                    <!-- En-tête du tableau -->
+                                    <thead>
+                                        <tr>
+                                            <!-- Colonnes : Type | Quantité | Brochage | Tension -->
+                                            <th>Type de prise</th>
+                                            <th>Quantité</th>
+                                            <th>Brochage</th>
+                                            <th>Tension</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Corps du tableau -->
+                                    <tbody>
+                                        <!-- ===== LIGNE 1 : NF domestique 10/16A ===== -->
+                                        <tr>
+                                            <!-- Nom de la prise -->
+                                            <td class="type-cell">
+                                                <strong>NF domestique</strong>
+                                                <small>10/16A</small>
+                                            </td>
+                                            
+                                            <!-- Contrôle de quantité avec boutons +/- -->
+                                            <td>
+                                                <div class="qty-control">
+                                                    <!-- Bouton MOINS -->
+                                                    <!-- onclick="step(this, -1)" = réduit de 1 -->
+                                                    <button type="button" class="qty-btn" onclick="step(this, -1)">-</button>
+                                                    
+                                                    <!-- Champ de quantité -->
+                                                    <!-- data-name = nom pour le résumé -->
+                                                    <input type="number" class="qty-input" value="0" min="0" 
+                                                           data-name="NF domestique 10/16A">
+                                                    
+                                                    <!-- Bouton PLUS -->
+                                                    <!-- onclick="step(this, 1)" = augmente de 1 -->
+                                                    <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                                </div>
+                                            </td>
+                                            
+                                            <!-- Liste déroulante : Brochage -->
+                                            <td>
+                                                <select class="detail-select">
+                                                    <option value="">--</option>
+                                                    <option value="2P+T">2P+T</option>
+                                                </select>
+                                            </td>
+                                            
+                                            <!-- Liste déroulante : Tension -->
+                                            <td>
+                                                <select class="detail-select">
+                                                    <option value="">--</option>
+                                                    <option value="230V">230V</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        <!-- ===== LIGNE 2 : CEI 32A ===== -->
+                                        <tr>
+                                            <td class="type-cell">
+                                                <strong>CEI</strong>
+                                                <small>32A</small>
+                                            </td>
+                                            <td>
+                                                <div class="qty-control">
+                                                    <button type="button" class="qty-btn" onclick="step(this, -1)">-</button>
+                                                    <input type="number" class="qty-input" value="0" min="0" 
+                                                           data-name="CEI 32A">
+                                                    <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <select class="detail-select">
+                                                    <option value="">--</option>
+                                                    <option value="3x2P+T, 2x3P+N+T">3x2P+T, 2x3P+N+T</option>
+                                                    <option value="3P+N+T">3P+N+T</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="detail-select">
+                                                    <option value="">--</option>
+                                                    <option value="230V">230V</option>
+                                                    <option value="400V">400V</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 4 : PROTECTIONS ÉLECTRIQUES
+                     
+                     Deux types de protections :
+                     1. Protection de tête (pour l'ensemble du coffret)
+                     2. Protection des prises (pour chaque prise)
+                     
+                     Options via checkboxes (plusieurs choix possibles)
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">04</span>
+                            <h2>Protections</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+
+                        <!-- ===== PROTECTION DE TÊTE ===== -->
+                        <div class="form-group">
+                            <label>Protection de tête</label>
+                            <p class="help-text">Protection principale du coffret (plusieurs choix possibles)</p>
+
+                            <!-- Grid de checkboxes sous forme de cartes -->
+                            <div class="checkbox-grid">
+                                <!-- CHECKBOX 1 : Sans protection -->
+                                <label class="checkbox-card">
+                                    <!-- type="checkbox" = case à cocher (plusieurs choix possibles) -->
+                                    <!-- name="protTete" = nom du groupe -->
+                                    <input type="checkbox" name="protTete" value="Sans">
+                                    <div class="checkbox-content">
+                                        <!-- Icône checkbox (☐ vide, ☑ cochée) -->
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Sans</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Interrupteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Interrupteur</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Inter différentiel">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Inter différentiel</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Disjoncteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Disjoncteur Diff.">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur Diff.</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protTete" value="Arrêt d'urgence">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Arrêt d'urgence</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== PROTECTION DES PRISES ===== -->
+                        <div class="form-group">
+                            <label>Protection des prises</label>
+                            <p class="help-text">Protection individuelle ou groupée des prises</p>
+
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Sans">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Sans</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Par prise">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Par prise</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Par groupe de prises">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Par groupe</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Disjoncteur">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur</span>
+                                    </div>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" name="protPrises" value="Disjoncteur Diff.">
+                                    <div class="checkbox-content">
+                                        <span class="checkbox-icon">☐</span>
+                                        <span class="checkbox-label">Disjoncteur Diff.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 5 : OBSERVATIONS
+                     
+                     Zone de texte libre pour :
+                     - Remarques particulières
+                     - Besoins spécifiques
+                     - Contraintes techniques
+                     - Délais souhaités
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">05</span>
+                            <h2>Observations</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Remarques et besoins spécifiques</label>
+
+                            <!-- TEXTAREA = zone de texte multi-lignes -->
+                            <!-- rows="6" = hauteur de 6 lignes -->
+                            <textarea id="observations" class="input-field" rows="6"
+                                placeholder="Ajoutez vos remarques, besoins particuliers, contraintes techniques, délais..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             COLONNE DROITE : RÉSUMÉ DU DEVIS
+             
+             Cette colonne affiche en temps réel :
+             - Les choix effectués par l'utilisateur
+             - Un récapitulatif complet du devis
+             
+             Elle reste "collée" en haut (sticky) quand on scroll
+        ===================================================== -->
+        <div class="summary-column">
+            <!-- sticky = reste visible même quand on scroll -->
+            <div class="summary-sticky">
+
+                <!-- Titre du résumé -->
+                <div class="summary-header">
+                    <h3>Résumé de Configuration</h3>
+                    <p class="summary-subtitle">Devis en temps réel</p>
+                </div>
+
+                <!-- Zone de contenu : remplie dynamiquement par JavaScript -->
+                <div class="summary-content" id="summaryList">
+
+                    <!-- État vide : affiché quand aucune donnée n'est saisie -->
+                    <div class="empty-state">
+                        <!-- Icône SVG représentant un document vide -->
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01"
+                                stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <p>Configurez votre coffret</p>
+                        <small>Les informations apparaîtront ici</small>
+                    </div>
+                </div>
+
+                <!-- Pied du résumé : boutons d'action -->
+                <div class="summary-footer">
+                    <div class="summary-actions">
+
+                        <!-- Bouton RESET : efface tout le formulaire -->
+                        <button type="button" class="btn btn-icon" onclick="resetForm()" title="Réinitialiser">
+                            <!-- Icône X (croix) -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 7L5 21M5 7L19 21" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+
+                        <!-- Bouton COPIER : copie le résumé dans le presse-papier -->
+                        <button type="button" class="btn btn-secondary" onclick="copierTexte()">
+                            <!-- Icône copier (deux rectangles) -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8 16H6C4.89543 16 4 15.1046 4 14V6C4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V8M10 20H18C19.1046 20 20 19.1046 20 18V10C20 8.89543 19.1046 8 18 8H10C8.89543 8 8 8.89543 8 10V18C8 19.1046 8.89543 20 10 20Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Copier
+                        </button>
+
+                        <!-- Bouton ENVOYER : ouvre le client mail avec le devis -->
+                        <button type="button" class="btn btn-primary" onclick="generateMailto()">
+                            <!-- Icône enveloppe -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Envoyer
+                        </button>
+                    </div>
+
+                    <!-- Information sur l'email de destination -->
+                    <p class="summary-help">
+                        📧 Destination :
+                        <strong>info@bals-france.fr</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         SCRIPT JAVASCRIPT
+         
+         Le fichier script-evenementiel.js contient toutes les 
+         fonctions qui rendent le formulaire interactif :
+         
+         - toggleSection() : ouvre/ferme les sections
+         - selectCard() : gère la sélection des cartes
+         - selectToggle() : gère les boutons IP
+         - step() : incrémente/décrémente les quantités
+         - updateSummary() : met à jour le résumé
+         - resetForm() : efface le formulaire
+         - copierTexte() : copie dans le presse-papier
+         - generateMailto() : génère l'email
+    ===================================================== -->
+    <script src="JS/script-evenementiel.js"></script>
+
+</body>
+
+</html>

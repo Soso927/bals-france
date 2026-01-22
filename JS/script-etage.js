@@ -33,7 +33,7 @@ const state = {
     
     // --- Caractéristiques techniques ---
     type: '',              // "Fixe" ou "Mobile"
-    materiau: '',          // "Métallique" ou "Plastique"
+    materiaux: '',          // "Métallique" ou "Plastique"
     ip: '',                // "IP44", "IP54" ou "IP67"
     
     // --- Protections électriques ---
@@ -123,7 +123,7 @@ function selectCard(label, category) {
         state.type = input.value;  // Ex: "Fixe" ou "Mobile"
     }
     if (category === 'mat') {
-        state.materiau = input.value;  // Ex: "Métallique" ou "Plastique"
+        state.materiaux = input.value;  // Ex: "Métallique" ou "Plastique"
     }
     
     // 6. Rafraîchit l'affichage
@@ -328,7 +328,7 @@ function updateProgress() {
     
     // Section 2 : Caractéristiques Techniques (30 points)
     if (state.type) score += 10;
-    if (state.materiau) score += 10;
+    if (state.materiaux) score += 10;
     if (state.ip) score += 10;
     
     // Section 3 : Prises (20 points)
@@ -392,12 +392,12 @@ function updateSummary() {
     }
     
     // --- Caractéristiques Techniques ---
-    if (state.type || state.materiau || state.ip) {
+    if (state.type || state.materiaux || state.ip) {
         // filter(Boolean) retire les valeurs vides
         // join(' • ') combine avec un séparateur
         html += `<div class="summary-item">
             <strong>Configuration</strong>
-            <span>${[state.type, state.materiau, state.ip].filter(Boolean).join(' • ')}</span>
+            <span>${[state.type, state.materiaux, state.ip].filter(Boolean).join(' • ')}</span>
         </div>`;
     }
     
@@ -473,7 +473,7 @@ function generateMailto() {
     
     body += "🔧 CONFIGURATION TECHNIQUE\n";
     body += "Type : " + (state.type || 'Non défini') + "\n";
-    body += "Matériau : " + (state.materiau || 'Non défini') + "\n";
+    body += "Matériau : " + (state.materiaux || 'Non défini') + "\n";
     body += "Indice IP : " + (state.ip || 'Non défini') + "\n\n";
     
     if (state.sockets.length > 0) {
@@ -515,7 +515,7 @@ function copierTexte() {
     contenu += "Société : " + (state.distributeur || 'Non renseigné') + "\n";
     contenu += "Affaire : " + (state.affaire || 'Non renseigné') + "\n";
     contenu += "Type : " + (state.type || 'Non défini') + "\n";
-    contenu += "Matériau : " + (state.materiau || 'Non défini') + "\n";
+    contenu += "Matériau : " + (state.materiaux || 'Non défini') + "\n";
     contenu += "IP : " + (state.ip || 'Non défini') + "\n";
     
     if (state.sockets.length > 0) {
@@ -559,7 +559,7 @@ function resetForm() {
     state.affaire = '';
     state.email = '';
     state.type = '';
-    state.materiau = '';
+    state.materiaux = '';
     state.ip = '';
     state.protections.tete = [];
     state.protections.prises = [];
