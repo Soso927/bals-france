@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<!-- =====================================================
+     PAGE HTML - PRISE INDUSTRIELLE
+     
+     Qu'est-ce que c'est ?
+     ---------------------
+     C'est un formulaire web pour créer des devis de prises 
+     industrielles pour l'entreprise BALS.
+     
+     Comment ça marche ?
+     -------------------
+     1. L'utilisateur remplit le formulaire (coordonnées, options)
+     2. Le résumé à droite se met à jour automatiquement
+     3. L'utilisateur peut envoyer le devis par email
+     
+     Structure du fichier :
+     ----------------------
+     1. <head> = Paramètres de la page (titre, CSS)
+     2. <body> = Contenu visible de la page
+        - Colonne gauche = Formulaire avec 5 sections
+        - Colonne droite = Résumé du devis
+        
+     Conformité NF EN 60 309-1/2 (CEI 309-1/2, CEE 17)
+===================================================== -->
+<html lang="fr">
+
+<head>
+    <!-- ===== MÉTADONNÉES ===== -->
+
+    <!-- Permet d'afficher les accents français correctement (é, è, ê, etc.) -->
+    <meta charset="UTF-8">
+
+    <!-- Rend le site adaptatif sur mobile (responsive design) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Lien vers le fichier CSS qui contient tous les styles visuels -->
+    <!-- Le CSS définit les couleurs, tailles, espacements, etc. -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Titre affiché dans l'onglet du navigateur -->
+    <title>Configurateur de Devis BALS - Prises Industrielles</title>
+</head>
+
+<body>
+    <!-- ===== CONTENEUR PRINCIPAL ===== -->
+    <!-- Utilise CSS Flexbox pour créer 2 colonnes côte à côte -->
+    <div class="app-container">
+
+        <!-- =====================================================
+             COLONNE GAUCHE : LE FORMULAIRE
+             C'est ici que l'utilisateur entre ses informations
+        ===================================================== -->
+        <div class="form-column">
+            <div class="form-wrapper">
+
+                <!-- =====================================================
+                     EN-TÊTE : Logo BALS + Titre de la page
+                ===================================================== -->
+                <div class="header-section">
+
+                    <!-- LOGO BALS en SVG (image vectorielle) -->
+                    <!-- SVG = image qui ne pixelise jamais, quelle que soit la taille -->
+                    <div class="logo-container">
+                        <svg width="120" height="40" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 5 rectangles qui forment l'icône de prise -->
+                            <!-- fill="#0095DA" = couleur bleue BALS -->
+                            <!-- fill="#ED1C24" = couleur rouge BALS -->
+                            <rect x="20" y="20" width="50" height="15" fill="#0095DA" />
+                            <rect x="35" y="37" width="50" height="15" fill="#ED1C24" />
+                            <rect x="20" y="54" width="50" height="15" fill="#0095DA" />
+                            <rect x="35" y="71" width="50" height="15" fill="#ED1C24" />
+                            <rect x="20" y="88" width="50" height="15" fill="#0095DA" />
+                            <!-- Le texte "Bals" à côté de l'icône -->
+                            <text x="100" y="75" font-family="Arial, sans-serif" font-size="60" font-weight="bold"
+                                fill="#0095DA">Bals</text>
+                        </svg>
+                    </div>
+
+                    <!-- Titre principal de la page -->
+                    <h1>Configurateur de Devis</h1>
+
+                    <!-- Sous-titre pour identifier le type de produit -->
+                    <p class="subtitle">Prises Industrielles BALS</p>
+
+                    <!-- Mention des normes -->
+                    <p class="norm-info">Conformes aux normes : NF EN 60 309-1/2 (NF C 63-300 et NF C 63-310), CEI
+                        309-1/2, CEE 17</p>
+
+                    <!-- Ligne décorative sous le titre -->
+                    <div class="header-divider"></div>
+                </div>
+
+                <!-- =====================================================
+                     MENU DE NAVIGATION
+                     Permet de changer de type de coffret/prise
+                     
+                     Classes CSS utilisées :
+                     - "active" = page actuelle (surlignée)
+                ===================================================== -->
+                <div class="nav-menu">
+                    <p class="nav-title">Type de produit</p>
+                    <div class="nav-links">
+                        <!-- Lien vers coffret de chantier -->
+                        <a href="index.html" class="nav-link">
+                            Coffret Chantier
+                        </a>
+
+                        <!-- Lien vers coffret d'étage -->
+                        <a href="coffret-etage.html" class="nav-link">
+                            Coffret d'Étage
+                        </a>
+
+                        <!-- Lien vers coffret industrie -->
+                        <a href="coffret-industrie.html" class="nav-link">
+                            Coffret Industrie
+                        </a>
+
+                        <!-- Lien vers coffret événementiel -->
+                        <a href="coffret-evenementiel.html" class="nav-link">
+                            Coffret Événementiel
+                        </a>
+
+                        <!-- PAGE ACTUELLE : prise industrielle (class="active") -->
+                        <a href="prise-industrielle.html" class="nav-link active">
+                            Prise Industrielle
+                        </a>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     BARRE DE PROGRESSION
+                     Montre visuellement l'avancement du formulaire
+                     
+                     Le JavaScript calcule le pourcentage et modifie
+                     la largeur de la barre verte
+                ===================================================== -->
+                <div class="progress-container">
+                    <!-- Texte qui affiche le pourcentage (mis à jour par JS) -->
+                    <div class="progress-label">Progression du devis (0%)</div>
+
+                    <!-- Conteneur de la barre -->
+                    <div class="progress-bar-wrapper">
+                        <!-- La barre verte elle-même (largeur modifiée par JS) -->
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 1 : INFORMATIONS DE CONTACT
+                     
+                     Collecte les coordonnées du client :
+                     - Distributeur + Contact
+                     - Installateur + Contact
+                     - Affaire + Contact
+                     - Téléphone, Fax, Email
+                ===================================================== -->
+                <div class="section-card">
+                    <!-- En-tête cliquable : cliquer ouvre/ferme la section -->
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">01</span>
+                            <h2>Informations de Contact</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+
+                    <!-- Contenu de la section (champs de formulaire) -->
+                    <div class="section-content">
+                        <!-- GROUPE : Distributeur -->
+                        <div class="form-group">
+                            <label>Distributeur</label>
+                            <input type="text" id="distributeur" class="input-field"
+                                placeholder="Nom du distributeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Distributeur</label>
+                            <input type="text" id="contactDist" class="input-field" placeholder="Nom du contact...">
+                        </div>
+
+                        <!-- GROUPE : Installateur -->
+                        <div class="form-group">
+                            <label>Installateur</label>
+                            <input type="text" id="installateur" class="input-field"
+                                placeholder="Nom de l'installateur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Installateur</label>
+                            <input type="text" id="contactInst" class="input-field"
+                                placeholder="Contact de l'installateur...">
+                        </div>
+
+                        <!-- GROUPE : Affaire -->
+                        <div class="form-group">
+                            <label>Affaire</label>
+                            <input type="text" id="affaire" class="input-field" placeholder="Référence de l'affaire...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Affaire</label>
+                            <input type="text" id="contactAffaire" class="input-field"
+                                placeholder="Contact de l'affaire...">
+                        </div>
+
+                        <!-- GROUPE : Coordonnées -->
+                        <div class="form-group">
+                            <label>Téléphone</label>
+                            <input type="tel" id="telephone" class="input-field" placeholder="Numéro de téléphone...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fax</label>
+                            <input type="tel" id="fax" class="input-field" placeholder="Numéro de fax...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" class="input-field" placeholder="exemple@entreprise.fr">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 2 : QUANTITÉ
+                     
+                     Permet de spécifier le nombre de prises demandées
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">02</span>
+                            <h2>Quantité</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Nombre de prises</label>
+                            <p class="help-text">Indiquez le nombre de prises industrielles souhaitées</p>
+
+                            <!-- Contrôle de quantité avec boutons +/- -->
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn" onclick="stepQty(this, -1)">-</button>
+                                <input type="number" id="quantite" class="qty-input" value="1" min="1">
+                                <button type="button" class="qty-btn" onclick="stepQty(this, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 3 : TYPE DE PRODUIT
+                     
+                     Permet de choisir le type de prise :
+                     - Socle de prise (Saillie, Tableau droit, Tableau incliné)
+                     - Prolongateur
+                     - Fiche
+                     - Socle connecteur (Saillie, Tableau droit)
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">03</span>
+                            <h2>Type de Produit</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+
+                        <!-- ===== SOUS-SECTION : SOCLE DE PRISE ===== -->
+                        <div class="form-group">
+                            <label>Socle de prise</label>
+                            <p class="help-text">Type de montage pour le socle</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Socle de prise - Saillie">
+                                    <div class="card-content">
+                                        <div class="card-label">Saillie</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Socle de prise - Tableau droit">
+                                    <div class="card-content">
+                                        <div class="card-label">Tableau droit</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Socle de prise - Tableau incliné">
+                                    <div class="card-content">
+                                        <div class="card-label">Tableau incliné</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : PROLONGATEUR ===== -->
+                        <div class="form-group">
+                            <label>Prolongateur</label>
+                            <p class="help-text">Câble d'extension pour la prise</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Prolongateur">
+                                    <div class="card-content">
+                                        <div class="card-label">Prolongateur</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : FICHE ===== -->
+                        <div class="form-group">
+                            <label>Fiche</label>
+                            <p class="help-text">Fiche mâle pour connexion</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Fiche">
+                                    <div class="card-content">
+                                        <div class="card-label">Fiche</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : SOCLE CONNECTEUR ===== -->
+                        <div class="form-group">
+                            <label>Socle connecteur</label>
+                            <p class="help-text">Type de montage pour le socle connecteur</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Socle connecteur - Saillie">
+                                    <div class="card-content">
+                                        <div class="card-label">Saillie</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="produit" value="Socle connecteur - Tableau droit">
+                                    <div class="card-content">
+                                        <div class="card-label">Tableau droit</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 4 : CARACTÉRISTIQUES ÉLECTRIQUES
+                     
+                     Options :
+                     - Tension (TBT et BT)
+                     - Intensité (16A, 32A, 63A, 125A)
+                     - Polarité (2P, 2P+T, 3P, 3P+T, 3P+N+T)
+                     - Indice de protection IP (IP44, IP54, IP67)
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">04</span>
+                            <h2>Caractéristiques Électriques</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+
+                        <!-- ===== SOUS-SECTION : TENSION ===== -->
+                        <div class="form-group">
+                            <label>Tension</label>
+                            <p class="help-text">Sélectionnez la tension de fonctionnement</p>
+
+                            <!-- GROUPE TBT (Très Basse Tension) -->
+                            <div class="tension-category">
+                                <h4 class="category-title">TBT (Très Basse Tension)</h4>
+                                <div class="card-grid">
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="24V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">24V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="42V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">42V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="<50V 100-200Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">&lt;50V<br><small>100-200Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="<50V 300Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">&lt;50V<br><small>300Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="<50V 400Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">&lt;50V<br><small>400Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="<50V Courant continu">
+                                        <div class="card-content">
+                                            <div class="card-label">&lt;50V<br><small>CC</small></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- GROUPE BT (Basse Tension) -->
+                            <div class="tension-category">
+                                <h4 class="category-title">BT (Basse Tension)</h4>
+                                <div class="card-grid">
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="110V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">110V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="230V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">230V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="400V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">400V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value=">50V 100-300Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">&gt;50V<br><small>100-300Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value=">50V 300-500Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">&gt;50V<br><small>300-500Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="440V 60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">440V<br><small>60Hz</small></div>
+                                        </div>
+                                    </label>
+
+                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="480-500V 50-60Hz">
+                                        <div class="card-content">
+                                            <div class="card-label">480-500V<br><small>50-60Hz</small></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- TENSION LIBRE -->
+                            <div class="tension-category">
+                                <div class="card-grid">
+                                    <label class="selectable-card" onclick="selectCard(this)">
+                                        <input type="radio" name="tension" value="Tension libre">
+                                        <div class="card-content">
+                                            <div class="card-label">Tension libre</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : INTENSITÉ ===== -->
+                        <div class="form-group">
+                            <label>Intensité</label>
+                            <p class="help-text">Courant nominal de la prise</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="intensite" value="16A">
+                                    <div class="card-content">
+                                        <div class="card-label">16A</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="intensite" value="32A">
+                                    <div class="card-content">
+                                        <div class="card-label">32A</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="intensite" value="63A">
+                                    <div class="card-content">
+                                        <div class="card-label">63A</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="intensite" value="125A">
+                                    <div class="card-content">
+                                        <div class="card-label">125A</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : POLARITÉ ===== -->
+                        <div class="form-group">
+                            <label>Polarité</label>
+                            <p class="help-text">Configuration des phases et neutre</p>
+
+                            <div class="card-grid">
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="polarite" value="2P">
+                                    <div class="card-content">
+                                        <div class="card-label">2P</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="polarite" value="2P+T">
+                                    <div class="card-content">
+                                        <div class="card-label">2P+T</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="polarite" value="3P">
+                                    <div class="card-content">
+                                        <div class="card-label">3P</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="polarite" value="3P+T">
+                                    <div class="card-content">
+                                        <div class="card-label">3P+T</div>
+                                    </div>
+                                </label>
+
+                                <label class="selectable-card" onclick="selectCard(this)">
+                                    <input type="radio" name="polarite" value="3P+N+T">
+                                    <div class="card-content">
+                                        <div class="card-label">3P+N+T</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ===== SOUS-SECTION : INDICE DE PROTECTION IP ===== -->
+                        <div class="form-group">
+                            <label>Indice de Protection (IP)</label>
+                            <p class="help-text">Niveau de protection contre l'eau et la poussière</p>
+
+                            <!-- Groupe de boutons toggle -->
+                            <div class="toggle-group">
+                                <!-- TOGGLE 1 : IP44 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP44">
+                                    <span class="toggle-text">
+                                        <strong>IP44</strong>
+                                        <small>Protection contre corps solides >1mm et éclaboussures</small>
+                                    </span>
+                                </label>
+
+                                <!-- TOGGLE 2 : IP54 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP54">
+                                    <span class="toggle-text">
+                                        <strong>IP54</strong>
+                                        <small>Protection contre dépôts de poussière et projections d'eau</small>
+                                    </span>
+                                </label>
+
+                                <!-- TOGGLE 3 : IP67 -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
+                                    <input type="radio" name="ip" value="IP67">
+                                    <span class="toggle-text">
+                                        <strong>IP67</strong>
+                                        <small>Étanche à la poussière et à l'immersion temporaire</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- =====================================================
+                     SECTION 5 : REMARQUES
+                     
+                     Zone de texte libre pour observations et besoins spécifiques
+                ===================================================== -->
+                <div class="section-card">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <span class="section-number">05</span>
+                            <h2>Remarques</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Observations et besoins spécifiques</label>
+
+                            <!-- TEXTAREA = zone de texte multi-lignes -->
+                            <textarea id="observations" class="input-field" rows="6"
+                                placeholder="Ajoutez vos remarques, besoins particuliers, contraintes techniques..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             COLONNE DROITE : RÉSUMÉ DU DEVIS
+             
+             Cette colonne affiche en temps réel :
+             - Les choix effectués par l'utilisateur
+             - Un récapitulatif complet du devis
+             
+             Elle reste "collée" en haut (sticky) quand on scroll
+        ===================================================== -->
+        <div class="summary-column">
+            <div class="summary-sticky">
+
+                <!-- Titre du résumé -->
+                <div class="summary-header">
+                    <h3>Résumé de Configuration</h3>
+                    <p class="summary-subtitle">Devis en temps réel</p>
+                </div>
+
+                <!-- Zone de contenu : remplie dynamiquement par JavaScript -->
+                <div class="summary-content" id="summaryList">
+
+                    <!-- État vide : affiché quand aucune donnée n'est saisie -->
+                    <div class="empty-state">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01"
+                                stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <p>Configurez votre prise</p>
+                        <small>Les informations apparaîtront ici</small>
+                    </div>
+                </div>
+
+                <!-- Pied du résumé : boutons d'action -->
+                <div class="summary-footer">
+                    <div class="summary-actions">
+
+                        <!-- Bouton RESET -->
+                        <button type="button" class="btn btn-icon" onclick="resetForm()" title="Réinitialiser">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 7L5 21M5 7L19 21" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+
+                        <!-- Bouton COPIER -->
+                        <button type="button" class="btn btn-secondary btn-sm p-1" onclick="copierTexte()">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+
+                            <!-- <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg"> -->
+                            <path
+                                d="M8 16H6C4.89543 16 4 15.1046 4 14V6C4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V8M10 20H18C19.1046 20 20 19.1046 20 18V10C20 8.89543 19.1046 8 18 8H10C8.89543 8 8 8.89543 8 10V18C8 19.1046 8.89543 20 10 20Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Copier
+                        </button>
+
+                        <!-- Bouton ENVOYER -->
+                        <button type="button" class="btn btn-primary" onclick="generateMailto()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Envoyer
+                        </button>
+                    </div>
+
+                    <!-- Information sur l'email de destination -->
+                    <p class="summary-help">
+                        📧 Destination :
+                        <strong>info@bals-france.fr</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         SCRIPT JAVASCRIPT
+         
+         Le fichier script-prise-industrielle.js contient toutes les 
+         fonctions qui rendent le formulaire interactif
+    ===================================================== -->
+    <script src="JS/script-prise-industrielle.js"></script>
+
+</body>
+
+</html>
