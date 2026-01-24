@@ -91,12 +91,12 @@ function selectCard(card, group) {
         // Trouve la carte parent de ce radio
         const parentCard = input.closest('.selectable-card');
         
-        // Enlève la classe 'selected' de toutes les cartes
-        parentCard.classList.remove('selected');
+        // Enlève la classe 'active' de toutes les cartes
+        parentCard.classList.remove('active');
     });
     
-    // Ajoute la classe 'selected' UNIQUEMENT à la carte cliquée
-    card.classList.add('selected');
+    // Ajoute la classe 'active' UNIQUEMENT à la carte cliquée
+    card.classList.add('active');
     
     // Met à jour le résumé à droite
     updateSummary();
@@ -127,13 +127,13 @@ function selectToggle(label, group) {
         `.toggle-label input[name="${radio.name}"]`
     );
     
-    // Enlève 'selected' de tous les toggles
+    // Enlève 'active' de tous les toggles
     allToggles.forEach(function(input) {
-        input.closest('.toggle-label').classList.remove('selected');
+        input.closest('.toggle-label').classList.remove('active');
     });
     
-    // Ajoute 'selected' au toggle cliqué
-    label.classList.add('selected');
+    // Ajoute 'active' au toggle cliqué
+    label.classList.add('active');
     
     // Met à jour le résumé
     updateSummary();

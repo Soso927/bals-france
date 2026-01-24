@@ -379,47 +379,53 @@
                             <!-- GROUPE TBT (Très Basse Tension) -->
                             <div class="tension-category">
                                 <h4 class="category-title">TBT (Très Basse Tension)</h4>
-                                <div class="card-grid">
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                <div class="toggle-group">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="24V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">24V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>24V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="42V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">42V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>42V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="<50V 100-200Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">&lt;50V<br><small>100-200Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&lt;50V</strong>
+                                            <small>100-200Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="<50V 300Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">&lt;50V<br><small>300Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&lt;50V</strong>
+                                            <small>300Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="<50V 400Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">&lt;50V<br><small>400Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&lt;50V</strong>
+                                            <small>400Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="<50V Courant continu">
-                                        <div class="card-content">
-                                            <div class="card-label">&lt;50V<br><small>CC</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&lt;50V</strong>
+                                            <small>CC</small>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -427,66 +433,73 @@
                             <!-- GROUPE BT (Basse Tension) -->
                             <div class="tension-category">
                                 <h4 class="category-title">BT (Basse Tension)</h4>
-                                <div class="card-grid">
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                <div class="toggle-group">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="110V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">110V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>110V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="230V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">230V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>230V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="400V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">400V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>400V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value=">50V 100-300Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">&gt;50V<br><small>100-300Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&gt;50V</strong>
+                                            <small>100-300Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value=">50V 300-500Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">&gt;50V<br><small>300-500Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>&gt;50V</strong>
+                                            <small>300-500Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="440V 60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">440V<br><small>60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>440V</strong>
+                                            <small>60Hz</small>
+                                        </span>
                                     </label>
 
-                                    <label class="selectable-card small" onclick="selectCard(this)">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="480-500V 50-60Hz">
-                                        <div class="card-content">
-                                            <div class="card-label">480-500V<br><small>50-60Hz</small></div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>480-500V</strong>
+                                            <small>50-60Hz</small>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
 
                             <!-- TENSION LIBRE -->
                             <div class="tension-category">
-                                <div class="card-grid">
-                                    <label class="selectable-card" onclick="selectCard(this)">
+                                <div class="toggle-group">
+                                    <label class="toggle-label" onclick="selectToggle(this)">
                                         <input type="radio" name="tension" value="Tension libre">
-                                        <div class="card-content">
-                                            <div class="card-label">Tension libre</div>
-                                        </div>
+                                        <span class="toggle-text">
+                                            <strong>Tension libre</strong>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -497,33 +510,33 @@
                             <label>Intensité</label>
                             <p class="help-text">Courant nominal de la prise</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="intensite" value="16A">
-                                    <div class="card-content">
-                                        <div class="card-label">16A</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>16A</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="intensite" value="32A">
-                                    <div class="card-content">
-                                        <div class="card-label">32A</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>32A</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="intensite" value="63A">
-                                    <div class="card-content">
-                                        <div class="card-label">63A</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>63A</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="intensite" value="125A">
-                                    <div class="card-content">
-                                        <div class="card-label">125A</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>125A</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -533,40 +546,40 @@
                             <label>Polarité</label>
                             <p class="help-text">Configuration des phases et neutre</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="polarite" value="2P">
-                                    <div class="card-content">
-                                        <div class="card-label">2P</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>2P</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="polarite" value="2P+T">
-                                    <div class="card-content">
-                                        <div class="card-label">2P+T</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>2P+T</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="polarite" value="3P">
-                                    <div class="card-content">
-                                        <div class="card-label">3P</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>3P</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="polarite" value="3P+T">
-                                    <div class="card-content">
-                                        <div class="card-label">3P+T</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>3P+T</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="polarite" value="3P+N+T">
-                                    <div class="card-content">
-                                        <div class="card-label">3P+N+T</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>3P+N+T</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
