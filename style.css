@@ -422,6 +422,27 @@ textarea.input-field {
     transform: translateY(-2px);
 }
 
+/* Checkbox désactivée (grisée) */
+.checkbox-card.disabled .checkbox-content {
+    background: #F0F0F0;
+    border-color: #BDBDBD;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.checkbox-card.disabled .checkbox-label {
+    color: #999;
+}
+
+.checkbox-card.disabled .checkbox-icon {
+    color: #BDBDBD;
+}
+
+.checkbox-card.disabled:hover .checkbox-content {
+    border-color: #BDBDBD;
+    transform: none;
+}
+
 /* =====================================================
    11. TABLEAU DES PRISES
    Affiche les différentes prises disponibles

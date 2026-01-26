@@ -273,26 +273,26 @@
                             <label>Socle de prise</label>
                             <p class="help-text">Type de montage pour le socle</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Socle de prise - Saillie">
-                                    <div class="card-content">
-                                        <div class="card-label">Saillie</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Saillie</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Socle de prise - Tableau droit">
-                                    <div class="card-content">
-                                        <div class="card-label">Tableau droit</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Tableau droit</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Socle de prise - Tableau incliné">
-                                    <div class="card-content">
-                                        <div class="card-label">Tableau incliné</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Tableau incliné</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -302,12 +302,12 @@
                             <label>Prolongateur</label>
                             <p class="help-text">Câble d'extension pour la prise</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Prolongateur">
-                                    <div class="card-content">
-                                        <div class="card-label">Prolongateur</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Prolongateur</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -317,12 +317,12 @@
                             <label>Fiche</label>
                             <p class="help-text">Fiche mâle pour connexion</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Fiche">
-                                    <div class="card-content">
-                                        <div class="card-label">Fiche</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Fiche</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -332,19 +332,19 @@
                             <label>Socle connecteur</label>
                             <p class="help-text">Type de montage pour le socle connecteur</p>
 
-                            <div class="card-grid">
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <div class="toggle-group">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Socle connecteur - Saillie">
-                                    <div class="card-content">
-                                        <div class="card-label">Saillie</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Saillie</strong>
+                                    </span>
                                 </label>
 
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="produit" value="Socle connecteur - Tableau droit">
-                                    <div class="card-content">
-                                        <div class="card-label">Tableau droit</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Tableau droit</strong>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -744,6 +744,8 @@
          fonctions qui rendent le formulaire interactif
     ===================================================== -->
     <script src="JS/script-prise-industrielle.js"></script>
+    <script src="protection-exclusivity.js"></script>
+    <script src="protection-exclusivity-fixed.js"></script>
 
 </body>
 

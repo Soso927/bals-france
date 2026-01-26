@@ -361,110 +361,156 @@
                     <div class="section-header" onclick="toggleSection(this)">
                         <div class="section-title">
                             <span class="section-number">03</span>
-                            <h2>Configuration des Prises</h2>
+                            <h2>Caractéristiques Techniques des prises</h2>
                         </div>
                         <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
-                        <div class="form-group">
-                            <label>Sélectionnez vos prises</label>
-                            <p class="help-text">Définissez la quantité, le brochage et la tension</p>
+                        <!-- Tableau des prises disponibles -->
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Type de prise</th>
+                                    <th>Quantité</th>
+                                    <th>Brochage</th>
+                                    <th>Tension</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Prise NF 10/16A (domestique) -->
+                                <tr>
+                                    <td>
+                                        <strong>NF 10/16A</strong><br>
+                                        <small>Domestique</small>
+                                    </td>
+                                    <td>
+                                        <!-- Contrôle + / - pour la quantité -->
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="NF 10/16A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <!-- Valeurs fixes pour la prise domestique -->
+                                    <td>2P+T</td>
+                                    <td>230V</td>
+                                </tr>
 
-                            <!-- Tableau responsive -->
-                            <div class="table-wrapper">
-                                <table class="config-table">
-                                    <!-- En-tête du tableau -->
-                                    <thead>
-                                        <tr>
-                                            <!-- Colonnes : Type | Quantité | Brochage | Tension -->
-                                            <th>Type de prise</th>
-                                            <th>Quantité</th>
-                                            <th>Brochage</th>
-                                            <th>Tension</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- Corps du tableau -->
-                                    <tbody>
-                                        <!-- ===== LIGNE 1 : NF domestique 10/16A ===== -->
-                                        <tr>
-                                            <!-- Nom de la prise -->
-                                            <td class="type-cell">
-                                                <strong>NF domestique</strong>
-                                                <small>10/16A</small>
-                                            </td>
+                                <!-- Prise CEI 16A (industrielle) -->
+                                <tr>
+                                    <td><strong>CEI 16A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 16A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <!-- Liste déroulante pour le brochage -->
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <!-- Liste déroulante pour la tension -->
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="24V">24V</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                                            <!-- Contrôle de quantité avec boutons +/- -->
-                                            <td>
-                                                <div class="qty-control">
-                                                    <!-- Bouton MOINS -->
-                                                    <!-- onclick="step(this, -1)" = réduit de 1 -->
-                                                    <button type="button" class="qty-btn"
-                                                        onclick="step(this, -1)">-</button>
+                                <!-- Prise CEI 32A -->
+                                <tr>
+                                    <td><strong>CEI 32A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 32A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="24V">24V</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                                                    <!-- Champ de quantité -->
-                                                    <!-- data-name = nom pour le résumé -->
-                                                    <input type="number" class="qty-input" value="0" min="0"
-                                                        data-name="NF domestique 10/16A">
+                                <!-- Prise CEI 63A -->
+                                <tr>
+                                    <td><strong>CEI 63A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 63A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="24V">24V</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
 
-                                                    <!-- Bouton PLUS -->
-                                                    <!-- onclick="step(this, 1)" = augmente de 1 -->
-                                                    <button type="button" class="qty-btn"
-                                                        onclick="step(this, 1)">+</button>
-                                                </div>
-                                            </td>
-
-                                            <!-- Liste déroulante : Brochage -->
-                                            <td>
-                                                <select class="detail-select">
-                                                    <option value="">--</option>
-                                                    <option value="2P+T">2P+T</option>
-                                                </select>
-                                            </td>
-
-                                            <!-- Liste déroulante : Tension -->
-                                            <td>
-                                                <select class="detail-select">
-                                                    <option value="">--</option>
-                                                    <option value="230V">230V</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                        <!-- ===== LIGNE 2 : CEI 32A ===== -->
-                                        <tr>
-                                            <td class="type-cell">
-                                                <strong>CEI</strong>
-                                                <small>32A</small>
-                                            </td>
-                                            <td>
-                                                <div class="qty-control">
-                                                    <button type="button" class="qty-btn"
-                                                        onclick="step(this, -1)">-</button>
-                                                    <input type="number" class="qty-input" value="0" min="0"
-                                                        data-name="CEI 32A">
-                                                    <button type="button" class="qty-btn"
-                                                        onclick="step(this, 1)">+</button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <select class="detail-select">
-                                                    <option value="">--</option>
-                                                    <option value="3x2P+T, 2x3P+N+T">3x2P+T, 2x3P+N+T</option>
-                                                    <option value="3P+N+T">3P+N+T</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select class="detail-select">
-                                                    <option value="">--</option>
-                                                    <option value="230V">230V</option>
-                                                    <option value="400V">400V</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                <!-- Prise CEI 125A -->
+                                <tr>
+                                    <td><strong>CEI 125A</strong></td>
+                                    <td>
+                                        <div class="qty-control">
+                                            <button type="button" class="qty-btn" onclick="step(this, -1)">−</button>
+                                            <input type="number" class="qty-input" data-name="CEI 125A" min="0" value="0">
+                                            <button type="button" class="qty-btn" onclick="step(this, 1)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="2P+T">2P+T</option>
+                                            <option value="3P+T">3P+T</option>
+                                            <option value="3P+N+T">3P+N+T</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="detail-select">
+                                            <option value="">--</option>
+                                            <option value="24V">24V</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -735,6 +781,8 @@
          - generateMailto() : génère l'email
     ===================================================== -->
     <script src="JS/script-evenementiel.js"></script>
+    <script src="JS/protection-exclusivity.js"></script>
+    <script src="protection-exclusivity-fixed.js"></script>
 
 </body>
 
