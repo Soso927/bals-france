@@ -516,14 +516,18 @@ function resetForm() {
         radio.checked = false;
     });
     
-    // Désélectionne les checkboxes
+    // Désélectionne les checkboxes et dégrise tout
     document.querySelectorAll('.checkbox-card').forEach(card => {
         card.classList.remove('active');
+        card.style.opacity = '1';
+        card.style.cursor = 'pointer';
+        card.style.pointerEvents = '';
         const icon = card.querySelector('.checkbox-icon');
         if (icon) icon.textContent = '☐';
     });
     document.querySelectorAll('.checkbox-card input').forEach(cb => {
         cb.checked = false;
+        cb.disabled = false;
     });
     
     // Remet les quantités à zéro
@@ -543,7 +547,124 @@ function resetForm() {
 
 
 // =====================================================
-//    7. INITIALISATION
+//    7. GESTION DE L'EXCLUSIVITÉ DES PROTECTIONS
+//    Grise les options incompatibles quand on en coche une
+// =====================================================
+
+/**
+ * FONCTION : griserOption
+ * Grise ou dégrise une option de protection
+ * 
+ * @param nomGroupe - Le nom du groupe ("protTete" ou "protPrises")
+ * @param valeur - La valeur de l'option à griser
+ * @param doitGriser - true pour griser, false pour dégriser
+ */
+function griserOption(nomGroupe, valeur, doitGriser) {
+    // On cherche toutes les cases du groupe
+    var toutesLesCases = document.querySelectorAll('input[name="' + nomGroupe + '"]');
+    
+    // On parcourt chaque case pour trouver celle qu'on cherche
+    for (var i = 0; i < toutesLesCases.length; i++) {
+        var caseActuelle = toutesLesCases[i];
+        
+        // Si c'est la bonne case
+        if (caseActuelle.value === valeur) {
+            // On trouve la carte visuelle (le conteneur parent)
+            var carte = caseActuelle.closest('.checkbox-card');
+            
+            if (doitGriser === true) {
+                // === GRISER ===
+                caseActuelle.disabled = true;       // Désactiver le clic
+                caseActuelle.checked = false;       // Décocher si cochée
+                
+                if (carte) {
+                    carte.style.opacity = '0.4';           // Rendre transparent
+                    carte.style.cursor = 'not-allowed';    // Curseur interdit
+                    carte.style.pointerEvents = 'none';    // Bloquer les clics
+                    carte.classList.remove('active');      // Retirer le style actif
+                    
+                    // Remettre l'icône décochée
+                    var icone = carte.querySelector('.checkbox-icon');
+                    if (icone) {
+                        icone.textContent = '☐';
+                    }
+                }
+            } else {
+                // === DÉGRISER ===
+                caseActuelle.disabled = false;      // Réactiver le clic
+                
+                if (carte) {
+                    carte.style.opacity = '1';             // Opacité normale
+                    carte.style.cursor = 'pointer';        // Curseur normal
+                    carte.style.pointerEvents = '';        // Autoriser les clics
+                }
+            }
+            
+            // On a trouvé la case, on arrête la boucle
+            break;
+        }
+    }
+}
+
+/**
+ * FONCTION : gererExclusivite
+ * Applique les règles d'exclusivité après un clic sur une protection
+ * 
+ * @param input - La checkbox qui a été cliquée
+ */
+function gererExclusivite(input) {
+    var nomGroupe = input.name;       // "protTete" ou "protPrises"
+    var valeur = input.value;         // La valeur de l'option cliquée
+    var estCochee = input.checked;    // Est-elle cochée ?
+    
+    // ========================================
+    // RÈGLES POUR PROTECTION DE TÊTE
+    // ========================================
+    if (nomGroupe === "protTete") {
+        
+        // Règle 1 : Interrupteur ↔ Inter différentiel
+        if (valeur === "Interrupteur") {
+            griserOption('protTete', 'Inter différentiel', estCochee);
+        }
+        if (valeur === "Inter différentiel") {
+            griserOption('protTete', 'Interrupteur', estCochee);
+        }
+        
+        // Règle 2 : Disjoncteur ↔ Disjoncteur Diff.
+        if (valeur === "Disjoncteur") {
+            griserOption('protTete', 'Disjoncteur Diff.', estCochee);
+        }
+        if (valeur === "Disjoncteur Diff.") {
+            griserOption('protTete', 'Disjoncteur', estCochee);
+        }
+    }
+    
+    // ========================================
+    // RÈGLES POUR PROTECTION DES PRISES
+    // ========================================
+    if (nomGroupe === "protPrises") {
+        
+        // Règle 1 : Par prise ↔ Par groupe
+        if (valeur === "Par prise") {
+            griserOption('protPrises', 'Par groupe', estCochee);
+        }
+        if (valeur === "Par groupe") {
+            griserOption('protPrises', 'Par prise', estCochee);
+        }
+        
+        // Règle 2 : Disjoncteur ↔ Disjoncteur Diff.
+        if (valeur === "Disjoncteur") {
+            griserOption('protPrises', 'Disjoncteur Diff.', estCochee);
+        }
+        if (valeur === "Disjoncteur Diff.") {
+            griserOption('protPrises', 'Disjoncteur', estCochee);
+        }
+    }
+}
+
+
+// =====================================================
+//    8. INITIALISATION
 //    Ce code s'exécute quand la page est chargée
 // =====================================================
 
@@ -590,8 +711,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // --- Ajoute les écouteurs sur les checkboxes ---
-    // C'est ICI que se gère le clic sur les protections
+    // --- Ajoute les écouteurs sur les checkboxes (PROTECTIONS) ---
+    // C'est ICI que se gère le clic sur les protections avec exclusivité
     document.querySelectorAll('.checkbox-card').forEach(card => {
         card.addEventListener('click', function(e) {
             // Empêche le comportement par défaut
@@ -600,6 +721,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Récupère la checkbox et l'icône
             const input = this.querySelector('input[type="checkbox"]');
             const icon = this.querySelector('.checkbox-icon');
+            
+            // Si la carte est grisée (disabled), on ne fait rien
+            if (input.disabled) {
+                return;
+            }
             
             // Inverse l'état (coché/décoché)
             input.checked = !input.checked;
@@ -612,6 +738,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.classList.remove('active');
                 icon.textContent = '☐';  // Icône décochée
             }
+            
+            // *** APPLIQUE L'EXCLUSIVITÉ ***
+            gererExclusivite(input);
             
             // Collecte les protections et met à jour
             collectProtections();
@@ -627,3 +756,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSummary();
     updateProgress();
 });
+
+
+// =====================================================
+// RÉSUMÉ DES RÈGLES D'EXCLUSIVITÉ POUR LE JURY :
+//
+// PROTECTION DE TÊTE :
+//   • Interrupteur ↔ Inter différentiel (mutuellement exclusifs)
+//   • Disjoncteur ↔ Disjoncteur Diff. (mutuellement exclusifs)
+//
+// PROTECTION DES PRISES :
+//   • Par prise ↔ Par groupe (mutuellement exclusifs)
+//   • Disjoncteur ↔ Disjoncteur Diff. (mutuellement exclusifs)
+//
+// FONCTIONNEMENT :
+// 1. Quand on coche une option → l'option incompatible devient grisée
+// 2. Quand on décoche une option → l'option incompatible redevient disponible
+// 3. Les options grisées ne peuvent pas être cliquées
+// =====================================================

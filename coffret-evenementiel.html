@@ -220,40 +220,33 @@
                             <label>Type de montage</label>
                             <p class="help-text">Sélectionnez le mode d'installation du coffret</p>
 
-                            <!-- Grid de cartes sélectionnables -->
-                            <div class="card-grid">
-                                <!-- Chaque carte est cliquable -->
-                                <!-- onclick="selectCard(this)" = fonction JS pour gérer la sélection -->
-
-                                <!-- CARTE 1 : Fixe -->
-                                <label class="selectable-card" onclick="selectCard(this)">
-                                    <!-- Radio button caché (la carte entière est cliquable) -->
-                                    <!-- name="montage" = tous les radios du même groupe -->
+                            <!-- Groupe de boutons toggle (style différent des cartes) -->
+                            <div class="toggle-group">
+                                <!-- TOGGLE 1 : Fixe -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="montage" value="Fixe">
-                                    <div class="card-content">
-                                        <!-- Icône de la carte -->
-                                        <div class="card-icon"></div>
-                                        <!-- Titre de l'option -->
-                                        <div class="card-label">Fixe</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Fixe</strong>
+                                        <small>Installation fixe au sol ou au mur</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 2 : Mobile -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 2 : Mobile -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="montage" value="Mobile">
-                                    <div class="card-content">
-                                        <div class="card-icon"></div>
-                                        <div class="card-label">Mobile</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Mobile</strong>
+                                        <small>Déplacement facile sur chantier</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 3 : Mobile sur pied -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 3 : Mobile sur pied -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="montage" value="Mobile sur pied">
-                                    <div class="card-content">
-                                        <div class="card-icon"></div>
-                                        <div class="card-label">Mobile sur pied</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Mobile sur pied</strong>
+                                        <small>Stabilité et mobilité combinées</small>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -263,45 +256,51 @@
                             <label>Matériau du coffret</label>
                             <p class="help-text">Choisissez le matériau de fabrication</p>
 
-                            <div class="card-grid">
-                                <!-- CARTE 1 : Caoutchouc -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                            <!-- Groupe de boutons toggle (style différent des cartes) -->
+                            <div class="toggle-group">
+                                <!-- TOGGLE 1 : Caoutchouc -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="materiau" value="Caoutchouc">
-                                    <div class="card-content">
-                                        <div class="card-label">Caoutchouc</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Caoutchouc</strong>
+                                        <small>Résistant, flexible et durable</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 2 : Métallique (fixe) -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 2 : Métallique (fixe) -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="materiau" value="Métallique (fixe)">
-                                    <div class="card-content">
-                                        <div class="card-label">Métallique (fixe)</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Métallique (fixe)</strong>
+                                        <small>Robuste et sécurisé pour installations fixes</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 3 : Plastique -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 3 : Plastique -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="materiau" value="Plastique">
-                                    <div class="card-content">
-                                        <div class="card-label">Plastique</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Plastique</strong>
+                                        <small>Léger et résistant aux chocs</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 4 : Gamme EVOBOX (mobile) -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 4 : Gamme EVOBOX (mobile) -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="materiau" value="Gamme EVOBOX (mobile)">
-                                    <div class="card-content">
-                                        <div class="card-label">Gamme EVOBOX</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Gamme EVOBOX</strong>
+                                        <small>Mobilité optimale pour chantiers mobiles</small>
+                                    </span>
                                 </label>
 
-                                <!-- CARTE 5 : Flight-cases (mobile) -->
-                                <label class="selectable-card" onclick="selectCard(this)">
+                                <!-- TOGGLE 5 : Flight-cases (mobile) -->
+                                <label class="toggle-label" onclick="selectToggle(this)">
                                     <input type="radio" name="materiau" value="Flight-cases (mobile)">
-                                    <div class="card-content">
-                                        <div class="card-label">Flight-cases</div>
-                                    </div>
+                                    <span class="toggle-text">
+                                        <strong>Flight-cases</strong>
+                                        <small>Protection maximale et transport événementiel</small>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -781,8 +780,9 @@
          - generateMailto() : génère l'email
     ===================================================== -->
     <script src="JS/script-evenementiel.js"></script>
-    <script src="JS/protection-exclusivity.js"></script>
-    <script src="protection-exclusivity-fixed.js"></script>
+    <script src="JS/protection-exclusivite.js"></script>
+
+
 
 </body>
 
