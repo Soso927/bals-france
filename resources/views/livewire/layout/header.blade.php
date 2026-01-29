@@ -9,16 +9,11 @@
     {{-- ============================================ --}}
     <div class="bg-white py-3 border-b border-gray-200">
         <div class="container mx-auto px-4">
-            <div class="flex justify-center items-center gap-8 flex-wrap">
-                {{-- Liste des marques partenaires --}}
-                <span class="text-sm font-semibold text-gray-700">e-BIKE</span>
-                <span class="text-blue-600 font-semibold">VARIABOX</span>
-                <span class="text-sm font-semibold text-gray-700">QUICK CONNECT</span>
-                <span class="text-sm font-semibold text-gray-700">MULTI GRIP</span>
-                <span class="text-sm font-semibold text-gray-700">KONTEX ULTRA</span>
-                <span class="text-sm font-semibold text-gray-700">SUSTAINABLE GRIP</span>
-                <span class="text-blue-600 font-semibold">EVOBOX</span>
-                <span class="text-blue-600 font-semibold">INNOLINQ</span>
+            <div class="flex justify-center items-center">
+                {{-- Bannière des marques partenaires --}}
+                <img src="{{ asset('images/banniere-partenaire-header.png') }}" 
+                     alt="Marques Partenaires" 
+                     class="h-auto max-w-full">
             </div>
         </div>
     </div>
@@ -26,37 +21,13 @@
     {{-- ============================================ --}}
     {{-- SECTION PRINCIPALE - LOGO BALS + CONTACT --}}
     {{-- ============================================ --}}
-    <div class="bg-gray-50 py-6 border-b border-gray-200">
+    <div class="py-6 border-b border-gray-200" style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center">
-                {{-- Logo Bals à gauche --}}
-                <div class="flex items-center">
-                    <img src="{{ asset('images/logo-bals.png') }}" 
-                         alt="Bals Logo" 
-                         class="h-16">
-                </div>
-                
-                {{-- Informations de contact à droite --}}
-                <div class="flex items-center gap-6 text-sm">
-                    {{-- Email --}}
-                    <a href="mailto:info@bals-france.fr" 
-                       class="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                        </svg>
-                        info@bals-france.fr
-                    </a>
-                    
-                    {{-- Téléphone --}}
-                    <a href="tel:0164786080" 
-                       class="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                        </svg>
-                        01 64 78 60 80
-                    </a>
-                </div>
+            <div class="flex justify-center items-center">
+                {{-- Logo Bals centré sur l'image de fond --}}
+                <img src="{{ asset('images/logo-bals.png') }}" 
+                     alt="Bals Logo" 
+                     class="h-16">
             </div>
         </div>
     </div>
