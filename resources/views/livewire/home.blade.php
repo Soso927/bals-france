@@ -58,7 +58,7 @@
             {{-- font-semibold : texte semi-gras --}}
             {{-- hover:opacity-80 : devient légèrement transparent au survol --}}
             {{-- transition : animation fluide --}}
-            <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+            <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                 Home
             </a>
 
@@ -66,59 +66,59 @@
             {{-- flex-col : disposition en colonne (vertical) --}}
             {{-- gap-1 : petit espacement entre les liens --}}
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+                <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                     Actualités
                 </a>
                 {{-- text-sm : texte plus petit pour les sous-liens --}}
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Important</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Nouveauté</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Nos réalisations</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Nos vidéos</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Important</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Nouveauté</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Nos réalisations</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Nos vidéos</a>
             </div>
 
             {{-- Section Qui sommes-nous ? --}}
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+                <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                     Qui sommes-nous ?
                 </a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Histoire</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">L'équipe</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Histoire</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">L'équipe</a>
             </div>
 
             {{-- Section Nos gammes (produits) --}}
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+                <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                     Nos gammes
                 </a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Chantier</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Industrie</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Événementiel</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Urbain</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Prises</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Chantier</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Industrie</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Événementiel</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Urbain</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Prises</a>
             </div>
 
             {{-- Section Téléchargements --}}
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+                <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                     Téléchargements
                 </a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Catalogues</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Brochures</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Formulaires sur mesure</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Fiches technique</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Catalogues</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Brochures</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Formulaires sur mesure</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Fiches technique</a>
             </div>
 
             {{-- Section Contact --}}
             <div class="flex flex-col gap-1">
-                <a href="#" class="text-white font-semibold hover:opacity-80 transition">
+                <a href="#" class="text-white text-xl font-semibold hover:opacity-80 transition">
                     Contact
                 </a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Nous contacter</a>
-                <a href="#" class="text-white text-sm hover:opacity-80 transition">Carte interactive</a>
+                <a href="#" class="text-white text-base hover:opacity-80 transition">Nous contacter</a>
+                <a href="/map" class="text-white text-base hover:opacity-80 transition">Carte interactive</a>
             </div>
 
             {{-- Lien Configurateur en rouge pour attirer l'attention --}}
-            <a href="#" class="text-red-500 font-semibold hover:opacity-80 transition">
+            <a href="#" class="text-red-500 text-xl font-semibold hover:opacity-80 transition">
                 Configurateur
             </a>
 

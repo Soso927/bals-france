@@ -76,9 +76,34 @@
                     {{-- Horaires de bureau --}}
                     <h4 class="font-bold text-lg mb-2">Horaires de bureau :</h4>
                     <p class="text-sm">
-                        du lundi au vendredi : 8h30 - 12h 13h30 - 16h
+                        du lundi au vendredi : 8h30 - 12h 13h30 - 16h30
                     </p>
                 </div>
+                <div class="bg-white rounded-full px-4 py-2 flex items-center gap-3 shadow-md w-fit">
+            <!-- Email section -->
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                <a href="mailto:Info@bals-france.fr"
+                    class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
+                    Info@bals-france.fr
+                </a>
+            </div>
+
+            <!-- Phone section -->
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                <a href="tel:+33164786080"
+                    class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
+                    01 64 78 60 80
+                </a>
+            </div>
+        </div>
 
                 {{-- ============================================ --}}
                 {{-- COLONNE 3 : Mentions légales + Image (à droite) --}}

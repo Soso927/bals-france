@@ -47,7 +47,7 @@
                     <path
                         d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                <a href="tel:0164786080"
+                <a href="tel:+33164786080"
                     class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
                     01 64 78 60 80
                 </a>
