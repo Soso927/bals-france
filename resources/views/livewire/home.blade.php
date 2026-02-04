@@ -22,18 +22,22 @@
     @include('livewire.layout.header')
 
 
-    <div class="flex items-center justify-center min-h-screen bg-white">
+    
+    {{-- Conteneur des bandes diagonales --}}
+      <div class="flex items-center justify-center min-h-screen bg-white">
     
     {{-- Conteneur des bandes diagonales --}}
     <div class="relative w-full max-w-4xl h-screen overflow-hidden">
         
         {{-- Bande bleue (gauche) --}}
-        <div class="absolute w-64 h-full bg-[#0095DA] transform -skew-x-12 left-1/4"></div>
+        <div class="absolute w-64 h-full bg-[#0095DA] transform opacity-60 -skew-x-12 left-[41%]"></div>
         
         {{-- Bande rouge (droite) --}}
-        <div class="absolute w-64 h-full bg-[#ED1C24] transform -skew-x-12 left-1/2"></div>
+        <div class="absolute w-64 h-full bg-[#ED1C24] transform opacity-60 -skew-x-12 left-[70%]"></div>
         
     </div>
+
+</div>
 
 </div>
 
@@ -118,7 +122,7 @@
             </div>
 
             {{-- Lien Configurateur en rouge pour attirer l'attention --}}
-            <a href="#" class="text-red-500 text-xl font-semibold hover:opacity-80 transition">
+            <a href="#" class="text-[#DA291C] text-xl font-semibold hover:opacity-80 transition">
                 Configurateur
             </a>
 

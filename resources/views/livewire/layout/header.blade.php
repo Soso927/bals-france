@@ -7,12 +7,12 @@
     {{-- ============================================ --}}
     {{-- BANNIÈRE SUPÉRIEURE - MARQUES PARTENAIRES --}}
     {{-- ============================================ --}}
-    <div class="bg-white py-3 border-b border-gray-200 rounded-full">
+    <div class="bg-white py-3 border-b border-gray-200 rounded-5×1">
         <div class="container mx-auto px-4">
             <div class="flex justify-center items-center">
                 {{-- Bannière des marques partenaires --}}
                 <img src="{{ asset('images/banniere-partenaire-header.png') }}" alt="Marques Partenaires"
-                    class="h-auto max-w-full">
+                    class="h-auto max-w-full rounded-lg">
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
     {{-- ============================================ --}}
     {{-- SECTION PRINCIPALE - LOGO BALS + CONTACT --}}
     {{-- ============================================ --}}
-    <div class="py-6 border-b border-gray-200"
+    <div class="py-6 border-b border-gray-200 rounded-lg"
         style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
         <div class="container mx-auto px-4">
             <div class="flex justify-center items-center">
@@ -64,7 +64,7 @@
                 {{-- Accueil avec icône maison --}}
                 <li>
                     <a href="{{ route('home') }}"
-                        class="flex items-center gap-2 px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                        class="flex items-center gap-2 px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -77,7 +77,7 @@
 
                 {{-- Actualités --}}
                 <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                    <a href="#" class="block px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Actualités
                     </a>
                 </li>
@@ -87,7 +87,7 @@
 
                 {{-- Qui sommes-nous --}}
                 <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                    <a href="#" class="block px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Qui sommes-nous ?
                     </a>
                 </li>
@@ -97,7 +97,7 @@
 
                 {{-- Nos gammes --}}
                 <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                    <a href="#" class="block px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Nos gammes
                     </a>
                 </li>
@@ -107,7 +107,7 @@
 
                 {{-- Téléchargements --}}
                 <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                    <a href="#" class="block px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Téléchargements
                     </a>
                 </li>
@@ -117,18 +117,19 @@
 
                 {{-- Contact --}}
                 <li>
-                    <a href="#" class="block px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                    <a href="#" class="block px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Contact
                     </a>
                 </li>
 
                 {{-- Séparateur --}}
-                <li class="text-white/50">|</li>
+                <li class="text-[#DA291C]">|</li>
 
                 {{-- Configurateur avec icône --}}
+                <div class="text-[#DA291C]">
                 <li>
                     <a href="#"
-                        class="flex items-center gap-2 px-4 py-3 hover:bg-blue-700 transition-colors duration-200">
+                        class="flex items-center gap-2 px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Configurateur
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
@@ -137,6 +138,7 @@
                         </svg>
                     </a>
                 </li>
+                </div>
             </ul>
         </div>
     </nav>
