@@ -128,7 +128,7 @@
                 {{-- Configurateur avec icône --}}
                 <div class="text-[#DA291C]">
                 <li>
-                    <a href="#"
+                    <a href="/configurateur/coffret-chantier"
                         class="flex items-center gap-2 px-4 py-3 hover:text-[#DA291C] transition-colors duration-200">
                         Configurateur
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
