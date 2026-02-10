@@ -1,95 +1,66 @@
+{{-- ============================================================ --}}
+{{-- FICHIER : resources/views/layouts/app.blade.php             --}}
+{{-- RÔLE    : Layout principal - structure commune à toutes      --}}
+{{--           les pages du configurateur                         --}}
+{{-- ============================================================ --}}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bals France</title>
-    
-    {{-- Vite : charge Tailwind CSS et JavaScript --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    {{-- ============================================ --}}
-    {{-- STYLES POUR LE FORMAT 16:9 --}}
-    {{-- ============================================ --}}
-    <style>
+
+    {{-- Titre dynamique : chaque page peut définir son propre titre --}}
+    <title>@yield('title', 'Configurateur BALS')</title>
+
+    {{-- Google Fonts : police Outfit pour un look professionnel --}}
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Tailwind CSS via CDN (remplacer par Vite en production) --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
         /*
-            EXPLICATION DU FORMAT 16:9 POUR LE JURY :
-            
-            Le ratio 16:9 signifie :
-            - Largeur = 16 unités
-            - Hauteur = 9 unités
-            
-            Exemple : 1920px × 1080px (Full HD)
-            
-            On utilise "aspect-ratio: 16 / 9" en CSS
-            Le conteneur garde toujours ces proportions.
-        */
-        
-        /* Conteneur principal au format 16:9 */
-        .conteneur-16-9 {
-            /* Force le ratio 16:9 */
-            aspect-ratio: 16 / 9;
-            
-            /* Ne dépasse jamais l'écran */
-            max-height: 100vh;
-            max-width: 100vw;
-            
-            /* Prend toute la largeur disponible */
-            width: 100%;
+         * CONFIGURATION TAILWIND
+         * On définit les couleurs BALS pour les utiliser dans les classes
+         * Exemple : bg-bals-blue, text-bals-red, border-bals-blue
+         */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bals-blue': '#009EE3',   /* Bleu BALS principal */
+                        'bals-red':  '#DA291C',   /* Rouge BALS accentuation */
+                    },
+                    fontFamily: {
+                        'sans': ['Outfit', 'sans-serif'], /* Police par défaut */
+                    }
+                }
+            }
         }
-    </style>
+    </script>
+
+    {{-- Styles CSS supplémentaires injectés par chaque page si besoin --}}
+    @yield('styles')
 </head>
 
-{{-- ============================================ --}}
-{{-- BODY : FOND GRIS + CONTENEUR CENTRÉ --}}
-{{-- 
-    min-h-screen : hauteur minimum = tout l'écran
-    flex items-center justify-center : centre le conteneur
-    bg-gray-900 : fond gris foncé (visible si écran pas 16:9)
---}}
-{{-- ============================================ --}}
-<body class="min-h-screen flex items-center justify-center bg-gray-900">
+{{-- ============================================================ --}}
+{{-- BODY : fond gris clair, police Outfit                        --}}
+{{-- ============================================================ --}}
+<body class="bg-gray-100 font-sans">
 
-    {{-- ============================================ --}}
-    {{-- CONTENEUR PRINCIPAL 16:9 --}}
-    {{-- 
-        conteneur-16-9 : notre classe CSS personnalisée
-        bg-white : fond blanc pour le contenu
-        shadow-2xl : ombre pour effet de profondeur
-        overflow-hidden : cache ce qui dépasse
-        flex flex-col : éléments empilés verticalement
-    --}}
-    {{-- ============================================ --}}
-    <div class="conteneur-16-9 bg-white shadow-2xl overflow-hidden flex flex-col">
-        
-        {{-- ============================================ --}}
-        {{-- HEADER (taille fixe, ne rétrécit pas) --}}
-        {{-- flex-shrink-0 : garde sa taille naturelle --}}
-        {{-- ============================================ --}}
-        <div class="flex-shrink-0">
-            <livewire:layout.header />
-        </div>
+    {{-- ============================================================ --}}
+    {{-- CONTENU PRINCIPAL                                            --}}
+    {{-- @yield('content') = emplacement réservé pour le contenu     --}}
+    {{-- de chaque page enfant qui fait @extends('layouts.app')      --}}
+    {{-- ============================================================ --}}
+    @yield('content')
 
-        {{-- ============================================ --}}
-        {{-- CONTENU PRINCIPAL --}}
-        {{-- 
-            flex-grow : prend tout l'espace restant
-            overflow-y-auto : scroll si contenu trop grand
-        --}}
-        {{-- ============================================ --}}
-        <main class="flex-grow overflow-y-auto">
-            {{ $slot }}
-        </main>
-
-        {{-- ============================================ --}}
-        {{-- FOOTER (taille fixe, ne rétrécit pas) --}}
-        {{-- flex-shrink-0 : garde sa taille naturelle --}}
-        {{-- ============================================ --}}
-        <div class="flex-shrink-0">
-            <livewire:layout.footer />
-        </div>
-        
-    </div>
+    {{-- ============================================================ --}}
+    {{-- SCRIPTS JAVASCRIPT                                           --}}
+    {{-- @yield('scripts') = chaque page peut ajouter ses scripts    --}}
+    {{-- ============================================================ --}}
+    @yield('scripts')
 
 </body>
 </html>

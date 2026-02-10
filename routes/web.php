@@ -66,7 +66,7 @@ Route::get('/map',[MapController::class, 'index'])->name('map');
  * URL : /configurateur/coffret-macon
  * Référence produit : 53 930
  */
-Route::get('/configurateur/coffret-chantier', [ConfigurateurController::class, 'coffretChantier'])
+Route::get('/configurateur/chantier', [ConfigurateurController::class, 'chantier'])
     ->name('configurateur.chantier');
 
 /**
@@ -75,7 +75,7 @@ Route::get('/configurateur/coffret-chantier', [ConfigurateurController::class, '
  * URL : /configurateur/coffret-etage
  * Référence produit : 510 802
  */
-Route::get('/configurateur/coffret-etage', [ConfigurateurController::class, 'coffretEtage'])
+Route::get('/configurateur/etage', [ConfigurateurController::class, 'etage'])
     ->name('configurateur.etage');
 
 /**

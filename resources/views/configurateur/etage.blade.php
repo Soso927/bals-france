@@ -433,8 +433,7 @@ FICHIER À PLACER DANS : resources/views/configurateur/coffret-etage.blade.php
 
 {{-- SCRIPTS JAVASCRIPT --}}
 @section('scripts')
-    <script src="{{ asset('configurateur/js/protection-exclusivite.js') }}"></script>
-    <script src="{{ asset('configurateur/js/script-etage.js') }}"></script>
+    <script src="{{ asset('configurateur/js/configurateur.js') }}"></script>
 @endsection
 
 {{-- 

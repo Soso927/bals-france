@@ -3,308 +3,235 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
- * =============================================================================
- * CONTRÔLEUR DU CONFIGURATEUR BALS
- * =============================================================================
+ * Contrôleur du Configurateur BALS
  * 
- * Ce contrôleur gère toutes les pages du configurateur de coffrets électriques
- * 
- * FICHIER À PLACER DANS : app/Http/Controllers/ConfigurateurController.php
- * 
- * COMMANDE POUR CRÉER : php artisan make:controller ConfigurateurController
+ * Gère l'affichage des différents configurateurs et la génération de devis
  */
-
 class ConfigurateurController extends Controller
 {
-    // =========================================================================
-    // MÉTHODE 1 : PAGE D'ACCUEIL DU CONFIGURATEUR
-    // =========================================================================
-    
     /**
-     * Affiche la page d'accueil avec la liste de tous les coffrets
+     * Affiche le configurateur de coffret de chantier
      * 
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function chantier()
     {
-        // Données à passer à la vue
-        $data = [
-            'titre' => 'Configurateur de Coffrets Électriques',
-            'description' => 'Choisissez le type de coffret que vous souhaitez configurer',
-        ];
-        
-        // On retourne la vue avec les données
-        return view('configurateur.index', $data);
+        return view('configurateur.chantier', [
+            'pageTitle' => 'Configurateur Coffret de Chantier',
+            'type' => 'chantier'
+        ]);
     }
-    
-    // =========================================================================
-    // MÉTHODE 2 : COFFRET DE CHANTIER MAÇON
-    // =========================================================================
-    
+
     /**
-     * Affiche le configurateur pour le coffret de chantier maçon
-     * 
-     * Référence produit : 53 930
-     * Type : Mobile sur pied
-     * Matériau : Options multiples
+     * Affiche le configurateur de coffret d'étage
      * 
      * @return \Illuminate\View\View
      */
-    public function coffretChantier()
+    public function etage()
     {
-        // Préparation des données pour cette page
-        $data = [
-            // Informations du produit
-            'titre' => 'Coffret de Chantier Maçon',
-            'reference' => '53 930',
-            'description' => 'Coffret mobile sur pied pour chantier',
-            
-            // Configuration par défaut
-            'config_defaut' => [
-                'type' => 'Mobile sur pied',
-                'materiau' => 'Plastique',
-                'ip' => 'IP44',
-            ],
-            
-            // Script JS à charger
-            'typeScript' => 'script.js',
-            
-            // Fichier PDF de référence
-            'pdfReference' => 'coffret_de_chantier_maçon_53_930.pdf',
-        ];
-        
-        return view('configurateur.coffret-chantier', $data);
+        return view('configurateur.etage', [
+            'pageTitle' => 'Configurateur Coffret d\'Étage',
+            'type' => 'etage'
+        ]);
     }
-    
-    // =========================================================================
-    // MÉTHODE 3 : COFFRET D'ÉTAGE
-    // =========================================================================
-    
+
     /**
-     * Affiche le configurateur pour le coffret d'étage
-     * 
-     * Référence produit : 510 802
-     * Type : Mobile
-     * Matériau : Plastique
+     * Affiche le configurateur de coffret industrie
      * 
      * @return \Illuminate\View\View
      */
-    public function coffretEtage()
+    public function industrie()
     {
-        $data = [
-            'titre' => 'Coffret d\'Étage',
-            'reference' => '510 802',
-            'description' => 'Coffret mobile en plastique',
-            
-            'config_defaut' => [
-                'type' => 'Mobile',
-                'materiau' => 'Plastique',
-                'ip' => 'IP44',
-            ],
-            
-            'typeScript' => 'script-etage.js',
-            'pdfReference' => 'coffret_d_étage_510_802.pdf',
-        ];
-        
-        return view('configurateur.coffret-etage', $data);
+        return view('configurateur.industrie', [
+            'pageTitle' => 'Configurateur Coffret Industrie',
+            'type' => 'industrie'
+        ]);
     }
-    
-    // =========================================================================
-    // MÉTHODE 4 : COFFRET ÉVÉNEMENTIEL
-    // =========================================================================
-    
+
     /**
-     * Affiche le configurateur pour le coffret événementiel EVOBOX
-     * 
-     * Référence produit : 53 83
-     * Type : Mobile
-     * Gamme : EVOBOX
+     * Affiche le configurateur de coffret événementiel
      * 
      * @return \Illuminate\View\View
      */
-    public function coffretEvenementiel()
+    public function evenementiel()
     {
-        $data = [
-            'titre' => 'Coffret Événementiel EVOBOX',
-            'reference' => '53 83',
-            'description' => 'Coffret mobile pour événements',
-            
-            'config_defaut' => [
-                'type' => 'Mobile',
-                'materiau' => 'Plastique',
-                'gamme' => 'EVOBOX',
-                'ip' => 'IP44',
-            ],
-            
-            'typeScript' => 'script-evenementiel.js',
-            'pdfReference' => 'coffret_evobox_53_83.pdf',
-        ];
-        
-        return view('configurateur.coffret-evenementiel', $data);
+        return view('configurateur.evenementiel', [
+            'pageTitle' => 'Configurateur Coffret Événementiel',
+            'type' => 'evenementiel'
+        ]);
     }
-    
-    // =========================================================================
-    // MÉTHODE 5 : COFFRET INDUSTRIE
-    // =========================================================================
-    
+
     /**
-     * Affiche le configurateur pour le coffret industrie
-     * 
-     * Référence produit : 512 399
-     * Type : Fixe ou mobile
-     * Matériau : Plastique
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function coffretIndustrie()
-    {
-        $data = [
-            'titre' => 'Coffret Industrie',
-            'reference' => '512 399',
-            'description' => 'Coffret plastique pour usage industriel',
-            
-            'config_defaut' => [
-                'type' => 'Fixe',
-                'materiau' => 'Plastique',
-                'ip' => 'IP44',
-            ],
-            
-            'typeScript' => 'script-industrie.js',
-            'pdfReference' => 'coffret_industrie_512_399.pdf',
-        ];
-        
-        return view('configurateur.coffret-industrie', $data);
-    }
-    
-    // =========================================================================
-    // MÉTHODE 6 : PRISE INDUSTRIELLE
-    // =========================================================================
-    
-    /**
-     * Affiche le configurateur pour les prises industrielles
-     * 
-     * Normes : NF EN 60 309-1/2, CEI 309-1/2, CEE 17
+     * Affiche le configurateur de prise industrielle
      * 
      * @return \Illuminate\View\View
      */
     public function priseIndustrielle()
     {
-        $data = [
-            'titre' => 'Prise Industrielle',
-            'reference' => 'PI-001',
-            'description' => 'Configuration de prises industrielles selon normes',
-            
-            'config_defaut' => [
-                'type' => 'Socle de prise',
-                'ip' => 'IP44',
-            ],
-            
-            'typeScript' => 'script-prise-industrielle.js',
-            'pdfReference' => 'prise_industrielle_bals_france.pdf',
-        ];
-        
-        return view('configurateur.prise-industrielle', $data);
-    }
-    
-    // =========================================================================
-    // MÉTHODES SUPPLÉMENTAIRES (OPTIONNELLES)
-    // =========================================================================
-    
-    /**
-     * Sauvegarde une configuration en base de données
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function sauvegarder(Request $request)
-    {
-        // Validation des données reçues
-        $validated = $request->validate([
-            'type_coffret' => 'required|string',
-            'configuration' => 'required|array',
-        ]);
-        
-        // TODO : Sauvegarder en base de données
-        // Configuration::create($validated);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Configuration sauvegardée avec succès',
+        return view('configurateur.prise-industrielle', [
+            'pageTitle' => 'Configurateur Prise Industrielle',
+            'type' => 'prise-industrielle'
         ]);
     }
-    
+
     /**
-     * Génère un PDF à partir d'une configuration
+     * Génère un devis au format PDF
      * 
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function genererPDF(Request $request)
+    public function generatePDF(Request $request)
     {
-        // TODO : Implémenter la génération de PDF avec DomPDF
-        // $pdf = PDF::loadView('configurateur.pdf', $data);
-        // return $pdf->download('devis-coffret.pdf');
-        
+        // Validation des données
+        $validator = Validator::make($request->all(), [
+            'type' => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
+            'data' => 'required|array',
+            'data.distributeur' => 'nullable|string|max:255',
+            'data.contactDist' => 'nullable|string|max:255',
+            'data.installateur' => 'nullable|string|max:255',
+            'data.affaire' => 'nullable|string|max:255',
+            'data.email' => 'nullable|email|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $request->input('data');
+        $type = $request->input('type');
+
+        // TODO: Implémenter la génération de PDF
+        // 
+        // Installation de DomPDF :
+        // composer require barryvdh/laravel-dompdf
+        //
+        // Exemple d'utilisation :
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        // 
+        // $pdf = Pdf::loadView('pdf.devis', [
+        //     'data' => $data,
+        //     'type' => $type,
+        //     'generatedAt' => now()
+        // ]);
+        // 
+        // return $pdf->download('devis-bals-' . time() . '.pdf');
+
+        // Réponse temporaire
         return response()->json([
             'success' => false,
-            'message' => 'Génération PDF en cours de développement',
-        ]);
+            'message' => 'La génération de PDF doit être implémentée avec DomPDF ou Snappy',
+            'data' => [
+                'type' => $type,
+                'received' => array_keys($data)
+            ]
+        ], 501);
     }
-    
+
     /**
-     * Envoie un devis par email
+     * Génère un devis au format Excel
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function generateExcel(Request $request)
+    {
+        // Validation des données
+        $validator = Validator::make($request->all(), [
+            'type' => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
+            'data' => 'required|array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $request->input('data');
+        $type = $request->input('type');
+
+        // TODO: Implémenter la génération Excel
+        // 
+        // Installation de PhpSpreadsheet :
+        // composer require maatwebsite/excel
+        //
+        // Création d'une classe Export :
+        // php artisan make:export DevisExport --model=Devis
+        //
+        // Exemple d'utilisation :
+        // use Maatwebsite\Excel\Facades\Excel;
+        // use App\Exports\DevisExport;
+        // 
+        // return Excel::download(
+        //     new DevisExport($data, $type),
+        //     'devis-bals-' . time() . '.xlsx'
+        // );
+
+        // Réponse temporaire
+        return response()->json([
+            'success' => false,
+            'message' => 'La génération Excel doit être implémentée avec PhpSpreadsheet',
+            'data' => [
+                'type' => $type,
+                'received' => array_keys($data)
+            ]
+        ], 501);
+    }
+
+    /**
+     * Sauvegarde un devis en base de données (optionnel)
      * 
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function envoyerDevis(Request $request)
+    public function saveQuote(Request $request)
     {
-        // Validation
-        $validated = $request->validate([
-            'email' => 'required|email',
-            'configuration' => 'required|array',
-        ]);
-        
-        // TODO : Envoyer l'email
-        // Mail::to($validated['email'])->send(new DevisEmail($validated));
-        
+        // TODO: Implémenter la sauvegarde en base de données
+        // 
+        // 1. Créer une migration :
+        // php artisan make:migration create_devis_table
+        //
+        // 2. Créer un modèle :
+        // php artisan make:model Devis
+        //
+        // 3. Sauvegarder :
+        // $devis = Devis::create([
+        //     'type' => $request->input('type'),
+        //     'data' => json_encode($request->input('data')),
+        //     'user_id' => auth()->id(), // si authentification
+        // ]);
+
         return response()->json([
-            'success' => true,
-            'message' => 'Devis envoyé par email',
-        ]);
+            'success' => false,
+            'message' => 'Sauvegarde à implémenter'
+        ], 501);
+    }
+
+    /**
+     * Liste tous les devis (optionnel)
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listQuotes()
+    {
+        // TODO: Implémenter la récupération des devis
+        // 
+        // $devis = Devis::where('user_id', auth()->id())
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(10);
+        //
+        // return response()->json($devis);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Liste des devis à implémenter'
+        ], 501);
     }
 }
-
-/**
- * =============================================================================
- * NOTES POUR LE JURY
- * =============================================================================
- * 
- * CE CONTRÔLEUR FAIT QUOI ?
- * 
- * 1. Il reçoit les requêtes HTTP des utilisateurs
- * 2. Il prépare les données nécessaires pour chaque page
- * 3. Il retourne les vues Blade avec ces données
- * 
- * EXEMPLE DE FONCTIONNEMENT :
- * 
- * L'utilisateur clique sur "Coffret d'Étage"
- *    ↓
- * Laravel appelle la méthode coffretEtage()
- *    ↓
- * La méthode prépare les données (titre, référence, etc.)
- *    ↓
- * Laravel affiche la vue avec ces données
- *    ↓
- * L'utilisateur voit le formulaire de configuration
- * 
- * AVANTAGES DE CETTE APPROCHE :
- * 
- * ✓ Séparation des responsabilités (contrôleur ≠ vue)
- * ✓ Code réutilisable et maintenable
- * ✓ Facile d'ajouter de nouveaux types de coffrets
- * ✓ Données centralisées dans le contrôleur
- * ✓ Permet d'ajouter facilement la sauvegarde en BDD
- */
