@@ -22,6 +22,9 @@ FICHIER À PLACER DANS : resources/views/configurateur/coffret-etage.blade.php
 
 <div class="app-container">
     
+    {{-- Navigation entre types de coffrets --}}
+    @include('configurateur.partials.nav-type')
+
     {{-- COLONNE GAUCHE : FORMULAIRE --}}
     <div class="form-column">
         <div class="form-wrapper">

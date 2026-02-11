@@ -553,32 +553,4 @@ document.addEventListener('DOMContentLoaded', function() {
     window.configurateur = configurateur;
     window.toggleSection = (header) => configurateur.toggleSection(header);
 
-    // Fonctions utilitaires de navigation entre les vues du configurateur
-    // Ces fonctions sont appelées par les boutons inline (onclick) présents
-    // dans les vues Blade (ex : onclick="etage()"). Elles effectuent une
-    // redirection vers les routes du configurateur définies dans routes/web.php
-    window.chantier = function() {
-        window.location.href = '/configurateur/chantier';
-    };
-
-    window.etage = function() {
-        window.location.href = '/configurateur/etage';
-    };
-
-    window.industrie = function() {
-        window.location.href = '/configurateur/coffret-industrie';
-    };
-
-    window.evenementiel = function() {
-        window.location.href = '/configurateur/coffret-evenementiel';
-    };
-
-    window.priseIndustrielle = function() {
-        window.location.href = '/configurateur/prise-industrielle';
-    };
-});
-
-// Export pour utilisation en module (optionnel)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ConfigurateurBALS;
-}
+n*** End Commentary**

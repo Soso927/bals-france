@@ -6,6 +6,9 @@
 @section('content')
     @include('partials.form-contact')
 
+    {{-- Navigation entre types de coffrets --}}
+    @include('configurateur.partials.nav-type')
+
     <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
         <div class="bg-bals-blue text-white px-6 py-3 font-black italic uppercase tracking-widest text-center">
             Caractéristiques Techniques
