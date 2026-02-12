@@ -84,7 +84,7 @@ Route::get('/configurateur/etage', [ConfigurateurController::class, 'etage'])
  * URL : /configurateur/coffret-evenementiel
  * Référence produit : 53 83
  */
-Route::get('/configurateur/coffret-evenementiel', [ConfigurateurController::class, 'coffretEvenementiel'])
+Route::get('/configurateur/coffret-evenementiel', [ConfigurateurController::class, 'evenementiel'])
     ->name('configurateur.evenementiel');
 
 /**
@@ -93,7 +93,7 @@ Route::get('/configurateur/coffret-evenementiel', [ConfigurateurController::clas
  * URL : /configurateur/coffret-industrie
  * Référence produit : 512 399
  */
-Route::get('/configurateur/coffret-industrie', [ConfigurateurController::class, 'coffretIndustrie'])
+Route::get('/configurateur/coffret-industrie', [ConfigurateurController::class, 'industrie'])
     ->name('configurateur.industrie');
 
 /**
@@ -103,7 +103,7 @@ Route::get('/configurateur/coffret-industrie', [ConfigurateurController::class, 
  * Référence produit : PI-001
  */
 Route::get('/configurateur/prise-industrielle', [ConfigurateurController::class, 'priseIndustrielle'])
-    ->name('configurateur.prise');
+    ->name('configurateur.prise-industrielle');
 
 // -----------------------------------------------------------------------------
 // ROUTES SUPPLÉMENTAIRES (OPTIONNELLES)

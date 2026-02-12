@@ -58,8 +58,8 @@ class ConfigurateurController extends Controller
      */
     public function evenementiel()
     {
-        return view('configurateur.evenementiel', [
-            'pageTitle' => 'Configurateur Coffret Événementiel',
+        return view('configurateur.evenementiel', [ 
+            'pageTitle' => 'Configurateur Coffret Evenementiel',
             'type' => 'evenementiel'
         ]);
     }

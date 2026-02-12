@@ -32,6 +32,8 @@
         {{-- ====================================================== --}}
         <div class="text-center py-4">
 
+
+
             {{-- Logo BALS (image) --}}
             <div class="flex justify-center mb-3">
                 <img src="{{ asset('images/logo-bals.png') }}"
@@ -76,33 +78,31 @@
             {{-- Boutons de sélection du type de coffret --}}
             {{-- data-type : valeur envoyée au JavaScript pour mettre à jour le résumé --}}
             <div class="flex flex-wrap gap-3" id="type-coffret-buttons">
-
-                {{-- Bouton actif (sélectionné par défaut = Coffret Chantier) --}}
-                <button class="btn-type actif px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-bals-blue bg-bals-blue text-white transition-all"
-                        data-type="Coffret Chantier">
+                {{-- Boutons de navigation par type de coffret --}}
+                <a href="#" class="btn-type actif px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-bals-blue bg-bals-blue text-white transition-all cursor-default"
+                   data-type="Coffret Chantier">
                     Coffret Chantier
-                </button>
+                </a>
 
-                {{-- Boutons inactifs --}}
-                <button onclick="etage()" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
-                        data-type="Coffret d'Étage">
+                <a href="{{ route('configurateur.etage') }}" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
+                   data-type="Coffret d'Étage">
                     Coffret d'Étage
-                </button>
+                </a>
 
-                <button onclick="industrie()" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
-                        data-type="Coffret Industrie">
+                <a href="{{ route('configurateur.industrie') }}" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
+                   data-type="Coffret Industrie">
                     Coffret Industrie
-                </button>
+                </a>
 
-                <button onclick="evenementiel()" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
-                        data-type="Coffret Événementiel">
+                <a href="{{ route('configurateur.evenementiel') }}" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
+                   data-type="Coffret Événementiel">
                     Coffret Événementiel
-                </button>
+                </a>
 
-                <button onclick="priseIndustrielle()" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
-                        data-type="Prise industrielle">
+                <a href="{{ route('configurateur.prise-industrielle') }}" class="btn-type px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-gray-200 text-gray-600 hover:border-bals-blue hover:text-bals-blue transition-all"
+                   data-type="Prise industrielle">
                     Prise industrielle
-                </button>
+                </a>
             </div>
         </div>
 
@@ -368,7 +368,8 @@
                             <tr>
                                 <th class="px-4 py-3 text-left font-black uppercase text-xs">Type de Prise</th>
                                 <th class="px-4 py-3 text-center font-black uppercase text-xs">Quantité</th>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Détails</th>
+                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Brochage</th>
+                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Tension</th>
                             </tr>
                         </thead>
                         {{-- Corps du tableau --}}
@@ -378,20 +379,17 @@
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-bold text-gray-800">NF 10/16A</div>
-                                    <div class="text-xs text-gray-400">Domestique 230V</div>
+                                    <div class="text-xs text-gray-400">Domestique</div>
                                 </td>
                                 <td class="px-4 py-3">
                                     {{-- Contrôle +/- pour la quantité --}}
                                     <div class="flex items-center justify-center gap-2">
-                                        {{-- Bouton diminuer --}}
                                         <button type="button"
                                                 onclick="changerQte(this, -1)"
                                                 class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
                                             −
                                         </button>
-                                        {{-- Valeur actuelle --}}
                                         <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        {{-- Bouton augmenter --}}
                                         <button type="button"
                                                 onclick="changerQte(this, 1)"
                                                 class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
@@ -399,14 +397,15 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-gray-400 text-xs">2P+T | 230V</td>
+                                <td class="px-4 py-3 text-gray-700 text-sm">2P+T</td>
+                                <td class="px-4 py-3 text-gray-700 text-sm">230V</td>
                             </tr>
 
-                            {{-- Ligne 2 : Prise CEE 16A --}}
+                            {{-- Ligne 2 : Prise CEI 16A --}}
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEE 16A</div>
-                                    <div class="text-xs text-gray-400">Industrielle 230V/400V</div>
+                                    <div class="font-bold text-gray-800">CEI 16A</div>
+                                    <div class="text-xs text-gray-400">Industrielle</div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-2">
@@ -415,14 +414,28 @@
                                         <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-gray-400 text-xs">3P+T | 400V</td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="2P+T">2P+T</option>
+                                        <option value="3P+T">3P+T</option>
+                                        <option value="3P+N+T">3P+N+T</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
                             </tr>
 
-                            {{-- Ligne 3 : Prise CEE 32A --}}
+                            {{-- Ligne 3 : Prise CEI 32A --}}
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEE 32A</div>
-                                    <div class="text-xs text-gray-400">Industrielle 400V</div>
+                                    <div class="font-bold text-gray-800">CEI 32A</div>
+                                    <div class="text-xs text-gray-400">Industrielle</div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-2">
@@ -431,7 +444,73 @@
                                         <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-gray-400 text-xs">3P+N+T | 400V</td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="3P+T">3P+T</option>
+                                        <option value="3P+N+T">3P+N+T</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            {{-- Ligne 4 : Prise CEI 63A --}}
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="font-bold text-gray-800">CEI 63A</div>
+                                    <div class="text-xs text-gray-400">Industrielle</div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="3P+N+T">3P+N+T</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            {{-- Ligne 5 : Prise CEI 125A --}}
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="font-bold text-gray-800">CEI 125A</div>
+                                    <div class="text-xs text-gray-400">Industrielle</div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="3P+N+T">3P+N+T</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                        <option value="">--</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -480,7 +559,7 @@
                         {{-- peer-checked:border-bals-blue = bordure bleue si coché --}}
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
                             {{-- Icône checkmark (visible si coché via CSS peer) --}}
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center flex-shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue">
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue">
                             </div>
                             <span class="text-sm font-bold text-gray-700">Sans</span>
                         </div>
@@ -490,7 +569,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Interrupteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Interrupteur</span>
                         </div>
                     </label>
@@ -499,7 +578,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Inter différentiel" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Inter différentiel</span>
                         </div>
                     </label>
@@ -508,7 +587,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Disjoncteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
                         </div>
                     </label>
@@ -517,7 +596,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Disjoncteur Diff." class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
                         </div>
                     </label>
@@ -526,7 +605,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Arrêt d'urgence" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             {{-- Texte en rouge pour indiquer le caractère critique --}}
                             <span class="text-sm font-bold text-red-600">Arrêt d'urgence</span>
                         </div>
@@ -572,7 +651,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Sans" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Sans</span>
                         </div>
                     </label>
@@ -581,7 +660,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Par prise" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Par prise</span>
                         </div>
                     </label>
@@ -591,7 +670,7 @@
                     <label class="cursor-pointer col-span-2">
                         <input type="checkbox" name="prot_prises[]" value="Par groupe de prises" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Par groupe de prises</span>
                         </div>
                     </label>
@@ -600,7 +679,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Disjoncteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
                         </div>
                     </label>
@@ -609,7 +688,7 @@
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Disjoncteur Diff." class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            <div class="w-5 h-5 rounded border-2 border-gray-300 flex-shrink-0"></div>
+                            <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
                             <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
                         </div>
                     </label>
