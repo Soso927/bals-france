@@ -1,3 +1,29 @@
 import './bootstrap';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import { initFranceMap } from './france-regions-map';
+import {
+  Chart,
+  ChoroplethController,
+  GeoFeature,
+  ColorScale,
+  ProjectionScale
+} from 'chartjs-chart-geo';
+
+import { Chart as ChartJS } from 'chart.js';
+import * as topojson from 'topojson-client';
+
+Chart.register(
+  ChoroplethController,
+  GeoFeature,
+  ColorScale,
+  ProjectionScale
+);
+
+
+// Initialisation quand le DOM est chargé
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialise la carte de France
+    initFranceRegionsMap();
+    
+    // Initialise les boutons d'expansion des régions
+    initRegionButtons();
+});
