@@ -118,11 +118,11 @@
                     Contact
                 </a>
                 <a href="#" class="text-white text-base hover:opacity-80 transition">Nous contacter</a>
-                <a href="/map" class="text-white text-base hover:opacity-80 transition">Carte interactive</a>
+                <a href="/france-map" class="text-white text-base hover:opacity-80 transition">Carte interactive</a>
             </div>
 
             {{-- Lien Configurateur en rouge pour attirer l'attention --}}
-            <a href="#" class="text-[#DA291C] text-xl font-semibold hover:opacity-80 transition">
+            <a href="{{ route('configurateur.chantier') }}" class="text-[#DA291C] text-xl font-semibold hover:opacity-80 transition">
                 Configurateur
             </a>
 

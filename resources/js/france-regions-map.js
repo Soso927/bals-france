@@ -1,13 +1,12 @@
 // Importation des librairies Chart.js et chartjs-chart-geo
 import { Chart } from 'chart.js';
 import { ChoroplethController, GeoFeature, ColorScale, ProjectionScale } from 'chartjs-chart-geo';
-
 // Enregistrement des composants pour les cartes géographiques
 Chart.register(ChoroplethController, GeoFeature, ColorScale, ProjectionScale);
 
 /**
  * Configuration des couleurs pour chaque région française
- * Ces couleurs correspondent à celles de la capture d'écran
+ * Ces couleurs correspondent à celles de la capture d'écran 
  */
 const regionColors = {
     'Normandie': '#0095DA',              // Bleu
@@ -58,7 +57,7 @@ const regionsData = [
 /**
  * Fonction principale pour initialiser la carte de France par régions
  */
-export async function initFranceRegionsMap() {
+export function initFranceRegionsMap(regionsGeoJSON) {
     // Récupération du canvas HTML où dessiner la carte
     const canvas = document.getElementById('france-regions-map');
     if (!canvas) {
@@ -67,17 +66,11 @@ export async function initFranceRegionsMap() {
     }
 
     try {
-        // Chargement des données GeoJSON des régions françaises
-        // Source : données officielles des nouvelles régions (post-2016)
-        const response = await fetch('https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions.geojson');
-        const regionsGeoJSON = await response.json();
-
         // Préparation des données pour chaque région
         const regionData = regionsGeoJSON.features.map(feature => {
-            const regionName = feature.properties.nom;
+            const regionName = feature.properties.nom || feature.properties.name;
             // Attribution de la couleur personnalisée selon la région
             const color = regionColors[regionName] || '#94A3B8'; // Gris par défaut
-            
             return {
                 feature: feature,      // Géométrie de la région
                 value: 1,              // Valeur (ici fixe, peut être dynamique)
@@ -89,7 +82,7 @@ export async function initFranceRegionsMap() {
         const chart = new Chart(canvas.getContext('2d'), {
             type: 'choropleth',  // Type : carte choroplèthe (colorée par zones)
             data: {
-                labels: regionsGeoJSON.features.map(d => d.properties.nom),  // Noms des régions
+                labels: regionsGeoJSON.features.map(d => d.properties.nom || d.properties.name),  // Noms des régions
                 datasets: [{
                     label: 'Régions françaises',
                     data: regionData,
@@ -120,7 +113,7 @@ export async function initFranceRegionsMap() {
                         // Configuration de l'info-bulle au survol
                         enabled: true,
                         callbacks: {
-                            title: (items) => items[0].raw.feature.properties.nom,
+                            title: (items) => items[0].raw.feature.properties.nom || items[0].raw.feature.properties.name,
                             label: () => 'Cliquez pour voir les contacts'
                         }
                     }
@@ -135,7 +128,7 @@ export async function initFranceRegionsMap() {
                 onClick: (event, elements) => {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                        const regionName = regionsGeoJSON.features[index].properties.nom;
+                        const regionName = regionsGeoJSON.features[index].properties.nom || regionsGeoJSON.features[index].properties.name;
                         console.log('Région cliquée:', regionName);
                         // Vous pouvez ajouter ici l'ouverture d'une modal avec les contacts
                     }

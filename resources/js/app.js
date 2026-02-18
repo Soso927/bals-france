@@ -1,5 +1,5 @@
 import './bootstrap';
-import { initFranceMap } from './france-regions-map';
+// import initFranceMap  from './france-regions-map';
 import {
   Chart,
   ChoroplethController,
@@ -8,8 +8,6 @@ import {
   ProjectionScale
 } from 'chartjs-chart-geo';
 
-import { Chart as ChartJS } from 'chart.js';
-import * as topojson from 'topojson-client';
 
 Chart.register(
   ChoroplethController,

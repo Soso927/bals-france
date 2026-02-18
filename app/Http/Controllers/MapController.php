@@ -27,6 +27,8 @@ class MapController extends Controller
             'showrooms' => Location::actifs()->parType('showroom')->count(),
         ];
 
+
+
         // Récupérer les régions uniques pour le filtre
         $regions = Location::actifs()
             ->distinct()
@@ -35,7 +37,7 @@ class MapController extends Controller
             ->sort()
             ->values();
 
-        return view('map', compact('stats', 'regions'));
+        return view('france-map', compact('stats', 'regions'));
     }
 
     /**
