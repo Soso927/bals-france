@@ -50,7 +50,12 @@
 {{--   ├── Colonne GAUCHE (flex-1) : Formulaire de configuration --}}
 {{--   └── Colonne DROITE (w-80)   : Résumé sticky + Actions     --}}
 {{-- ============================================================ --}}
-<div class="flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
+<div class="relative flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
+
+    <!-- Bouton Accueil en haut à gauche -->
+    <a href="/" class="absolute left-6 top-6 z-50" title="Accueil">
+        <i class="fa-solid fa-house" style="color: rgb(116, 192, 252); font-size: 2rem;"></i>
+    </a>
 
     {{-- ========================================================== --}}
     {{-- 📝 COLONNE GAUCHE : Formulaire principal                   --}}
@@ -987,7 +992,7 @@
  * @param {string} id - Identifiant de la section (ex: 's1', 's2'...)
  * 
  * Fonctionnement :
- * - Si la section est cachée → on l'affiche
+ * - Si la section est cachée → on l'ouvre
  * - Si la section est visible → on la cache
  * - La flèche change de direction (▲ ou ▼)
  */

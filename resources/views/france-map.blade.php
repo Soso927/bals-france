@@ -8,13 +8,9 @@
     {{-- Tailwind CSS pour le style --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
-    {{--
-        IMPORTANT : On charge Chart.js et le plugin geo via CDN classique (sans type="module")
-        Cela évite tous les problèmes de chemin et de module ES
-    --}}
-    <!-- ✅ Fichiers locaux, plus de blocage CDN -->
-<script src="/configurateur/js/vendor/chart.umd.min.js"></script>
-<script src="/configurateur/js/vendor/index.umd.min.js"></script>
+    {{-- Chart.js via CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4.1.1/dist/index.umd.min.js"></script>
 </head>
 <body class="bg-gray-50">
 
@@ -39,7 +35,7 @@
         {{-- Grille : Carte (2/3) + Liste des régions (1/3) --}}
         <div class="w-full">
             <div class="bg-white rounded-lg p-4">
-                <div class="relative w-full h-[900px]">
+                <div class="w-full h-[800px] border-2 border-transparent">
                     {{-- C'est ici que la carte sera dessinée --}}
                     <canvas id="france-regions-map" width="1200" height="900" style="width:100%;height:100%;display:block;"></canvas>
                 </div>
@@ -72,129 +68,117 @@
             'Provence-Alpes-Côte d\'Azur': '#0E7490',
             'Occitanie':                '#84CC16',
         };
-
-        // Quand la page est entièrement chargée
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // On charge le fichier GeoJSON depuis le dossier public/data/
-            // IMPORTANT : le fichier DOIT être dans public/data/france.json
-            fetch('/data/france.json')
-                .then(function(response) {
-                    // Si le serveur ne trouve pas le fichier, on affiche une erreur claire
-                    if (!response.ok) {
-                        throw new Error('Fichier france.json introuvable. Vérifie qu\'il est bien dans public/data/');
-                    }
-                    return response.json(); // On convertit la réponse en JSON
-                })
-                .then(function(geojson) {
-                    // Le JSON est chargé, on initialise la carte
-                    initCarte(geojson);
-                })
-                .catch(function(error) {
-                    // En cas d'erreur, on affiche un message dans la console
-                    console.error('Erreur chargement JSON :', error.message);
-                });
-        });
-
-
-        /**
-         * Fonction qui crée la carte avec Chart.js
-         * @param {Object} geojson - Les données géographiques des régions
-         */
-        function initCarte(geojson) {
-            const canvas = document.getElementById('france-regions-map');
-            if (!canvas) {
-                console.error('Canvas #france-regions-map non trouvé dans le HTML');
-                return;
-            }
-
-            // Préparation des données : pour chaque région, on associe une couleur
-            const donnees = geojson.features.map(function(feature) {
-                // On récupère le nom de la région (selon le fichier GeoJSON)
-                const nom = feature.properties.nom || feature.properties.name || '';
-                // On cherche la couleur dans notre tableau, gris par défaut
-                const couleur = regionColors[nom] || '#94A3B8';
-
-                return {
-                    feature: feature,   // La géométrie (forme) de la région
-                    value: 1,           // Valeur numérique (obligatoire pour choropleth)
-                    couleur: couleur    // Notre couleur personnalisée
-                };
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM chargé');
+    const canvas = document.getElementById('france-regions-map');
+    console.log('Canvas trouvé:', canvas);
+    
+    fetch('/data/france.json')
+        .then(response => {
+            console.log('Réponse fetch:', response.status);
+            return response.json();
+        })
+        .then(geojson => {
+            console.log('GeoJSON chargé, features:', geojson.features?.length);
+            
+            // 1. LE FILTRE RADICAL (La clé du problème)
+            // On ne garde que les zones dont la latitude est supérieure à 40°.
+            // Cela exclut instantanément tous les DOM-TOM qui font "dézoomer" la carte.
+            const metropoleFeatures = geojson.features.filter(f => {
+                return f.properties.latitude > 40; 
             });
 
-            // Création du graphique carte
-            new Chart(canvas, {
-                type: 'choropleth', // Type "carte choroplèthe" = carte colorée par zones
+            console.log("Nombre de régions après filtrage :", metropoleFeatures.length);
+            
+            initCarte(metropoleFeatures);
+        })
+        .catch(error => {
+            console.error('Erreur chargement JSON:', error);
+        });
+});
 
-                data: {
-                    // Labels = noms des régions (pour les tooltips)
-                    labels: geojson.features.map(function(f) {
-                        return f.properties.nom || f.properties.name;
-                    }),
-                    datasets: [{
-                        label: 'Régions françaises',
-                        data: donnees,
+function setupCanvasResizer(canvas) {
+    const container = canvas.parentElement;
+    if (!container) return;
 
-                        // Couleur de fond de chaque région
-                        backgroundColor: function(context) {
-                            if (!context.raw) return '#94A3B8';
-                            return context.raw.couleur;
-                        },
+    const applySize = () => {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
 
-                        borderColor: '#FFFFFF', // Bordure blanche entre régions
-                        borderWidth: 1,
+        if (width > 0 && height > 0) {
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            canvas.width = width;
+            canvas.height = height;
+        }
+    };
 
-                        // Couleur au survol (légèrement transparente)
-                        hoverBackgroundColor: function(context) {
-                            if (!context.raw) return '#64748B';
-                            return context.raw.couleur + 'BB'; // BB = 73% opacité
-                        },
-                        hoverBorderWidth: 2
-                    }]
+    // Appliquer immédiatement
+    applySize();
+
+    // Re-appliquer lors du redimensionnement
+    if (typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(() => applySize());
+        observer.observe(container);
+    }
+
+    window.addEventListener('resize', applySize);
+}
+
+function initCarte(features) {
+    const canvas = document.getElementById('france-regions-map');
+    
+    setupCanvasResizer(canvas);
+    
+    const chart = new Chart(canvas, {
+        type: 'choropleth',
+        data: {
+            labels: features.map(f => f.properties.name),
+            datasets: [{
+                label: 'Régions',
+                data: features.map(f => ({
+                    feature: f,
+                    value: 1
+                })),
+                // On récupère la couleur depuis votre objet regionColors
+                backgroundColor: context => {
+                    const name = context.raw?.feature.properties.name;
+                    return regionColors[name] || '#CBD5E1';
                 },
-
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false, // On laisse le conteneur définir la hauteur
-
-                    plugins: {
-                        legend: { display: false }, // Pas de légende
-
-                        tooltip: {
-                            callbacks: {
-                                // Titre du tooltip = nom de la région
-                                title: function(items) {
-                                    return items[0].raw.feature.properties.nom
-                                        || items[0].raw.feature.properties.name;
-                                },
-                                label: function() {
-                                    return 'Cliquez pour voir les contacts';
-                                }
-                            }
-                        }
-                    },
-
-                    scales: {
-                        // Projection cartographique : mercator = projection standard
-                        projection: {
-                            axis: 'x',
-                            projection: 'mercator'
-                        }
-                    },
-
-                    // Gestion du clic sur une région
-                    onClick: function(event, elements) {
-                        if (elements.length > 0) {
-                            const index = elements[0].index;
-                            const nom = geojson.features[index].properties.nom
-                                     || geojson.features[index].properties.name;
-                            console.log('Région cliquée :', nom);
-                            // TODO : afficher les contacts de la région
-                        }
+                borderColor: '#ffffff',
+                borderWidth: 1.5
+            }]
+        },
+        options: {
+            responsive: true,
+            // 2. IMPORTANT : On autorise le canvas à s'étirer
+            maintainAspectRatio: false, 
+            
+            layout: {
+                padding: 0 // Supprime les marges internes de Chart.js
+            },
+            
+            scales: {
+                projection: {
+                    axis: 'x',
+                    projection: 'mercator', 
+                    // 3. FORCE la carte à prendre toute la place disponible
+                    padding: 0,
+                    fitMargins: true 
+                },
+                color: { display: false }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        title: (items) => items[0].raw.feature.properties.name
                     }
                 }
-            });
+            }
         }
+    });
+}
     </script>
 
 </body>

@@ -19,7 +19,12 @@
 {{--   - Colonne droite (w-80)   : le résumé de configuration     --}}
 {{-- min-h-screen : la page occupe au moins tout l'écran          --}}
 {{-- ============================================================ --}}
-<div class="flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
+<div class="relative flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
+
+    <!-- Bouton Accueil en haut à gauche -->
+    <a href="/" class="absolute left-6 top-6 z-50" title="Accueil">
+        <i class="fa-solid fa-house" style="color: rgb(116, 192, 252); font-size: 2rem;"></i>
+    </a>
 
     {{-- ========================================================== --}}
     {{-- COLONNE GAUCHE : Formulaire principal                       --}}
@@ -360,70 +365,90 @@
             {{-- Contenu CACHÉ au départ (hidden) --}}
             <div id="section-s3" class="hidden p-6">
 
-                {{-- Tableau des prises avec quantités --}}
-                <div class="overflow-hidden rounded-xl border border-gray-100">
-                    <table class="w-full text-sm">
+                {{-- Tableau des prises avec quantités et tensions par brochage --}}
+                <div class="overflow-x-auto rounded-xl border border-gray-100">
+                    <table class="min-w-full text-sm">
                         {{-- En-tête du tableau --}}
-                        <thead class="bg-gray-50 text-gray-500">
+                        <thead class="bg-bals-blue text-white">
                             <tr>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Type de Prise</th>
-                                <th class="px-4 py-3 text-center font-black uppercase text-xs">Quantité</th>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Brochage</th>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Tension</th>
+                                <th class="px-4 py-3 text-left font-black uppercase text-xs border-r border-white/20" rowspan="2">Type</th>
+                                <th class="px-3 py-3 text-center text-xs font-semibold border-r border-white/20" colspan="2">2P+T</th>
+                                <th class="px-3 py-3 text-center text-xs font-semibold border-r border-white/20" colspan="2">3P+T</th>
+                                <th class="px-3 py-3 text-center text-xs font-semibold" colspan="2">3P+N+T</th>
+                            </tr>
+                            <tr>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal">Tension</th>
                             </tr>
                         </thead>
-                        {{-- Corps du tableau --}}
-                        <tbody class="divide-y divide-gray-50">
-
-                            {{-- Ligne 1 : Prise NF 10/16A (domestique) --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">NF 10/16A</div>
-                                    <div class="text-xs text-gray-400">Domestique</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{-- Contrôle +/- pour la quantité --}}
+                        {{-- Corps du tableau : Une ligne par type de prise --}}
+                        <tbody>
+                            {{-- Ligne NF --}}
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <td class="px-4 py-3 font-bold text-gray-800 text-sm border-r border-gray-200">NF</td>
+                                <td class="px-2 py-3" colspan="6">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button type="button"
-                                                onclick="changerQte(this, -1)"
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
-                                            −
-                                        </button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button"
-                                                onclick="changerQte(this, 1)"
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
-                                            +
-                                        </button>
+                                        <div class="flex items-center gap-1">
+                                            <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                            <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="NF">0</span>
+                                            <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                        </div>
+                                        <select class="border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="NF" data-field="tension">
+                                            <option value="">--</option>
+                                            <option value="230V">230V</option>
+                                            <option value="400V">400V</option>
+                                        </select>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-gray-700 text-sm">2P+T</td>
-                                <td class="px-4 py-3 text-gray-700 text-sm">230V</td>
                             </tr>
 
-                            {{-- Ligne 2 : Prise CEI 16A --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 16A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                            {{-- Ligne CEI 16A --}}
+                            <tr class="bg-white border-b border-gray-200">
+                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 16A</td>
+                                {{-- 2P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="2P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
-                                        <option value="2P+T">2P+T</option>
-                                        <option value="3P+T">3P+T</option>
-                                        <option value="3P+N+T">3P+N+T</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
                                     </select>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                {{-- 3P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="3P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                                {{-- 3P+N+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="3P+N+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
                                         <option value="230V">230V</option>
                                         <option value="400V">400V</option>
@@ -431,83 +456,151 @@
                                 </td>
                             </tr>
 
-                            {{-- Ligne 3 : Prise CEI 32A --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 32A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                            {{-- Ligne CEI 32A --}}
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 32A</td>
+                                {{-- 2P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="2P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
-                                        <option value="3P+T">3P+T</option>
-                                        <option value="3P+N+T">3P+N+T</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
                                     </select>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                {{-- 3P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="3P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                                {{-- 3P+N+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="3P+N+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
                                         <option value="400V">400V</option>
                                     </select>
                                 </td>
                             </tr>
 
-                            {{-- Ligne 4 : Prise CEI 63A --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 63A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                            {{-- Ligne CEI 63A --}}
+                            <tr class="bg-white border-b border-gray-200">
+                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 63A</td>
+                                {{-- 2P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="2P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
-                                        <option value="3P+N+T">3P+N+T</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
                                     </select>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                {{-- 3P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="3P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                                {{-- 3P+N+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="3P+N+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
                                         <option value="400V">400V</option>
                                     </select>
                                 </td>
                             </tr>
 
-                            {{-- Ligne 5 : Prise CEI 125A --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 125A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
+                            {{-- Ligne CEI 125A --}}
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 125A</td>
+                                {{-- 2P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="2P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
-                                        <option value="3P+N+T">3P+N+T</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
                                     </select>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                {{-- 3P+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="3P+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3 border-r border-gray-200">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                                {{-- 3P+N+T --}}
+                                <td class="px-2 py-3">
+                                    <div class="flex items-center justify-center gap-1">
+                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
+                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="3P+N+T">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-3">
+                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
                                         <option value="400V">400V</option>
                                     </select>
                                 </td>
@@ -780,7 +873,8 @@
         {{-- Cachés au départ (hidden), affichés quand le formulaire --}}
         {{-- est rempli (géré par JavaScript)                        --}}
         {{-- ====================================================== --}}
-        <div id="boutons-action" class="hidden flex flex-col gap-2">
+        <div id="boutons-action" class="hidden">
+            <div class="flex flex-col gap-2">
 
             {{-- Bouton Annuler (croix rouge) --}}
             <div class="flex gap-2">
@@ -820,6 +914,7 @@
                 </a>
             </p>
         </div>
+        </div>
 
     </div>
     {{-- Fin colonne droite --}}
@@ -851,6 +946,38 @@
  * la fonction mettreAJour() est appelée.
  * Elle recalcule le résumé et la progression.
  */
+
+// =====================================================
+//    ÉTAT GLOBAL : Stocke toutes les données du formulaire
+// =====================================================
+const state = {
+    // Informations de contact
+    societe: '',
+    contact: '',
+    installateur: '',
+    affaire: '',
+    email: '',
+    
+    // Type de coffret
+    type: '',
+    
+    // Caractéristiques techniques
+    montage: '',
+    materiau: '',
+    ip: '',
+    
+    // Prises avec quantités
+    sockets: [],
+    
+    // Protections
+    protections: {
+        tete: [],
+        prises: []
+    },
+    
+    // Observations
+    observations: ''
+};
 
 
 // ================================================================
@@ -943,178 +1070,227 @@ function changerQte(btn, direction) {
 }
 
 
-// ================================================================
-// 4. MISE À JOUR DU RÉSUMÉ EN TEMPS RÉEL
-// ================================================================
+// =====================================================
+//    4. COLLECTE DES DONNÉES DU FORMULAIRE
+// =====================================================
 
 /**
- * mettreAJour() : relit tous les champs et affiche le résumé
- *
- * Cette fonction est appelée chaque fois qu'un champ change.
- * Elle :
- * 1. Lit les valeurs de tous les champs
- * 2. Construit le texte du résumé
- * 3. Met à jour la barre de progression
- * 4. Affiche ou cache les boutons d'action
+ * collectFormData : Lit les informations de contact et techniques
  */
-function mettreAJour() {
-
-    // ----------------------------------------------------------------
-    // LECTURE DES CHAMPS DE CONTACT
-    // ----------------------------------------------------------------
-    const societe      = document.getElementById('societe').value;
-    const contact      = document.getElementById('contact').value;
-    const installateur = document.getElementById('installateur').value;
-    const affaire      = document.getElementById('affaire').value;
-    const email        = document.getElementById('email').value;
-
-    // ----------------------------------------------------------------
-    // LECTURE DU TYPE DE COFFRET (bouton actif en bleu)
-    // ----------------------------------------------------------------
+function collectFormData() {
+    // Informations de contact
+    state.societe = document.getElementById('societe').value;
+    state.contact = document.getElementById('contact').value;
+    state.installateur = document.getElementById('installateur').value;
+    state.affaire = document.getElementById('affaire').value;
+    state.email = document.getElementById('email').value;
+    
+    // Type de coffret
     const typeBoutonActif = document.querySelector('.btn-type.bg-bals-blue');
-    const typeCoffret = typeBoutonActif ? typeBoutonActif.dataset.type : '';
-
-    // ----------------------------------------------------------------
-    // LECTURE DES BOUTONS RADIO (un seul choix possible)
-    // querySelector cherche le premier radio coché dans la page
-    // ----------------------------------------------------------------
-    const montageEl  = document.querySelector('input[name="montage"]:checked');
+    state.type = typeBoutonActif ? typeBoutonActif.dataset.type : '';
+    
+    // Caractéristiques techniques
+    const montageEl = document.querySelector('input[name="montage"]:checked');
     const materiauEl = document.querySelector('input[name="materiau"]:checked');
-    const ipEl       = document.querySelector('input[name="ip"]:checked');
+    const ipEl = document.querySelector('input[name="ip"]:checked');
+    
+    state.montage = montageEl ? montageEl.value : '';
+    state.materiau = materiauEl ? materiauEl.value : '';
+    state.ip = ipEl ? ipEl.value : '';
+    
+    // Observations
+    state.observations = document.getElementById('observations').value;
+    document.getElementById('nb-caracteres').textContent = state.observations.length;
+}
 
-    const montage  = montageEl  ? montageEl.value  : '';
-    const materiau = materiauEl ? materiauEl.value  : '';
-    const ip       = ipEl       ? ipEl.value        : '';
+/**
+ * collectSocketData : Lit les quantités et tensions des prises
+ */
+function collectSocketData() {
+    state.sockets = [];
+    
+    // Parcourt tous les spans avec data-type
+    document.querySelectorAll('span[data-type]').forEach(function(span) {
+        const qty = parseInt(span.textContent);
+        if (qty > 0) {
+            const type = span.dataset.type;
+            const brochage = span.dataset.brochage;
+            
+            // Trouve le sélecteur de tension correspondant
+            let tension = '';
+            if (brochage) {
+                // Pour CEI avec brochage, cherche le select avec les mêmes attributs
+                const selectTension = document.querySelector(`select[data-type="${type}"][data-brochage="${brochage}"][data-field="tension"]`);
+                tension = selectTension ? selectTension.value : '';
+            } else {
+                // Pour NF sans brochage
+                const selectTension = document.querySelector(`select[data-type="${type}"][data-field="tension"]`);
+                tension = selectTension ? selectTension.value : '';
+            }
+            
+            // Pour NF (pas de brochage)
+            if (!brochage) {
+                state.sockets.push({
+                    name: type,
+                    detail: '',
+                    tension: tension,
+                    qty: qty
+                });
+            } else {
+                // Pour CEI avec brochage
+                state.sockets.push({
+                    name: type,
+                    detail: brochage,
+                    tension: tension,
+                    qty: qty
+                });
+            }
+        }
+    });
+}
 
-    // ----------------------------------------------------------------
-    // LECTURE DES CHECKBOXES PROTECTION DE TÊTE
-    // querySelectorAll = récupère TOUS les checkboxes cochés
-    // Array.from().map() = transforme la liste en tableau de textes
-    // ----------------------------------------------------------------
-    const protTeteCoches = Array.from(
+/**
+ * collectProtections : Lit les protections sélectionnées
+ */
+function collectProtections() {
+    // Protection de tête
+    state.protections.tete = Array.from(
         document.querySelectorAll('input[name="prot_tete[]"]:checked')
-    ).map(function(el) { return el.value; });
-    // Exemple de résultat : ['Disjoncteur', 'Arrêt d\'urgence']
-
-    // ----------------------------------------------------------------
-    // LECTURE DES CHECKBOXES PROTECTION DES PRISES
-    // ----------------------------------------------------------------
-    const protPrisesCoches = Array.from(
+    ).map(el => el.value);
+    
+    // Protection des prises
+    state.protections.prises = Array.from(
         document.querySelectorAll('input[name="prot_prises[]"]:checked')
-    ).map(function(el) { return el.value; });
+    ).map(el => el.value);
+}
 
-    // ----------------------------------------------------------------
-    // LECTURE DE LA ZONE OBSERVATIONS
-    // ----------------------------------------------------------------
-    const observations = document.getElementById('observations').value;
+// =====================================================
+//    5. RÉSUMÉ DYNAMIQUE
+//    Génère le récapitulatif en temps réel
+// =====================================================
 
-    // Met à jour le compteur de caractères
-    document.getElementById('nb-caracteres').textContent = observations.length;
-
-    // ----------------------------------------------------------------
-    // CALCUL DE LA PROGRESSION
-    // Chaque champ vaut 1 point s'il est rempli, 0 sinon
-    // ----------------------------------------------------------------
+/**
+ * updateSummary : Met à jour le panneau de résumé à droite
+ */
+function updateSummary() {
+    // 1. Collecte toutes les données
+    collectFormData();
+    collectSocketData();
+    collectProtections();
+    
+    // 2. Calcul de la progression
     const champs = [
-        societe          ? 1 : 0,   // Société remplie ?
-        contact          ? 1 : 0,   // Contact rempli ?
-        installateur     ? 1 : 0,   // Installateur rempli ?
-        email            ? 1 : 0,   // Email rempli ?
-        typeCoffret      ? 1 : 0,   // Type coffret sélectionné ?
-        montage          ? 1 : 0,   // Montage sélectionné ?
-        materiau         ? 1 : 0,   // Matériau sélectionné ?
-        ip               ? 1 : 0,   // IP sélectionné ?
-        protTeteCoches.length   > 0 ? 1 : 0,  // Au moins une protection de tête ?
-        protPrisesCoches.length > 0 ? 1 : 0,  // Au moins une protection des prises ?
+        state.societe ? 1 : 0,
+        state.contact ? 1 : 0,
+        state.installateur ? 1 : 0,
+        state.email ? 1 : 0,
+        state.type ? 1 : 0,
+        state.montage ? 1 : 0,
+        state.materiau ? 1 : 0,
+        state.ip ? 1 : 0,
+        state.protections.tete.length > 0 ? 1 : 0,
+        state.protections.prises.length > 0 ? 1 : 0,
+        state.sockets.length > 0 ? 1 : 0
     ];
-
-    // Additionne les 1 pour obtenir le nombre de champs remplis
-    // reduce(a, b) => a + b : parcourt le tableau et additionne tout
-    const totalChamps   = champs.length;
-    const champsRemplis = champs.reduce(function(a, b) { return a + b; }, 0);
-    const pourcentage   = Math.round(champsRemplis / totalChamps * 100);
-
-    // Met à jour la barre de progression dans le DOM
+    
+    const totalChamps = champs.length;
+    const champsRemplis = champs.reduce((a, b) => a + b, 0);
+    const pourcentage = Math.round(champsRemplis / totalChamps * 100);
+    
     document.getElementById('progression-barre').style.width = pourcentage + '%';
     document.getElementById('progression-texte').textContent = '(' + pourcentage + '%)';
-
-    // ----------------------------------------------------------------
-    // CONSTRUCTION DU RÉSUMÉ HTML
-    // ----------------------------------------------------------------
+    
+    // 3. Récupère l'élément HTML où afficher le résumé
     const zoneResume = document.getElementById('resume-zone');
-
-    // Si aucun champ n'est rempli : message par défaut
-    if (champsRemplis === 0) {
-        zoneResume.innerHTML = '<p class="text-bals-blue font-bold text-sm opacity-40">Configurez votre coffret</p>'
-                             + '<p class="text-gray-400 text-xs mt-1">Les informations apparaîtront ici</p>';
+    let html = '';
+    
+    // 4. Génère le HTML pour chaque section remplie
+    
+    // Type de coffret
+    if (state.type) {
+        html += `<div class="bg-bals-blue text-white rounded-lg px-3 py-2 text-sm font-bold text-center">
+            ${state.type}
+        </div>`;
+    }
+    
+    // Informations Projet
+    if (state.societe || state.contact || state.installateur || state.affaire || state.email) {
+        html += `<div class="space-y-1">`;
+        if (state.societe) html += `<p class="text-xs"><span class="text-gray-400">Société :</span> <span class="font-bold text-gray-700">${state.societe}</span></p>`;
+        if (state.contact) html += `<p class="text-xs"><span class="text-gray-400">Contact :</span> <span class="font-bold text-gray-700">${state.contact}</span></p>`;
+        if (state.installateur) html += `<p class="text-xs"><span class="text-gray-400">Installateur :</span> <span class="font-bold text-gray-700">${state.installateur}</span></p>`;
+        if (state.affaire) html += `<p class="text-xs"><span class="text-gray-400">Affaire :</span> <span class="font-bold text-gray-700">${state.affaire}</span></p>`;
+        if (state.email) html += `<p class="text-xs"><span class="text-gray-400">Email :</span> <span class="font-bold text-gray-700">${state.email}</span></p>`;
+        html += `</div>`;
+    }
+    
+    // Caractéristiques Techniques
+    if (state.montage || state.materiau || state.ip) {
+        html += `<div class="border-t border-gray-100 pt-2 space-y-1">`;
+        if (state.montage) html += `<p class="text-xs"><span class="text-gray-400">Montage :</span> <span class="font-bold text-gray-700">${state.montage}</span></p>`;
+        if (state.materiau) html += `<p class="text-xs"><span class="text-gray-400">Matériau :</span> <span class="font-bold text-gray-700">${state.materiau}</span></p>`;
+        if (state.ip) html += `<p class="text-xs"><span class="text-gray-400">Protection :</span> <span class="font-black text-bals-blue">${state.ip}</span></p>`;
+        html += `</div>`;
+    }
+    
+    // Prises sélectionnées
+    if (state.sockets.length > 0) {
+        html += `<div class="border-t border-gray-100 pt-2">`;
+        html += `<p class="text-xs text-gray-400 font-bold mb-1">Prises</p>`;
+        html += `<div class="space-y-1">`;
+        state.sockets.forEach(s => {
+            // Construit la description avec brochage et tension
+            let description = s.name;
+            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.tension) description += ' - ' + s.tension;
+            html += `<p class="text-xs font-bold text-gray-700">${s.qty}× ${description}</p>`;
+        });
+        html += `</div></div>`;
+    }
+    
+    // Protections de tête
+    if (state.protections.tete.length > 0) {
+        html += `<div class="border-t border-gray-100 pt-2">`;
+        html += `<p class="text-xs text-gray-400 font-bold mb-1">Protection tête</p>`;
+        html += `<p class="text-xs font-bold text-gray-700">${state.protections.tete.join(', ')}</p>`;
+        html += `</div>`;
+    }
+    
+    // Protections des prises
+    if (state.protections.prises.length > 0) {
+        html += `<div class="border-t border-gray-100 pt-2">`;
+        html += `<p class="text-xs text-gray-400 font-bold mb-1">Protection prises</p>`;
+        html += `<p class="text-xs font-bold text-gray-700">${state.protections.prises.join(', ')}</p>`;
+        html += `</div>`;
+    }
+    
+    // Observations
+    if (state.observations) {
+        html += `<div class="border-t border-gray-100 pt-2">`;
+        html += `<p class="text-xs text-gray-400 font-bold mb-1">Observations</p>`;
+        const preview = state.observations.substring(0, 100);
+        html += `<p class="text-xs text-gray-600 italic">${preview}${state.observations.length > 100 ? '...' : ''}</p>`;
+        html += `</div>`;
+    }
+    
+    // 5. Affiche le HTML ou l'état vide
+    if (html === '') {
+        zoneResume.innerHTML = `<div class="text-center">
+            <p class="text-bals-blue font-bold text-sm opacity-40">Configurez votre coffret</p>
+            <p class="text-gray-400 text-xs mt-1">Les informations apparaîtront ici</p>
+        </div>`;
         document.getElementById('boutons-action').classList.add('hidden');
-        return;
+    } else {
+        zoneResume.innerHTML = '<div class="w-full text-left space-y-3">' + html + '</div>';
+        document.getElementById('boutons-action').classList.remove('hidden');
     }
+}
 
-    // Commence à construire le HTML du résumé
-    let html = '<div class="w-full text-left space-y-3">';
-
-    // Bloc 1 : Type de coffret (badge bleu)
-    if (typeCoffret) {
-        html += '<div class="bg-bals-blue text-white rounded-lg px-3 py-2 text-sm font-bold text-center">'
-              + typeCoffret + '</div>';
-    }
-
-    // Bloc 2 : Informations de contact
-    if (societe || contact || email || installateur || affaire) {
-        html += '<div class="space-y-1">';
-        if (societe)      html += '<p class="text-xs"><span class="text-gray-400">Société :</span> <span class="font-bold text-gray-700">' + societe + '</span></p>';
-        if (contact)      html += '<p class="text-xs"><span class="text-gray-400">Contact :</span> <span class="font-bold text-gray-700">' + contact + '</span></p>';
-        if (installateur) html += '<p class="text-xs"><span class="text-gray-400">Installateur :</span> <span class="font-bold text-gray-700">' + installateur + '</span></p>';
-        if (affaire)      html += '<p class="text-xs"><span class="text-gray-400">Affaire :</span> <span class="font-bold text-gray-700">' + affaire + '</span></p>';
-        if (email)        html += '<p class="text-xs"><span class="text-gray-400">Email :</span> <span class="font-bold text-gray-700">' + email + '</span></p>';
-        html += '</div>';
-    }
-
-    // Bloc 3 : Caractéristiques techniques
-    if (montage || materiau || ip) {
-        html += '<div class="border-t border-gray-100 pt-2 space-y-1">';
-        if (montage)  html += '<p class="text-xs"><span class="text-gray-400">Montage :</span> <span class="font-bold text-gray-700">' + montage + '</span></p>';
-        if (materiau) html += '<p class="text-xs"><span class="text-gray-400">Matériau :</span> <span class="font-bold text-gray-700">' + materiau + '</span></p>';
-        if (ip)       html += '<p class="text-xs"><span class="text-gray-400">Protection :</span> <span class="font-black text-bals-blue">' + ip + '</span></p>';
-        html += '</div>';
-    }
-
-    // Bloc 4 : Protection de tête (si au moins une option cochée)
-    if (protTeteCoches.length > 0) {
-        html += '<div class="border-t border-gray-100 pt-2">';
-        html += '<p class="text-xs text-gray-400 font-bold mb-1">Protection de tête :</p>';
-        // join(', ') = sépare les éléments du tableau par une virgule
-        html += '<p class="text-xs font-bold text-gray-700">' + protTeteCoches.join(', ') + '</p>';
-        html += '</div>';
-    }
-
-    // Bloc 5 : Protection des prises (si au moins une option cochée)
-    if (protPrisesCoches.length > 0) {
-        html += '<div class="border-t border-gray-100 pt-2">';
-        html += '<p class="text-xs text-gray-400 font-bold mb-1">Protection des prises :</p>';
-        html += '<p class="text-xs font-bold text-gray-700">' + protPrisesCoches.join(', ') + '</p>';
-        html += '</div>';
-    }
-
-    // Bloc 6 : Observations (si remplies)
-    if (observations) {
-        html += '<div class="border-t border-gray-100 pt-2">';
-        html += '<p class="text-xs text-gray-400 font-bold mb-1">Observations :</p>';
-        // substring(0, 80) = affiche max 80 caractères dans le résumé
-        html += '<p class="text-xs text-gray-600 italic">' + observations.substring(0, 80);
-        if (observations.length > 80) html += '...'; // Ajoute "..." si texte trop long
-        html += '</p>';
-        html += '</div>';
-    }
-
-    html += '</div>';
-
-    // Injecte le HTML construit dans la zone résumé
-    zoneResume.innerHTML = html;
-
-    // Affiche les boutons d'action
-    document.getElementById('boutons-action').classList.remove('hidden');
+/**
+ * mettreAJour : Fonction de compatibilité (appelle updateSummary)
+ */
+function mettreAJour() {
+    updateSummary();
 }
 
 
@@ -1126,20 +1302,62 @@ function mettreAJour() {
  * copierResume() : copie le résumé dans le presse-papiers
  */
 function copierResume() {
-    const societe  = document.getElementById('societe').value;
-    const email    = document.getElementById('email').value;
-    const montageEl= document.querySelector('input[name="montage"]:checked');
-    const ipEl     = document.querySelector('input[name="ip"]:checked');
-
-    const texte = 'DEVIS BALS\n'
-                + 'Société : ' + (societe || 'N/A') + '\n'
-                + 'Email : '   + (email   || 'N/A') + '\n'
-                + 'Montage : ' + (montageEl ? montageEl.value : 'N/A') + '\n'
-                + 'IP : '      + (ipEl     ? ipEl.value     : 'N/A');
+    collectFormData();
+    collectSocketData();
+    collectProtections();
+    
+    let texte = '═══ DEVIS BALS - ' + (state.type || 'Configuration') + ' ═══\n\n';
+    
+    // Informations projet
+    if (state.societe || state.contact) {
+        texte += '▸ PROJET\n';
+        if (state.societe) texte += '  Société : ' + state.societe + '\n';
+        if (state.contact) texte += '  Contact : ' + state.contact + '\n';
+        if (state.installateur) texte += '  Installateur : ' + state.installateur + '\n';
+        if (state.affaire) texte += '  Affaire : ' + state.affaire + '\n';
+        if (state.email) texte += '  Email : ' + state.email + '\n';
+        texte += '\n';
+    }
+    
+    // Configuration
+    if (state.montage || state.materiau || state.ip) {
+        texte += '▸ CONFIGURATION\n';
+        if (state.montage) texte += '  Montage : ' + state.montage + '\n';
+        if (state.materiau) texte += '  Matériau : ' + state.materiau + '\n';
+        if (state.ip) texte += '  Protection : ' + state.ip + '\n';
+        texte += '\n';
+    }
+    
+    // Prises
+    if (state.sockets.length > 0) {
+        texte += '▸ PRISES\n';
+        state.sockets.forEach(s => {
+            let description = s.name;
+            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.tension) description += ' - ' + s.tension;
+            texte += '  ' + s.qty + '× ' + description + '\n';
+        });
+        texte += '\n';
+    }
+    
+    // Protections
+    if (state.protections.tete.length > 0) {
+        texte += '▸ PROTECTION TÊTE : ' + state.protections.tete.join(', ') + '\n';
+    }
+    if (state.protections.prises.length > 0) {
+        texte += '▸ PROTECTION PRISES : ' + state.protections.prises.join(', ') + '\n';
+    }
+    
+    // Observations
+    if (state.observations) {
+        texte += '\n▸ OBSERVATIONS\n' + state.observations;
+    }
 
     // Copie dans le presse-papiers
     navigator.clipboard.writeText(texte).then(function() {
-        alert('Résumé copié !');
+        alert('✓ Résumé copié dans le presse-papiers !');
+    }).catch(function() {
+        alert('Erreur lors de la copie');
     });
 }
 
@@ -1147,12 +1365,38 @@ function copierResume() {
  * envoyerDevis() : ouvre le client mail avec le résumé pré-rempli
  */
 function envoyerDevis() {
-    const societe = document.getElementById('societe').value;
-    const sujet   = encodeURIComponent('Demande de devis - ' + societe);
-    const corps   = encodeURIComponent('Bonjour,\n\nVeuillez trouver ci-joint ma demande de devis.\n\nSociété : ' + societe);
+    collectFormData();
+    collectSocketData();
+    collectProtections();
+    
+    const sujet = encodeURIComponent('Demande de devis - ' + (state.type || 'Configuration') + ' - ' + (state.societe || 'Client'));
+    
+    let corps = 'Bonjour,\n\nVeuillez trouver ci-dessous ma demande de devis :\n\n';
+    
+    if (state.societe) corps += 'Société : ' + state.societe + '\n';
+    if (state.contact) corps += 'Contact : ' + state.contact + '\n';
+    if (state.email) corps += 'Email : ' + state.email + '\n\n';
+    
+    if (state.type) corps += 'Type : ' + state.type + '\n';
+    if (state.montage) corps += 'Montage : ' + state.montage + '\n';
+    if (state.materiau) corps += 'Matériau : ' + state.materiau + '\n';
+    if (state.ip) corps += 'Protection : ' + state.ip + '\n\n';
+    
+    if (state.sockets.length > 0) {
+        corps += 'PRISES :\n';
+        state.sockets.forEach(s => {
+            let description = s.name;
+            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.tension) description += ' - ' + s.tension;
+            corps += '- ' + s.qty + '× ' + description + '\n';
+        });
+        corps += '\n';
+    }
+    
+    corps += 'Cordialement';
 
     // Ouvre le client email
-    window.location.href = 'mailto:info@bals-france.fr?subject=' + sujet + '&body=' + corps;
+    window.location.href = 'mailto:info@bals-france.fr?subject=' + sujet + '&body=' + encodeURIComponent(corps);
 }
 
 /**
@@ -1167,6 +1411,16 @@ function reinitialiser() {
     // Décoche tous les radios ET checkboxes
     document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function(r) {
         r.checked = false;
+    });
+    
+    // Remet toutes les quantités à 0
+    document.querySelectorAll('span[data-type]').forEach(function(span) {
+        span.textContent = '0';
+    });
+    
+    // Remet tous les selects de tension à vide
+    document.querySelectorAll('select[data-field="tension"]').forEach(function(select) {
+        select.value = '';
     });
 
     // Remet le compteur de caractères à 0
@@ -1183,7 +1437,7 @@ function reinitialiser() {
 
 // Quand la page est chargée, met à jour une première fois
 document.addEventListener('DOMContentLoaded', function() {
-    mettreAJour();
+    updateSummary();
 });
 
 </script>

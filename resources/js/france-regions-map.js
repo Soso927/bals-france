@@ -54,6 +54,49 @@ const regionsData = [
     { name: 'MEDITERRANEE', color: '#0E7490', contacts: [] }
 ];
 
+
+/**
+ * Met à l'échelle le canvas en fonction de son conteneur et réagit aux redimensionnements.
+ */
+function setupCanvasResizer(canvas, chartGetter) {
+    const container = canvas.parentElement;
+    if (!container) {
+        return () => {};
+    }
+
+    const applySize = (rect = container.getBoundingClientRect()) => {
+        const width = rect.width || container.clientWidth;
+        const height = rect.height || Math.max(width * 0.75, 300);
+
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        canvas.width = width;
+        canvas.height = height;
+
+        const chart = chartGetter?.();
+        if (chart) {
+            chart.resize();
+        }
+    };
+
+    applySize();
+
+    if (typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(entries => {
+            if (!entries.length) {
+                return;
+            }
+            applySize(entries[0].contentRect);
+        });
+        observer.observe(container);
+        return () => observer.disconnect();
+    }
+
+    const resizeHandler = () => applySize();
+    window.addEventListener('resize', resizeHandler);
+    return () => window.removeEventListener('resize', resizeHandler);
+}
+
 /**
  * Fonction principale pour initialiser la carte de France par régions
  */
@@ -64,6 +107,9 @@ export function initFranceRegionsMap(regionsGeoJSON) {
         console.error('Canvas #france-regions-map non trouvé');
         return;
     }
+
+    let chartInstance;
+    const teardownResize = setupCanvasResizer(canvas, () => chartInstance);
 
     try {
         // Préparation des données pour chaque région
@@ -79,7 +125,7 @@ export function initFranceRegionsMap(regionsGeoJSON) {
         });
 
         // Création de la carte avec Chart.js
-        const chart = new Chart(canvas.getContext('2d'), {
+        chartInstance = new Chart(canvas.getContext('2d'), {
             type: 'choropleth',  // Type : carte choroplèthe (colorée par zones)
             data: {
                 labels: regionsGeoJSON.features.map(d => d.properties.nom || d.properties.name),  // Noms des régions
@@ -104,7 +150,7 @@ export function initFranceRegionsMap(regionsGeoJSON) {
             },
             options: {
                 responsive: true,              // La carte s'adapte à son conteneur
-                maintainAspectRatio: true,     // Garde les proportions
+                maintainAspectRatio: false,     // Garde les proportions
                 plugins: {
                     legend: {
                         display: false  // Pas de légende (liste à droite à la place)
@@ -136,10 +182,14 @@ export function initFranceRegionsMap(regionsGeoJSON) {
             }
         });
 
+        window.addEventListener('beforeunload', teardownResize, { once: true });
+
     } catch (error) {
         console.error('Erreur lors du chargement de la carte:', error);
+        teardownResize();
     }
 }
+
 
 /**
  * Fonction pour gérer les clics sur les boutons "+" de la liste
