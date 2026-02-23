@@ -22,7 +22,7 @@
 <div class="relative flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
 
     <!-- Bouton Accueil en haut à gauche -->
-    <a href="/" class="absolute left-6 top-6 z-50" title="Accueil">
+    <a href="/" class="absolute left-32 top-24 z-50" title="Accueil">
         <i class="fa-solid fa-house" style="color: rgb(116, 192, 252); font-size: 2rem;"></i>
     </a>
 
@@ -377,11 +377,11 @@
                                 <th class="px-3 py-3 text-center text-xs font-semibold" colspan="2">3P+N+T</th>
                             </tr>
                             <tr>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Quantité</th>
                                 <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Quantité</th>
                                 <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal">Qté</th>
+                                <th class="px-2 py-2 text-center text-xs font-normal">Quantité</th>
                                 <th class="px-2 py-2 text-center text-xs font-normal">Tension</th>
                             </tr>
                         </thead>

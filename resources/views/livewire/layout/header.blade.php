@@ -20,8 +20,8 @@
     {{-- ============================================ --}}
     {{-- SECTION PRINCIPALE - LOGO BALS + CONTACT --}}
     {{-- ============================================ --}}
-    <div class="py-6 border-b border-gray-200 rounded-lg"
-        style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
+<div class="h-36 py-6 border-b border-gray-200 rounded-lg"
+     style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
         <div class="container mx-auto px-4">
             <div class="flex justify-center items-center">
                 {{-- Logo Bals centré sur l'image de fond --}}
