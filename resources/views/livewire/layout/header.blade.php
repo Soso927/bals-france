@@ -20,7 +20,7 @@
     {{-- ============================================ --}}
     {{-- SECTION PRINCIPALE - LOGO BALS + CONTACT --}}
     {{-- ============================================ --}}
-<div class="h-36 py-6 border-b border-gray-200 rounded-lg"
+<div class="h-36 py-6 border-b border-gray-200 rounded-3xl overflow-hidden"
      style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
         <div class="container mx-auto px-4">
             <div class="flex justify-center items-center">

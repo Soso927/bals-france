@@ -37,8 +37,6 @@
         {{-- ====================================================== --}}
         <div class="text-center py-4">
 
-
-
             {{-- Logo BALS (image) --}}
             <div class="flex justify-center mb-3">
                 <img src="{{ asset('images/logo-bals.png') }}"
@@ -48,7 +46,6 @@
 
                 {{-- Fallback si l'image n'existe pas : affiche le logo en SVG --}}
                 <div id="logo-fallback" class="items-center gap-2" style="display:none">
-                    {{-- Icône SVG représentant le logo BALS --}}
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
                         <rect x="0" y="2"  width="22" height="7" fill="#009EE3"/>
                         <rect x="12" y="11" width="24" height="7" fill="#DA291C"/>
@@ -71,19 +68,14 @@
 
         {{-- ====================================================== --}}
         {{-- CARTE 1 : Sélection du TYPE DE COFFRET                 --}}
-        {{-- L'utilisateur choisit ici quel produit il veut configurer --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
 
-            {{-- Titre de la section --}}
             <p class="text-xs font-black uppercase tracking-widest text-gray-400 mb-4">
                 Type de Coffret
             </p>
 
-            {{-- Boutons de sélection du type de coffret --}}
-            {{-- data-type : valeur envoyée au JavaScript pour mettre à jour le résumé --}}
             <div class="flex flex-wrap gap-3" id="type-coffret-buttons">
-                {{-- Boutons de navigation par type de coffret --}}
                 <a href="#" class="btn-type actif px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-bals-blue bg-bals-blue text-white transition-all cursor-default"
                    data-type="Coffret Chantier">
                     Coffret Chantier
@@ -113,19 +105,15 @@
 
         {{-- ====================================================== --}}
         {{-- BARRE DE PROGRESSION                                    --}}
-        {{-- Affiche le % de complétion du formulaire en temps réel --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100">
 
-            {{-- Texte du pourcentage (mis à jour par JavaScript) --}}
             <p class="text-xs font-black uppercase tracking-widest text-gray-400 mb-2">
                 Progression du Devis
                 <span id="progression-texte" class="text-bals-blue">(0%)</span>
             </p>
 
-            {{-- Barre de progression : fond gris avec remplissage bleu --}}
             <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                {{-- La largeur (width) est mise à jour par JavaScript --}}
                 <div id="progression-barre"
                      class="h-full bg-bals-blue rounded-full transition-all duration-500"
                      style="width: 0%">
@@ -135,32 +123,24 @@
 
         {{-- ====================================================== --}}
         {{-- SECTION 01 : INFORMATIONS DE CONTACT                   --}}
-        {{-- Accordéon : clic sur le titre pour ouvrir/fermer       --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête de section (cliquable pour ouvrir/fermer l'accordéon) --}}
-            {{-- onclick="toggleSection('s1')" : appelle la fonction JavaScript --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s1')">
                 <div class="flex items-center gap-3">
-                    {{-- Numéro de la section --}}
                     <span class="bg-white text-bals-blue font-black text-sm w-8 h-8 rounded-lg flex items-center justify-center">
                         01
                     </span>
                     <span class="font-bold text-lg">Informations de Contact</span>
                 </div>
-                {{-- Flèche indiquant l'état ouvert/fermé --}}
                 <span id="arrow-s1" class="text-white text-lg transition-transform duration-300">▲</span>
             </div>
 
-            {{-- Contenu de la section (masqué/affiché par JavaScript) --}}
             <div id="section-s1" class="p-6 flex flex-col gap-5">
 
-                {{-- Champ Société --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Société</label>
-                    {{-- oninput="mettreAJour()" : met à jour le résumé en temps réel --}}
                     <input type="text"
                            id="societe"
                            placeholder="Nom de la société"
@@ -168,7 +148,6 @@
                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-bals-blue focus:border-transparent transition-all bg-gray-50">
                 </div>
 
-                {{-- Champ Contact de la Société --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Contact de la Société</label>
                     <input type="text"
@@ -178,7 +157,6 @@
                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-bals-blue focus:border-transparent transition-all bg-gray-50">
                 </div>
 
-                {{-- Champ Installateur --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Installateur</label>
                     <input type="text"
@@ -188,7 +166,6 @@
                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-bals-blue focus:border-transparent transition-all bg-gray-50">
                 </div>
 
-                {{-- Champ Référence Affaire --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Référence Affaire</label>
                     <input type="text"
@@ -198,7 +175,6 @@
                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-bals-blue focus:border-transparent transition-all bg-gray-50">
                 </div>
 
-                {{-- Champ Email --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
                     <input type="email"
@@ -215,7 +191,6 @@
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s2')">
                 <div class="flex items-center gap-3">
@@ -227,25 +202,19 @@
                 <span id="arrow-s2" class="text-white text-lg transition-transform duration-300">▲</span>
             </div>
 
-            {{-- Contenu --}}
             <div id="section-s2" class="p-6 flex flex-col gap-7">
 
-                {{-- ---- TYPE DE COFFRET (Fixe / Mobile / Mobile sur pied) ---- --}}
+                {{-- ---- TYPE DE COFFRET ---- --}}
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-3">
                         Type de coffret <span class="text-red-500">*</span>
                     </label>
 
-                    {{-- 3 cartes cliquables avec icônes SVG --}}
                     <div class="grid grid-cols-3 gap-3" id="type-montage">
 
-                        {{-- Carte Fixe --}}
                         <label class="cursor-pointer">
-                            {{-- sr-only = caché visuellement mais lisible par les lecteurs d'écran --}}
                             <input type="radio" name="montage" value="Fixe" class="sr-only peer" onchange="mettreAJour()">
-                            {{-- La classe peer-checked change le style quand le radio est coché --}}
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                {{-- Icône SVG : armoire/tableau --}}
                                 <svg class="w-8 h-8 mx-auto mb-2 text-gray-500 peer-checked:text-bals-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
                                     <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/>
@@ -255,27 +224,22 @@
                             </div>
                         </label>
 
-                        {{-- Carte Mobile --}}
                         <label class="cursor-pointer">
                             <input type="radio" name="montage" value="Mobile" class="sr-only peer" onchange="mettreAJour()" checked>
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                {{-- Icône SVG : coffret avec roues --}}
                                 <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
                                     <circle cx="7" cy="20" r="1.5" stroke="currentColor" stroke-width="1.5"/>
                                     <circle cx="17" cy="20" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-                                    <line x1="7" y1="18" x2="7" y2="18" stroke="currentColor" stroke-width="1.5"/>
                                     <line x1="4" y1="11" x2="20" y2="11" stroke="currentColor" stroke-width="1.5"/>
                                 </svg>
                                 <span class="font-bold text-sm text-gray-700">Mobile</span>
                             </div>
                         </label>
 
-                        {{-- Carte Mobile sur pied --}}
                         <label class="cursor-pointer">
                             <input type="radio" name="montage" value="Mobile sur pied" class="sr-only peer" onchange="mettreAJour()">
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                {{-- Icône SVG : coffret sur pied --}}
                                 <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                     <rect x="4" y="2" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
                                     <line x1="12" y1="14" x2="12" y2="20" stroke="currentColor" stroke-width="1.5"/>
@@ -293,7 +257,6 @@
                         Matériaux <span class="text-red-500">*</span>
                     </label>
 
-                    {{-- 3 cartes pour le matériau --}}
                     <div class="grid grid-cols-3 gap-3">
                         @foreach(['Caoutchouc', 'Métallique', 'Plastique'] as $mat)
                         <label class="cursor-pointer">
@@ -312,8 +275,6 @@
                         Indice de Protection (IP) <span class="text-red-500">*</span>
                     </label>
 
-                    {{-- 3 cartes pour le niveau IP --}}
-                    {{-- Chaque carte montre le code IP + une description courte --}}
                     <div class="grid grid-cols-3 gap-3">
 
                         <label class="cursor-pointer">
@@ -346,10 +307,12 @@
 
         {{-- ====================================================== --}}
         {{-- SECTION 03 : CARACTÉRISTIQUES TECHNIQUES DES PRISES    --}}
+        {{-- ⚡ MODIFIÉE : 5 cartes séparées, brochages en lignes,  --}}
+        {{--               padding agrandi, @foreach Blade           --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête cliquable (section fermée par défaut) --}}
+            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s3')">
                 <div class="flex items-center gap-3">
@@ -358,247 +321,41 @@
                     </span>
                     <span class="font-bold text-lg">Caractéristiques Techniques des prises</span>
                 </div>
-                {{-- Flèche vers le bas = section fermée --}}
                 <span id="arrow-s3" class="text-white text-lg transition-transform duration-300">▼</span>
             </div>
 
             {{-- Contenu CACHÉ au départ (hidden) --}}
-            <div id="section-s3" class="hidden p-6">
+            <div id="section-s3" class="hidden p-6 flex flex-col gap-6">
 
-                {{-- Tableau des prises avec quantités et tensions par brochage --}}
-                <div class="overflow-x-auto rounded-xl border border-gray-100">
+                {{-- ── CARTE NF ── --}}
+                <div class="rounded-xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
+                        <span class="font-black text-gray-800 text-sm">NF</span>
+                    </div>
+
                     <table class="min-w-full text-sm">
-                        {{-- En-tête du tableau --}}
                         <thead class="bg-bals-blue text-white">
                             <tr>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs border-r border-white/20" rowspan="2">Type</th>
-                                <th class="px-3 py-3 text-center text-xs font-semibold border-r border-white/20" colspan="2">2P+T</th>
-                                <th class="px-3 py-3 text-center text-xs font-semibold border-r border-white/20" colspan="2">3P+T</th>
-                                <th class="px-3 py-3 text-center text-xs font-semibold" colspan="2">3P+N+T</th>
-                            </tr>
-                            <tr>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Quantité</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Quantité</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal border-r border-white/20">Tension</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal">Quantité</th>
-                                <th class="px-2 py-2 text-center text-xs font-normal">Tension</th>
+                                <th class="px-5 py-3 text-left text-xs font-black uppercase border-r border-white/20">Brochage</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold border-r border-white/20">Quantité</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold">Tension</th>
                             </tr>
                         </thead>
-                        {{-- Corps du tableau : Une ligne par type de prise --}}
                         <tbody>
-                            {{-- Ligne NF --}}
-                            <tr class="bg-gray-50 border-b border-gray-200">
-                                <td class="px-4 py-3 font-bold text-gray-800 text-sm border-r border-gray-200">NF</td>
-                                <td class="px-2 py-3" colspan="6">
+                            <tr class="bg-white">
+                                <td class="px-5 py-4 font-bold text-gray-400 text-sm border-r border-gray-100 w-28">—</td>
+                                <td class="px-5 py-4 border-r border-gray-100">
                                     <div class="flex items-center justify-center gap-2">
-                                        <div class="flex items-center gap-1">
-                                            <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                            <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="NF">0</span>
-                                            <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                        </div>
-                                        <select class="border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="NF" data-field="tension">
-                                            <option value="">--</option>
-                                            <option value="230V">230V</option>
-                                            <option value="400V">400V</option>
-                                        </select>
+                                        <button type="button" onclick="changerQte(this, -1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">−</button>
+                                        <span class="w-10 text-center font-bold text-gray-800 text-sm" data-type="NF">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">+</button>
                                     </div>
                                 </td>
-                            </tr>
-
-                            {{-- Ligne CEI 16A --}}
-                            <tr class="bg-white border-b border-gray-200">
-                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 16A</td>
-                                {{-- 2P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="2P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="3P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+N+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 16A" data-brochage="3P+N+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 16A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            {{-- Ligne CEI 32A --}}
-                            <tr class="bg-gray-50 border-b border-gray-200">
-                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 32A</td>
-                                {{-- 2P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="2P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="3P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+N+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 32A" data-brochage="3P+N+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 32A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            {{-- Ligne CEI 63A --}}
-                            <tr class="bg-white border-b border-gray-200">
-                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 63A</td>
-                                {{-- 2P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="2P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="3P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+N+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 63A" data-brochage="3P+N+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 63A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            {{-- Ligne CEI 125A --}}
-                            <tr class="bg-gray-50">
-                                <td class="px-4 py-3 font-bold text-bals-blue text-sm border-r border-gray-200">CEI 125A</td>
-                                {{-- 2P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="2P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="2P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="3P+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3 border-r border-gray-200">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="3P+T" data-field="tension" onchange="mettreAJour()">
-                                        <option value="">--</option>
-                                        <option value="230V">230V</option>
-                                        <option value="400V">400V</option>
-                                    </select>
-                                </td>
-                                {{-- 3P+N+T --}}
-                                <td class="px-2 py-3">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="changerQte(this, -1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800 text-sm" data-type="CEI 125A" data-brochage="3P+N+T">0</span>
-                                        <button type="button" onclick="changerQte(this, 1)" class="w-6 h-6 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-2 py-3">
-                                    <select class="w-full border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-bals-blue" data-type="CEI 125A" data-brochage="3P+N+T" data-field="tension" onchange="mettreAJour()">
+                                <td class="px-5 py-4">
+                                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-bals-blue"
+                                        data-type="NF" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
                                         <option value="230V">230V</option>
                                         <option value="400V">400V</option>
@@ -608,18 +365,73 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{-- ── CARTES CEI (16A, 32A, 63A, 125A) générées par @foreach ── --}}
+                @foreach(['CEI 16A', 'CEI 32A', 'CEI 63A', 'CEI 125A'] as $cei)
+                <div class="rounded-xl border border-gray-200 overflow-hidden">
+
+                    {{-- En-tête de la carte --}}
+                    <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
+                        <span class="font-black text-bals-blue text-sm">{{ $cei }}</span>
+                    </div>
+
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-bals-blue text-white">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-black uppercase border-r border-white/20">Brochage</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold border-r border-white/20">Quantité</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold">Tension</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(['2P+T', '3P+T', '3P+N+T'] as $brochage)
+                            <tr class="{{ !$loop->last ? 'border-b border-gray-100' : '' }} {{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
+
+                                {{-- Brochage --}}
+                                <td class="px-5 py-4 font-black text-bals-blue text-sm border-r border-gray-100 w-28">
+                                    {{ $brochage }}
+                                </td>
+
+                                {{-- Quantité --}}
+                                <td class="px-5 py-4 border-r border-gray-100">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="button" onclick="changerQte(this, -1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">−</button>
+                                        <span class="w-10 text-center font-bold text-gray-800 text-sm"
+                                            data-type="{{ $cei }}"
+                                            data-brochage="{{ $brochage }}">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">+</button>
+                                    </div>
+                                </td>
+
+                                {{-- Tension --}}
+                                <td class="px-5 py-4">
+                                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-bals-blue"
+                                        data-type="{{ $cei }}"
+                                        data-brochage="{{ $brochage }}"
+                                        data-field="tension"
+                                        onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endforeach
+
             </div>
         </div>
 
         {{-- ====================================================== --}}
         {{-- SECTION 04 : PROTECTION DE TÊTE                       --}}
-        {{-- La protection de tête = le disjoncteur général du      --}}
-        {{-- coffret, qui protège toutes les prises en même temps   --}}
-        {{-- Source PDF : cases à cocher "Protection de tête"       --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s4')">
                 <div class="flex items-center gap-3">
@@ -628,37 +440,27 @@
                     </span>
                     <span class="font-bold text-lg">Protection de Tête</span>
                 </div>
-                {{-- Flèche vers le bas = section fermée par défaut --}}
                 <span id="arrow-s4" class="text-white text-lg transition-transform duration-300">▼</span>
             </div>
 
-            {{-- Contenu caché par défaut --}}
             <div id="section-s4" class="hidden p-6">
 
-                {{-- Explication pour le jury --}}
                 <p class="text-xs text-gray-400 mb-4 italic">
                     La protection de tête protège l'ensemble du coffret.
                     Elle est placée en amont de toutes les prises.
                 </p>
 
-                {{-- Grille des options de protection de tête --}}
-                {{-- On utilise des checkboxes car plusieurs options peuvent être combinées --}}
                 <div class="grid grid-cols-2 gap-3">
 
-                    {{-- Option 1 : Sans protection --}}
                     <label class="cursor-pointer">
-                        {{-- peer = classe CSS qui surveille l'état checked du checkbox --}}
                         <input type="checkbox" name="prot_tete[]" value="Sans" class="peer sr-only" onchange="mettreAJour()">
-                        {{-- peer-checked:border-bals-blue = bordure bleue si coché --}}
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                            {{-- Icône checkmark (visible si coché via CSS peer) --}}
                             <div class="w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue">
                             </div>
                             <span class="text-sm font-bold text-gray-700">Sans</span>
                         </div>
                     </label>
 
-                    {{-- Option 2 : Interrupteur --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Interrupteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -667,7 +469,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 3 : Inter différentiel --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Inter différentiel" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -676,7 +477,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 4 : Disjoncteur --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Disjoncteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -685,7 +485,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 5 : Disjoncteur Différentiel --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Disjoncteur Diff." class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -694,12 +493,10 @@
                         </div>
                     </label>
 
-                    {{-- Option 6 : Arrêt d'urgence --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_tete[]" value="Arrêt d'urgence" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
                             <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                            {{-- Texte en rouge pour indiquer le caractère critique --}}
                             <span class="text-sm font-bold text-red-600">Arrêt d'urgence</span>
                         </div>
                     </label>
@@ -708,16 +505,11 @@
             </div>
         </div>
 
-
         {{-- ====================================================== --}}
         {{-- SECTION 05 : PROTECTION DES PRISES                     --}}
-        {{-- La protection des prises = protection individuelle ou  --}}
-        {{-- par groupe pour chaque prise du coffret                --}}
-        {{-- Source PDF : cases à cocher "Protection des prises"    --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s5')">
                 <div class="flex items-center gap-3">
@@ -729,7 +521,6 @@
                 <span id="arrow-s5" class="text-white text-lg transition-transform duration-300">▼</span>
             </div>
 
-            {{-- Contenu caché par défaut --}}
             <div id="section-s5" class="hidden p-6">
 
                 <p class="text-xs text-gray-400 mb-4 italic">
@@ -737,10 +528,8 @@
                     ou par groupe de prises.
                 </p>
 
-                {{-- Grille des options --}}
                 <div class="grid grid-cols-2 gap-3">
 
-                    {{-- Option 1 : Sans protection par prise --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Sans" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -749,7 +538,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 2 : Protection par prise individuelle --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Par prise" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -758,8 +546,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 3 : Protection par groupe --}}
-                    {{-- col-span-2 = cette case occupe les 2 colonnes --}}
                     <label class="cursor-pointer col-span-2">
                         <input type="checkbox" name="prot_prises[]" value="Par groupe de prises" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -768,7 +554,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 4 : Disjoncteur --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Disjoncteur" class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -777,7 +562,6 @@
                         </div>
                     </label>
 
-                    {{-- Option 5 : Disjoncteur Différentiel --}}
                     <label class="cursor-pointer">
                         <input type="checkbox" name="prot_prises[]" value="Disjoncteur Diff." class="peer sr-only" onchange="mettreAJour()">
                         <div class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
@@ -790,16 +574,11 @@
             </div>
         </div>
 
-
         {{-- ====================================================== --}}
         {{-- SECTION 06 : OBSERVATIONS                              --}}
-        {{-- Zone de texte libre pour ajouter des remarques,        --}}
-        {{-- des besoins spécifiques ou des précisions sur le devis --}}
-        {{-- Source PDF : zone "Observations" en bas du formulaire  --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s6')">
                 <div class="flex items-center gap-3">
@@ -811,7 +590,6 @@
                 <span id="arrow-s6" class="text-white text-lg transition-transform duration-300">▼</span>
             </div>
 
-            {{-- Contenu caché par défaut --}}
             <div id="section-s6" class="hidden p-6">
 
                 <p class="text-xs text-gray-400 mb-4 italic">
@@ -819,10 +597,6 @@
                     ou informations complémentaires pour votre devis.
                 </p>
 
-                {{-- Zone de texte libre --}}
-                {{-- textarea = champ multi-lignes (contrairement à input type="text") --}}
-                {{-- rows="6" = hauteur initiale de 6 lignes                          --}}
-                {{-- resize-y = l'utilisateur peut agrandir verticalement             --}}
                 <textarea
                     id="observations"
                     name="observations"
@@ -832,7 +606,6 @@
                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-bals-blue focus:border-transparent transition-all bg-gray-50 resize-y">
                 </textarea>
 
-                {{-- Compteur de caractères (mis à jour par JavaScript) --}}
                 <p class="text-xs text-gray-400 mt-2 text-right">
                     <span id="nb-caracteres">0</span> caractère(s)
                 </p>
@@ -846,74 +619,55 @@
 
     {{-- ========================================================== --}}
     {{-- COLONNE DROITE : Résumé de Configuration (Sidebar)         --}}
-    {{-- sticky top-6 = reste visible quand on fait défiler         --}}
-    {{-- w-80 = largeur fixe de 320px                               --}}
     {{-- ========================================================== --}}
     <div class="w-80 flex flex-col gap-4" style="position: sticky; top: 24px; align-self: flex-start;">
 
-        {{-- Carte principale du résumé --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-            {{-- En-tête de la sidebar --}}
             <div class="px-5 py-4 border-b border-gray-100">
                 <h2 class="font-black text-gray-800 text-lg">Résumé de Configuration</h2>
                 <p class="text-xs text-gray-400 mt-0.5">Devis en temps réel</p>
             </div>
 
-            {{-- Zone d'affichage du résumé (mise à jour par JavaScript) --}}
             <div id="resume-zone" class="p-5 min-h-40 flex flex-col items-center justify-center text-center">
-                {{-- Message par défaut avant de remplir le formulaire --}}
                 <p class="text-bals-blue font-bold text-sm opacity-40">Configurez votre coffret</p>
                 <p class="text-gray-400 text-xs mt-1">Les informations apparaîtront ici</p>
             </div>
         </div>
 
-        {{-- ====================================================== --}}
-        {{-- BOUTONS D'ACTION : Copier / Envoyer                    --}}
-        {{-- Cachés au départ (hidden), affichés quand le formulaire --}}
-        {{-- est rempli (géré par JavaScript)                        --}}
-        {{-- ====================================================== --}}
         <div id="boutons-action" class="hidden">
             <div class="flex flex-col gap-2">
 
-            {{-- Bouton Annuler (croix rouge) --}}
-            <div class="flex gap-2">
-                <button onclick="reinitialiser()"
-                        class="w-10 h-10 rounded-xl border-2 border-red-200 text-red-400 hover:bg-red-50 flex items-center justify-center font-bold transition-all">
-                    ✕
-                </button>
+                <div class="flex gap-2">
+                    <button onclick="reinitialiser()"
+                            class="w-10 h-10 rounded-xl border-2 border-red-200 text-red-400 hover:bg-red-50 flex items-center justify-center font-bold transition-all">
+                        ✕
+                    </button>
 
-                {{-- Bouton Copier le résumé --}}
-                <button onclick="copierResume()"
-                        class="flex-1 h-10 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 font-bold text-sm flex items-center justify-center gap-2 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    Copier
-                </button>
+                    <button onclick="copierResume()"
+                            class="flex-1 h-10 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 font-bold text-sm flex items-center justify-center gap-2 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        Copier
+                    </button>
 
-                {{-- Bouton Envoyer (bleu BALS) --}}
-                <button onclick="envoyerDevis()"
-                        class="flex-1 h-10 rounded-xl bg-bals-blue text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-blue-600 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Envoyer
-                </button> 
-                {{-- <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.707 2.293l9 9c.63 .63 .184 1.707 -.707 1.707h-1v6a3 3 0 0 1 -3 3h-1v-7a3 3 0 0 0 -2.824 -2.995l-.176 -.005h-2a3 3 0 0 0 -3 3v7h-1a3 3 0 0 1 -3 -3v-6h-1c-.89 0 -1.337 -1.077 -.707 -1.707l9 -9a1 1 0 0 1 1.414 0m.293 11.707a1 1 0 0 1 1 1v7h-4v-7a1 1 0 0 1 .883 -.993l.117 -.007z" /></svg>
-                    Retour vers l'accueil
-                </button> --}}
+                    <button onclick="envoyerDevis()"
+                            class="flex-1 h-10 rounded-xl bg-bals-blue text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-blue-600 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Envoyer
+                    </button>
+                </div>
+
+                <p class="text-center text-xs text-gray-400">
+                    Devis envoyé à :
+                    <a href="mailto:info@bals-france.fr" class="text-bals-blue font-bold hover:underline">
+                        info@bals-france.fr
+                    </a>
+                </p>
             </div>
-
-            {{-- Lien email de destination --}}
-            <p class="text-center text-xs text-gray-400">
-                Devis envoyé à :
-                <a href="mailto:info@bals-france.fr" class="text-bals-blue font-bold hover:underline">
-                    info@bals-france.fr
-                </a>
-            </p>
-        </div>
         </div>
 
     </div>
@@ -930,52 +684,25 @@
 {{-- ============================================================ --}}
 @section('scripts')
 <script>
-/*
- * ================================================================
- * JAVASCRIPT DU CONFIGURATEUR BALS
- * ================================================================
- *
- * Ce fichier gère :
- * 1. Les accordéons (ouvrir/fermer les sections)
- * 2. La mise à jour du résumé en temps réel
- * 3. La barre de progression
- * 4. Les boutons d'action
- *
- * PRINCIPE GÉNÉRAL :
- * Chaque fois que l'utilisateur modifie un champ,
- * la fonction mettreAJour() est appelée.
- * Elle recalcule le résumé et la progression.
- */
 
 // =====================================================
-//    ÉTAT GLOBAL : Stocke toutes les données du formulaire
+//    ÉTAT GLOBAL
 // =====================================================
 const state = {
-    // Informations de contact
     societe: '',
     contact: '',
     installateur: '',
     affaire: '',
     email: '',
-    
-    // Type de coffret
     type: '',
-    
-    // Caractéristiques techniques
     montage: '',
     materiau: '',
     ip: '',
-    
-    // Prises avec quantités
     sockets: [],
-    
-    // Protections
     protections: {
         tete: [],
         prises: []
     },
-    
-    // Observations
     observations: ''
 };
 
@@ -984,56 +711,32 @@ const state = {
 // 1. GESTION DES ACCORDÉONS
 // ================================================================
 
-/**
- * toggleSection(id) : ouvre ou ferme une section accordéon
- *
- * PARAMÈTRE : id = identifiant de la section (ex: 's1', 's2', 's3')
- *
- * FONCTIONNEMENT :
- * - On récupère l'élément HTML avec document.getElementById()
- * - On ajoute ou retire la classe CSS 'hidden' pour cacher/afficher
- * - On fait pivoter la flèche pour indiquer l'état
- */
 function toggleSection(id) {
-    // Récupère le contenu de la section
     const section = document.getElementById('section-' + id);
-    // Récupère la flèche de la section
     const arrow   = document.getElementById('arrow-' + id);
 
-    // Si la section est cachée : on l'affiche
     if (section.classList.contains('hidden')) {
-        section.classList.remove('hidden'); // Afficher
-        arrow.textContent = '▲';            // Flèche vers le haut = ouvert
+        section.classList.remove('hidden');
+        arrow.textContent = '▲';
     } else {
-        // Sinon : on la cache
-        section.classList.add('hidden');    // Cacher
-        arrow.textContent = '▼';            // Flèche vers le bas = fermé
+        section.classList.add('hidden');
+        arrow.textContent = '▼';
     }
 }
 
 
 // ================================================================
-// 2. SÉLECTION DU TYPE DE COFFRET (boutons du haut)
+// 2. SÉLECTION DU TYPE DE COFFRET
 // ================================================================
 
-/**
- * Gestion des boutons "Type de coffret" en haut de page
- * Au clic sur un bouton : on le met en bleu, les autres en blanc
- */
 document.querySelectorAll('.btn-type').forEach(function(btn) {
     btn.addEventListener('click', function() {
-
-        // Enlève le style "actif" de TOUS les boutons
         document.querySelectorAll('.btn-type').forEach(function(b) {
             b.classList.remove('border-bals-blue', 'bg-bals-blue', 'text-white');
             b.classList.add('border-gray-200', 'text-gray-600');
         });
-
-        // Met le style "actif" sur le bouton cliqué
         this.classList.remove('border-gray-200', 'text-gray-600');
         this.classList.add('border-bals-blue', 'bg-bals-blue', 'text-white');
-
-        // Met à jour le résumé
         mettreAJour();
     });
 });
@@ -1043,29 +746,12 @@ document.querySelectorAll('.btn-type').forEach(function(btn) {
 // 3. CONTRÔLE DES QUANTITÉS (+/-)
 // ================================================================
 
-/**
- * changerQte(btn, direction) : augmente ou diminue une quantité
- *
- * PARAMÈTRES :
- * - btn       : le bouton cliqué (+ ou -)
- * - direction : +1 pour augmenter, -1 pour diminuer
- */
 function changerQte(btn, direction) {
-    // Trouve le span de la quantité (frère du bouton)
     const span  = btn.parentElement.querySelector('span');
-    // Lit la valeur actuelle (parseInt = convertit le texte en nombre)
     let valeur  = parseInt(span.textContent);
-
-    // Modifie la valeur
     valeur += direction;
-
-    // Empêche les valeurs négatives (minimum = 0)
     if (valeur < 0) valeur = 0;
-
-    // Affiche la nouvelle valeur
     span.textContent = valeur;
-
-    // Met à jour le résumé
     mettreAJour();
 }
 
@@ -1074,197 +760,148 @@ function changerQte(btn, direction) {
 //    4. COLLECTE DES DONNÉES DU FORMULAIRE
 // =====================================================
 
-/**
- * collectFormData : Lit les informations de contact et techniques
- */
 function collectFormData() {
-    // Informations de contact
-    state.societe = document.getElementById('societe').value;
-    state.contact = document.getElementById('contact').value;
+    state.societe      = document.getElementById('societe').value;
+    state.contact      = document.getElementById('contact').value;
     state.installateur = document.getElementById('installateur').value;
-    state.affaire = document.getElementById('affaire').value;
-    state.email = document.getElementById('email').value;
-    
-    // Type de coffret
+    state.affaire      = document.getElementById('affaire').value;
+    state.email        = document.getElementById('email').value;
+
     const typeBoutonActif = document.querySelector('.btn-type.bg-bals-blue');
     state.type = typeBoutonActif ? typeBoutonActif.dataset.type : '';
-    
-    // Caractéristiques techniques
-    const montageEl = document.querySelector('input[name="montage"]:checked');
+
+    const montageEl  = document.querySelector('input[name="montage"]:checked');
     const materiauEl = document.querySelector('input[name="materiau"]:checked');
-    const ipEl = document.querySelector('input[name="ip"]:checked');
-    
-    state.montage = montageEl ? montageEl.value : '';
+    const ipEl       = document.querySelector('input[name="ip"]:checked');
+
+    state.montage  = montageEl  ? montageEl.value  : '';
     state.materiau = materiauEl ? materiauEl.value : '';
-    state.ip = ipEl ? ipEl.value : '';
-    
-    // Observations
+    state.ip       = ipEl       ? ipEl.value       : '';
+
     state.observations = document.getElementById('observations').value;
     document.getElementById('nb-caracteres').textContent = state.observations.length;
 }
 
-/**
- * collectSocketData : Lit les quantités et tensions des prises
- */
 function collectSocketData() {
     state.sockets = [];
-    
-    // Parcourt tous les spans avec data-type
+
     document.querySelectorAll('span[data-type]').forEach(function(span) {
         const qty = parseInt(span.textContent);
         if (qty > 0) {
-            const type = span.dataset.type;
+            const type     = span.dataset.type;
             const brochage = span.dataset.brochage;
-            
-            // Trouve le sélecteur de tension correspondant
+
             let tension = '';
             if (brochage) {
-                // Pour CEI avec brochage, cherche le select avec les mêmes attributs
                 const selectTension = document.querySelector(`select[data-type="${type}"][data-brochage="${brochage}"][data-field="tension"]`);
                 tension = selectTension ? selectTension.value : '';
             } else {
-                // Pour NF sans brochage
                 const selectTension = document.querySelector(`select[data-type="${type}"][data-field="tension"]`);
                 tension = selectTension ? selectTension.value : '';
             }
-            
-            // Pour NF (pas de brochage)
+
             if (!brochage) {
-                state.sockets.push({
-                    name: type,
-                    detail: '',
-                    tension: tension,
-                    qty: qty
-                });
+                state.sockets.push({ name: type, detail: '', tension: tension, qty: qty });
             } else {
-                // Pour CEI avec brochage
-                state.sockets.push({
-                    name: type,
-                    detail: brochage,
-                    tension: tension,
-                    qty: qty
-                });
+                state.sockets.push({ name: type, detail: brochage, tension: tension, qty: qty });
             }
         }
     });
 }
 
-/**
- * collectProtections : Lit les protections sélectionnées
- */
 function collectProtections() {
-    // Protection de tête
     state.protections.tete = Array.from(
         document.querySelectorAll('input[name="prot_tete[]"]:checked')
     ).map(el => el.value);
-    
-    // Protection des prises
+
     state.protections.prises = Array.from(
         document.querySelectorAll('input[name="prot_prises[]"]:checked')
     ).map(el => el.value);
 }
 
+
 // =====================================================
 //    5. RÉSUMÉ DYNAMIQUE
-//    Génère le récapitulatif en temps réel
 // =====================================================
 
-/**
- * updateSummary : Met à jour le panneau de résumé à droite
- */
 function updateSummary() {
-    // 1. Collecte toutes les données
     collectFormData();
     collectSocketData();
     collectProtections();
-    
-    // 2. Calcul de la progression
+
     const champs = [
-        state.societe ? 1 : 0,
-        state.contact ? 1 : 0,
+        state.societe      ? 1 : 0,
+        state.contact      ? 1 : 0,
         state.installateur ? 1 : 0,
-        state.email ? 1 : 0,
-        state.type ? 1 : 0,
-        state.montage ? 1 : 0,
-        state.materiau ? 1 : 0,
-        state.ip ? 1 : 0,
-        state.protections.tete.length > 0 ? 1 : 0,
+        state.email        ? 1 : 0,
+        state.type         ? 1 : 0,
+        state.montage      ? 1 : 0,
+        state.materiau     ? 1 : 0,
+        state.ip           ? 1 : 0,
+        state.protections.tete.length  > 0 ? 1 : 0,
         state.protections.prises.length > 0 ? 1 : 0,
         state.sockets.length > 0 ? 1 : 0
     ];
-    
-    const totalChamps = champs.length;
+
+    const totalChamps   = champs.length;
     const champsRemplis = champs.reduce((a, b) => a + b, 0);
-    const pourcentage = Math.round(champsRemplis / totalChamps * 100);
-    
+    const pourcentage   = Math.round(champsRemplis / totalChamps * 100);
+
     document.getElementById('progression-barre').style.width = pourcentage + '%';
     document.getElementById('progression-texte').textContent = '(' + pourcentage + '%)';
-    
-    // 3. Récupère l'élément HTML où afficher le résumé
+
     const zoneResume = document.getElementById('resume-zone');
     let html = '';
-    
-    // 4. Génère le HTML pour chaque section remplie
-    
-    // Type de coffret
+
     if (state.type) {
-        html += `<div class="bg-bals-blue text-white rounded-lg px-3 py-2 text-sm font-bold text-center">
-            ${state.type}
-        </div>`;
+        html += `<div class="bg-bals-blue text-white rounded-lg px-3 py-2 text-sm font-bold text-center">${state.type}</div>`;
     }
-    
-    // Informations Projet
+
     if (state.societe || state.contact || state.installateur || state.affaire || state.email) {
         html += `<div class="space-y-1">`;
-        if (state.societe) html += `<p class="text-xs"><span class="text-gray-400">Société :</span> <span class="font-bold text-gray-700">${state.societe}</span></p>`;
-        if (state.contact) html += `<p class="text-xs"><span class="text-gray-400">Contact :</span> <span class="font-bold text-gray-700">${state.contact}</span></p>`;
+        if (state.societe)      html += `<p class="text-xs"><span class="text-gray-400">Société :</span> <span class="font-bold text-gray-700">${state.societe}</span></p>`;
+        if (state.contact)      html += `<p class="text-xs"><span class="text-gray-400">Contact :</span> <span class="font-bold text-gray-700">${state.contact}</span></p>`;
         if (state.installateur) html += `<p class="text-xs"><span class="text-gray-400">Installateur :</span> <span class="font-bold text-gray-700">${state.installateur}</span></p>`;
-        if (state.affaire) html += `<p class="text-xs"><span class="text-gray-400">Affaire :</span> <span class="font-bold text-gray-700">${state.affaire}</span></p>`;
-        if (state.email) html += `<p class="text-xs"><span class="text-gray-400">Email :</span> <span class="font-bold text-gray-700">${state.email}</span></p>`;
+        if (state.affaire)      html += `<p class="text-xs"><span class="text-gray-400">Affaire :</span> <span class="font-bold text-gray-700">${state.affaire}</span></p>`;
+        if (state.email)        html += `<p class="text-xs"><span class="text-gray-400">Email :</span> <span class="font-bold text-gray-700">${state.email}</span></p>`;
         html += `</div>`;
     }
-    
-    // Caractéristiques Techniques
+
     if (state.montage || state.materiau || state.ip) {
         html += `<div class="border-t border-gray-100 pt-2 space-y-1">`;
-        if (state.montage) html += `<p class="text-xs"><span class="text-gray-400">Montage :</span> <span class="font-bold text-gray-700">${state.montage}</span></p>`;
+        if (state.montage)  html += `<p class="text-xs"><span class="text-gray-400">Montage :</span> <span class="font-bold text-gray-700">${state.montage}</span></p>`;
         if (state.materiau) html += `<p class="text-xs"><span class="text-gray-400">Matériau :</span> <span class="font-bold text-gray-700">${state.materiau}</span></p>`;
-        if (state.ip) html += `<p class="text-xs"><span class="text-gray-400">Protection :</span> <span class="font-black text-bals-blue">${state.ip}</span></p>`;
+        if (state.ip)       html += `<p class="text-xs"><span class="text-gray-400">Protection :</span> <span class="font-black text-bals-blue">${state.ip}</span></p>`;
         html += `</div>`;
     }
-    
-    // Prises sélectionnées
+
     if (state.sockets.length > 0) {
         html += `<div class="border-t border-gray-100 pt-2">`;
         html += `<p class="text-xs text-gray-400 font-bold mb-1">Prises</p>`;
         html += `<div class="space-y-1">`;
         state.sockets.forEach(s => {
-            // Construit la description avec brochage et tension
             let description = s.name;
-            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.detail)  description += ' [' + s.detail + ']';
             if (s.tension) description += ' - ' + s.tension;
             html += `<p class="text-xs font-bold text-gray-700">${s.qty}× ${description}</p>`;
         });
         html += `</div></div>`;
     }
-    
-    // Protections de tête
+
     if (state.protections.tete.length > 0) {
         html += `<div class="border-t border-gray-100 pt-2">`;
         html += `<p class="text-xs text-gray-400 font-bold mb-1">Protection tête</p>`;
         html += `<p class="text-xs font-bold text-gray-700">${state.protections.tete.join(', ')}</p>`;
         html += `</div>`;
     }
-    
-    // Protections des prises
+
     if (state.protections.prises.length > 0) {
         html += `<div class="border-t border-gray-100 pt-2">`;
         html += `<p class="text-xs text-gray-400 font-bold mb-1">Protection prises</p>`;
         html += `<p class="text-xs font-bold text-gray-700">${state.protections.prises.join(', ')}</p>`;
         html += `</div>`;
     }
-    
-    // Observations
+
     if (state.observations) {
         html += `<div class="border-t border-gray-100 pt-2">`;
         html += `<p class="text-xs text-gray-400 font-bold mb-1">Observations</p>`;
@@ -1272,8 +909,7 @@ function updateSummary() {
         html += `<p class="text-xs text-gray-600 italic">${preview}${state.observations.length > 100 ? '...' : ''}</p>`;
         html += `</div>`;
     }
-    
-    // 5. Affiche le HTML ou l'état vide
+
     if (html === '') {
         zoneResume.innerHTML = `<div class="text-center">
             <p class="text-bals-blue font-bold text-sm opacity-40">Configurez votre coffret</p>
@@ -1286,74 +922,58 @@ function updateSummary() {
     }
 }
 
-/**
- * mettreAJour : Fonction de compatibilité (appelle updateSummary)
- */
 function mettreAJour() {
     updateSummary();
 }
 
 
 // ================================================================
-// 5. BOUTONS D'ACTION
+// 6. BOUTONS D'ACTION
 // ================================================================
 
-/**
- * copierResume() : copie le résumé dans le presse-papiers
- */
 function copierResume() {
     collectFormData();
     collectSocketData();
     collectProtections();
-    
+
     let texte = '═══ DEVIS BALS - ' + (state.type || 'Configuration') + ' ═══\n\n';
-    
-    // Informations projet
+
     if (state.societe || state.contact) {
         texte += '▸ PROJET\n';
-        if (state.societe) texte += '  Société : ' + state.societe + '\n';
-        if (state.contact) texte += '  Contact : ' + state.contact + '\n';
+        if (state.societe)      texte += '  Société : '      + state.societe + '\n';
+        if (state.contact)      texte += '  Contact : '      + state.contact + '\n';
         if (state.installateur) texte += '  Installateur : ' + state.installateur + '\n';
-        if (state.affaire) texte += '  Affaire : ' + state.affaire + '\n';
-        if (state.email) texte += '  Email : ' + state.email + '\n';
+        if (state.affaire)      texte += '  Affaire : '      + state.affaire + '\n';
+        if (state.email)        texte += '  Email : '        + state.email + '\n';
         texte += '\n';
     }
-    
-    // Configuration
+
     if (state.montage || state.materiau || state.ip) {
         texte += '▸ CONFIGURATION\n';
-        if (state.montage) texte += '  Montage : ' + state.montage + '\n';
-        if (state.materiau) texte += '  Matériau : ' + state.materiau + '\n';
-        if (state.ip) texte += '  Protection : ' + state.ip + '\n';
+        if (state.montage)  texte += '  Montage : '    + state.montage  + '\n';
+        if (state.materiau) texte += '  Matériau : '   + state.materiau + '\n';
+        if (state.ip)       texte += '  Protection : ' + state.ip       + '\n';
         texte += '\n';
     }
-    
-    // Prises
+
     if (state.sockets.length > 0) {
         texte += '▸ PRISES\n';
         state.sockets.forEach(s => {
             let description = s.name;
-            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.detail)  description += ' [' + s.detail + ']';
             if (s.tension) description += ' - ' + s.tension;
             texte += '  ' + s.qty + '× ' + description + '\n';
         });
         texte += '\n';
     }
-    
-    // Protections
-    if (state.protections.tete.length > 0) {
-        texte += '▸ PROTECTION TÊTE : ' + state.protections.tete.join(', ') + '\n';
-    }
-    if (state.protections.prises.length > 0) {
-        texte += '▸ PROTECTION PRISES : ' + state.protections.prises.join(', ') + '\n';
-    }
-    
-    // Observations
+
+    if (state.protections.tete.length > 0)   texte += '▸ PROTECTION TÊTE : '   + state.protections.tete.join(', ')   + '\n';
+    if (state.protections.prises.length > 0) texte += '▸ PROTECTION PRISES : ' + state.protections.prises.join(', ') + '\n';
+
     if (state.observations) {
         texte += '\n▸ OBSERVATIONS\n' + state.observations;
     }
 
-    // Copie dans le presse-papiers
     navigator.clipboard.writeText(texte).then(function() {
         alert('✓ Résumé copié dans le presse-papiers !');
     }).catch(function() {
@@ -1361,81 +981,67 @@ function copierResume() {
     });
 }
 
-/**
- * envoyerDevis() : ouvre le client mail avec le résumé pré-rempli
- */
 function envoyerDevis() {
     collectFormData();
     collectSocketData();
     collectProtections();
-    
+
     const sujet = encodeURIComponent('Demande de devis - ' + (state.type || 'Configuration') + ' - ' + (state.societe || 'Client'));
-    
+
     let corps = 'Bonjour,\n\nVeuillez trouver ci-dessous ma demande de devis :\n\n';
-    
+
     if (state.societe) corps += 'Société : ' + state.societe + '\n';
     if (state.contact) corps += 'Contact : ' + state.contact + '\n';
-    if (state.email) corps += 'Email : ' + state.email + '\n\n';
-    
-    if (state.type) corps += 'Type : ' + state.type + '\n';
-    if (state.montage) corps += 'Montage : ' + state.montage + '\n';
-    if (state.materiau) corps += 'Matériau : ' + state.materiau + '\n';
-    if (state.ip) corps += 'Protection : ' + state.ip + '\n\n';
-    
+    if (state.email)   corps += 'Email : '   + state.email   + '\n\n';
+
+    if (state.type)     corps += 'Type : '       + state.type     + '\n';
+    if (state.montage)  corps += 'Montage : '    + state.montage  + '\n';
+    if (state.materiau) corps += 'Matériau : '   + state.materiau + '\n';
+    if (state.ip)       corps += 'Protection : ' + state.ip       + '\n\n';
+
     if (state.sockets.length > 0) {
         corps += 'PRISES :\n';
         state.sockets.forEach(s => {
             let description = s.name;
-            if (s.detail) description += ' [' + s.detail + ']';
+            if (s.detail)  description += ' [' + s.detail + ']';
             if (s.tension) description += ' - ' + s.tension;
             corps += '- ' + s.qty + '× ' + description + '\n';
         });
         corps += '\n';
     }
-    
+
     corps += 'Cordialement';
 
-    // Ouvre le client email
     window.location.href = 'mailto:info@bals-france.fr?subject=' + sujet + '&body=' + encodeURIComponent(corps);
 }
 
-/**
- * reinitialiser() : remet tout le formulaire à zéro
- */
 function reinitialiser() {
-    // Vide tous les champs texte
     ['societe','contact','installateur','affaire','email','observations'].forEach(function(id) {
         document.getElementById(id).value = '';
     });
 
-    // Décoche tous les radios ET checkboxes
     document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function(r) {
         r.checked = false;
     });
-    
-    // Remet toutes les quantités à 0
+
     document.querySelectorAll('span[data-type]').forEach(function(span) {
         span.textContent = '0';
     });
-    
-    // Remet tous les selects de tension à vide
+
     document.querySelectorAll('select[data-field="tension"]').forEach(function(select) {
         select.value = '';
     });
 
-    // Remet le compteur de caractères à 0
     document.getElementById('nb-caracteres').textContent = '0';
 
-    // Met à jour le résumé
     mettreAJour();
 }
 
 
 // ================================================================
-// 6. INITIALISATION AU CHARGEMENT DE LA PAGE
+// 7. INITIALISATION AU CHARGEMENT DE LA PAGE
 // ================================================================
 
-// Quand la page est chargée, met à jour une première fois
 document.addEventListener('DOMContentLoaded', function() {
     updateSummary();
 });

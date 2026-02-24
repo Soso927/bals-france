@@ -20,12 +20,10 @@
 {{-- min-h-screen : la page occupe au moins tout l'écran          --}}
 {{-- ============================================================ --}}
 <div class="relative flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
-
-    <!-- Bouton Accueil en haut à gauche -->
-    <a href="/" class="absolute left-6 top-6 z-50" title="Accueil">
+  <!-- Bouton Accueil en haut à gauche -->
+    <a href="/" class="absolute left-32 top-24 z-50" title="Accueil">
         <i class="fa-solid fa-house" style="color: rgb(116, 192, 252); font-size: 2rem;"></i>
     </a>
-
     {{-- ========================================================== --}}
     {{-- COLONNE GAUCHE : Formulaire principal                       --}}
     {{-- flex-1 = prend tout l'espace disponible après la sidebar   --}}

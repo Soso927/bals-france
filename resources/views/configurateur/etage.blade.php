@@ -53,10 +53,9 @@
 <div class="relative flex min-h-screen gap-6 p-6 max-w-7xl mx-auto">
 
     <!-- Bouton Accueil en haut à gauche -->
-    <a href="/" class="absolute left-6 top-6 z-50" title="Accueil">
+    <a href="/" class="absolute left-32 top-24 z-50" title="Accueil">
         <i class="fa-solid fa-house" style="color: rgb(116, 192, 252); font-size: 2rem;"></i>
     </a>
-
     {{-- ========================================================== --}}
     {{-- 📝 COLONNE GAUCHE : Formulaire principal                   --}}
     {{-- ========================================================== --}}
@@ -453,14 +452,13 @@
         </div>
 
         {{-- ====================================================== --}}
-        {{-- 🔌 SECTION 03 : CARACTÉRISTIQUES TECHNIQUES DES PRISES --}}
-        {{-- CONFIGURATION COFFRET D'ÉTAGE selon PDF 510_802 :      --}}
-        {{-- - 6x NF 10/16A (230V, 2P+T)                            --}}
-        {{-- - 1x CEI 16A (400V, 3P+N+T)                            --}}
-        {{-- - 1x CEI 32A (400V, 3P+N+T)                            --}}
+        {{-- SECTION 03 : CARACTÉRISTIQUES TECHNIQUES DES PRISES    --}}
+        {{-- ⚡ MODIFIÉE : 5 cartes séparées, brochages en lignes,  --}}
+        {{--               padding agrandi, @foreach Blade           --}}
         {{-- ====================================================== --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
+            {{-- En-tête cliquable --}}
             <div class="bg-bals-blue text-white px-6 py-4 flex items-center justify-between cursor-pointer"
                  onclick="toggleSection('s3')">
                 <div class="flex items-center gap-3">
@@ -473,190 +471,105 @@
             </div>
 
             {{-- Contenu CACHÉ au départ (hidden) --}}
-            <div id="section-s3" class="hidden p-6">
+            <div id="section-s3" class="hidden p-6 flex flex-col gap-6">
 
-                {{-- Information badge sur la configuration type --}}
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                    <p class="text-sm text-blue-800">
-                        <strong>💡 Configuration type Coffret d'Étage (510_802) :</strong>
-                        6 prises domestiques NF 10/16A + 1 prise CEI 16A + 1 prise CEI 32A
-                    </p>
-                </div>
+                {{-- ── CARTE NF ── --}}
+                <div class="rounded-xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
+                        <span class="font-black text-gray-800 text-sm">NF</span>
+                    </div>
 
-                {{-- 
-                    📊 TABLEAU DES PRISES
-                    Affiche toutes les prises disponibles avec :
-                    - Type de prise (NF ou CEI)
-                    - Contrôles +/- pour la quantité
-                    - Sélecteurs pour brochage et tension
-                --}}
-                <div class="overflow-hidden rounded-xl border border-gray-100">
-                    <table class="w-full text-sm">
-                        
-                        {{-- En-tête du tableau --}}
-                        <thead class="bg-gray-50 text-gray-500">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-bals-blue text-white">
                             <tr>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Type de Prise</th>
-                                <th class="px-4 py-3 text-center font-black uppercase text-xs">Quantité</th>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Brochage</th>
-                                <th class="px-4 py-3 text-left font-black uppercase text-xs">Tension</th>
+                                <th class="px-5 py-3 text-left text-xs font-black uppercase border-r border-white/20">Brochage</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold border-r border-white/20">Quantité</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold">Tension</th>
                             </tr>
                         </thead>
-                        
-                        <tbody class="divide-y divide-gray-50">
-
-                            {{-- 
-                                🔸 LIGNE 1 : Prise NF 10/16A (domestique)
-                                Quantité initiale : 6 (selon PDF 510_802)
-                                Brochage : 2P+T (fixe)
-                                Tension : 230V (fixe)
-                            --}}
-                            <tr class="bg-blue-50">
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">NF 10/16A</div>
-                                    <div class="text-xs text-gray-400">Domestique - Configuration d'étage</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{-- Contrôles +/- pour la quantité --}}
+                        <tbody>
+                            <tr class="bg-white">
+                                <td class="px-5 py-4 font-bold text-gray-400 text-sm border-r border-gray-100 w-28">—</td>
+                                <td class="px-5 py-4 border-r border-gray-100">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button type="button"
-                                                onclick="changerQte(this, -1)"
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
-                                            −
-                                        </button>
-                                        {{-- ⭐ Valeur initiale = 6 pour l'étage --}}
-                                        <span class="w-8 text-center font-bold text-gray-800">6</span>
-                                        <button type="button"
-                                                onclick="changerQte(this, 1)"
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">
-                                            +
-                                        </button>
+                                        <button type="button" onclick="changerQte(this, -1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">−</button>
+                                        <span class="w-10 text-center font-bold text-gray-800 text-sm" data-type="NF">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">+</button>
                                     </div>
                                 </td>
-                                {{-- Brochage fixe pour prise domestique --}}
-                                <td class="px-4 py-3 text-gray-700 text-sm">2P+T</td>
-                                {{-- Tension fixe pour prise domestique --}}
-                                <td class="px-4 py-3 text-gray-700 text-sm">230V</td>
-                            </tr>
-
-                            {{-- 
-                                🔸 LIGNE 2 : Prise CEI 16A (industrielle)
-                                Quantité initiale : 1 (selon PDF 510_802)
-                                Brochage : 3P+N+T (par défaut)
-                                Tension : 400V (par défaut)
-                            --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 16A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" 
-                                                onclick="changerQte(this, -1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        {{-- ⭐ Valeur initiale = 1 --}}
-                                        <span class="w-8 text-center font-bold text-gray-800">1</span>
-                                        <button type="button" 
-                                                onclick="changerQte(this, 1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
-                                    </div>
-                                </td>
-                                {{-- Sélecteur de brochage --}}
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
+                                <td class="px-5 py-4">
+                                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-bals-blue"
+                                        data-type="NF" data-field="tension" onchange="mettreAJour()">
                                         <option value="">--</option>
-                                        <option value="3P+N+T" selected>3P+N+T</option>
-                                        <option value="2P+T">2P+T</option>
-                                        <option value="3P+T">3P+T</option>
-                                    </select>
-                                </td>
-                                {{-- Sélecteur de tension --}}
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
-                                        <option value="">--</option>
-                                        <option value="400V" selected>400V</option>
                                         <option value="230V">230V</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            {{-- 
-                                🔸 LIGNE 3 : Prise CEI 32A (industrielle)
-                                Quantité initiale : 1 (selon PDF 510_802)
-                                Brochage : 3P+N+T (par défaut)
-                                Tension : 400V (par défaut)
-                            --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 32A</div>
-                                    <div class="text-xs text-gray-400">Industrielle</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" 
-                                                onclick="changerQte(this, -1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        {{-- ⭐ Valeur initiale = 1 --}}
-                                        <span class="w-8 text-center font-bold text-gray-800">1</span>
-                                        <button type="button" 
-                                                onclick="changerQte(this, 1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
-                                        <option value="">--</option>
-                                        <option value="3P+N+T" selected>3P+N+T</option>
-                                        <option value="3P+T">3P+T</option>
-                                    </select>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
-                                        <option value="">--</option>
-                                        <option value="400V" selected>400V</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            {{-- 
-                                🔸 LIGNE 4 : Prise CEI 63A (optionnelle)
-                                Quantité initiale : 0
-                                Option pour besoins spécifiques
-                            --}}
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="font-bold text-gray-800">CEI 63A</div>
-                                    <div class="text-xs text-gray-400">Option haute puissance</div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <button type="button" 
-                                                onclick="changerQte(this, -1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">−</button>
-                                        <span class="w-8 text-center font-bold text-gray-800">0</span>
-                                        <button type="button" 
-                                                onclick="changerQte(this, 1)" 
-                                                class="w-7 h-7 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 font-bold">+</button>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
-                                        <option value="">--</option>
-                                        <option value="3P+N+T">3P+N+T</option>
-                                    </select>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <select onchange="mettreAJour()" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm bg-white">
-                                        <option value="">--</option>
                                         <option value="400V">400V</option>
                                     </select>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
+
+                {{-- ── CARTES CEI (16A, 32A, 63A, 125A) générées par @foreach ── --}}
+                @foreach(['CEI 16A', 'CEI 32A', 'CEI 63A', 'CEI 125A'] as $cei)
+                <div class="rounded-xl border border-gray-200 overflow-hidden">
+
+                    {{-- En-tête de la carte --}}
+                    <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
+                        <span class="font-black text-bals-blue text-sm">{{ $cei }}</span>
+                    </div>
+
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-bals-blue text-white">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-black uppercase border-r border-white/20">Brochage</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold border-r border-white/20">Quantité</th>
+                                <th class="px-5 py-3 text-center text-xs font-semibold">Tension</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(['2P+T', '3P+T', '3P+N+T'] as $brochage)
+                            <tr class="{{ !$loop->last ? 'border-b border-gray-100' : '' }} {{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
+
+                                {{-- Brochage --}}
+                                <td class="px-5 py-4 font-black text-bals-blue text-sm border-r border-gray-100 w-28">
+                                    {{ $brochage }}
+                                </td>
+
+                                {{-- Quantité --}}
+                                <td class="px-5 py-4 border-r border-gray-100">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="button" onclick="changerQte(this, -1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">−</button>
+                                        <span class="w-10 text-center font-bold text-gray-800 text-sm"
+                                            data-type="{{ $cei }}"
+                                            data-brochage="{{ $brochage }}">0</span>
+                                        <button type="button" onclick="changerQte(this, 1)"
+                                            class="w-8 h-8 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm font-bold">+</button>
+                                    </div>
+                                </td>
+
+                                {{-- Tension --}}
+                                <td class="px-5 py-4">
+                                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-bals-blue"
+                                        data-type="{{ $cei }}"
+                                        data-brochage="{{ $brochage }}"
+                                        data-field="tension"
+                                        onchange="mettreAJour()">
+                                        <option value="">--</option>
+                                        <option value="230V">230V</option>
+                                        <option value="400V">400V</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endforeach
+
             </div>
         </div>
 

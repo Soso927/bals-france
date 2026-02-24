@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('livewire.home');
 })->name('home');
 
-Route::get('/map',[MapController::class, 'index'])->name('map.index');
+Route::get('france-map',[MapController::class, 'index'])->name('map.index');
 
 
 
