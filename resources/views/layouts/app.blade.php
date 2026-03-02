@@ -13,56 +13,58 @@
     {{-- Titre dynamique : chaque page peut définir son propre titre --}}
     <title>@yield('title', 'Configurateur BALS')</title>
 
-    {{-- Google Fonts : police Outfit pour un look professionnel --}}
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
+    {{-- Google Fonts : police Outfit --}}
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    {{-- Tailwind CSS via CDN (remplacer par Vite en production) --}}
+    {{-- Tailwind CSS via CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-        /*
-         * CONFIGURATION TAILWIND
-         * On définit les couleurs BALS pour les utiliser dans les classes
-         * Exemple : bg-bals-blue, text-bals-red, border-bals-blue
-         */
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'bals-blue': '#009EE3',   /* Bleu BALS principal */
-                        'bals-red':  '#DA291C',   /* Rouge BALS accentuation */
+                        'bals-blue': '#009EE3',
+                        'bals-red':  '#DA291C',
                     },
                     fontFamily: {
-                        'sans': ['Outfit', 'sans-serif'], /* Police par défaut */
+                        'sans': ['Outfit', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
-    {{-- Styles CSS supplémentaires injectés par chaque page si besoin --}}
+    {{-- ✅ Alpine.js : nécessaire pour le menu burger et les interactions --}}
+    {{-- Doit être en defer et placé AVANT la fermeture du </head>        --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @yield('styles')
+
+    {{-- Livewire styles --}}
+    @livewireStyles
 </head>
 
-{{-- ============================================================ --}}
-{{-- BODY : fond gris clair, police Outfit                        --}}
-{{-- ============================================================ --}}
 <body class="bg-gray-100 font-sans">
 
-    {{-- ============================================================ --}}
-    {{-- CONTENU PRINCIPAL                                            --}}
-    {{-- @yield('content') = emplacement réservé pour le contenu     --}}
-    {{-- de chaque page enfant qui fait @extends('layouts.app')      --}}
-    {{-- ============================================================ --}}
-    @yield('content')
+    {{-- ✅ Header Livewire --}}
+    @livewire('header')
 
-    {{-- ============================================================ --}}
-    {{-- SCRIPTS JAVASCRIPT                                           --}}
-    {{-- @yield('scripts') = chaque page peut ajouter ses scripts    --}}
-    {{-- ============================================================ --}}
+    {{-- Contenu principal de chaque page --}}
+    <main>
+        @yield('content')
+    </main>
+
+    {{-- ✅ Footer Livewire --}}
+    @livewire('footer')
+
     @yield('scripts')
+
+    {{-- Livewire scripts (toujours en dernier) --}}
+    @livewireScripts
 
 </body>
 </html>

@@ -224,11 +224,6 @@
                         <label class="cursor-pointer">
                             <input type="radio" name="montage" value="Fixe" class="sr-only peer" onchange="mettreAJour()">
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                <svg class="w-8 h-8 mx-auto mb-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                    <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/>
-                                    <line x1="12" y1="3" x2="12" y2="9" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
                                 <span class="font-bold text-sm text-gray-700">Fixe</span>
                             </div>
                         </label>
@@ -236,12 +231,6 @@
                         <label class="cursor-pointer">
                             <input type="radio" name="montage" value="Mobile" class="sr-only peer" onchange="mettreAJour()" checked>
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                                    <rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                    <circle cx="7" cy="20" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-                                    <circle cx="17" cy="20" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-                                    <line x1="4" y1="11" x2="20" y2="11" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
                                 <span class="font-bold text-sm text-gray-700">Mobile</span>
                             </div>
                         </label>
@@ -249,11 +238,6 @@
                         <label class="cursor-pointer">
                             <input type="radio" name="montage" value="Mobile sur pied" class="sr-only peer" onchange="mettreAJour()">
                             <div class="border-2 border-gray-200 rounded-xl p-4 text-center transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                                    <rect x="4" y="2" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                    <line x1="12" y1="14" x2="12" y2="20" stroke="currentColor" stroke-width="1.5"/>
-                                    <line x1="8" y1="20" x2="16" y2="20" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
                                 <span class="font-bold text-sm text-gray-700">Mobile sur pied</span>
                             </div>
                         </label>
@@ -361,7 +345,7 @@
                 {{-- ── CARTE NF ── --}}
                 <div class="rounded-xl border border-gray-200 overflow-hidden">
                     <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
-                        <span class="font-black text-gray-800 text-sm">NF</span>
+                        <span class="font-black text-gray-800 text-lg">Prise domestiques NF</span>
                     </div>
 
                     <table class="min-w-full text-sm">
@@ -405,11 +389,11 @@
                 </div>
 
                 {{-- ── CARTES CEI (16A, 32A, 63A, 125A) générées par @foreach ── --}}
-                @foreach(['CEI 16A', 'CEI 32A', 'CEI 63A', 'CEI 125A'] as $cei)
+                @foreach(['Prise domestiques CEI 16A', 'Prise domestiques CEI 32A', 'Prise domestiques CEI 63A', 'Prise domestiques CEI 125A'] as $cei)
                 <div class="rounded-xl border border-gray-200 overflow-hidden">
 
                     <div class="bg-gray-50 px-5 py-3 border-b border-gray-200">
-                        <span class="font-black text-bals-blue text-sm">{{ $cei }}</span>
+                        <span class="font-black text-bals-blue text-lg">{{ $cei }}</span>
                     </div>
 
                     <table class="min-w-full text-sm">
