@@ -2,46 +2,121 @@
 
 <header>
 
-    {{-- BANNIÈRE SUPÉRIEURE --}}
-    <div class="bg-white py-3 border-b border-gray-200 rounded-5×1">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-center items-center">
-                <img src="{{ asset('images/banniere-partenaire-header.png') }}" alt="Marques Partenaires"
-                    class="h-auto max-w-full rounded-lg hidden sm:block">
-                <img src="{{ asset('images/logo-bals.png') }}" alt="BALS France"
-                    class="h-10 sm:hidden">
-            </div>
-        </div>
+{{-- BANNIÈRE SUPÉRIEURE --}}
+{{-- BANNIÈRE SUPÉRIEURE — Défilement CSS pur --}}
+<style>
+    .marquee {
+        overflow: hidden;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 0;
+    }
+
+    .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee-scroll 20s linear infinite;
+    }
+
+    /* Pause au survol (optionnel) */
+    .marquee-track:hover {
+        animation-play-state: paused;
+    }
+
+    .marquee-track img {
+        height: 30px;          /* ajuste selon tes logos */
+        width: auto;
+        margin: 0 30px;        /* espace entre les logos */
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    @keyframes marquee-scroll {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+        /*         ⬆️  -50% car le contenu est doublé */
+    }
+</style>
+
+<div class="marquee">
+    <div class="marquee-track">
+        {{-- Bloc 1 : tes images --}}
+        <img src="{{ asset('images/banniere1.png') }}" alt="Partenaire 1">
+        <img src="{{ asset('images/banniere2.png') }}" alt="Partenaire 2">
+        <img src="{{ asset('images/banniere3.png') }}" alt="Partenaire 3">
+        <img src="{{ asset('images/banniere4.png') }}" alt="Partenaire 4">
+        <img src="{{ asset('images/banniere5.png') }}" alt="Partenaire 5">
+        <img src="{{ asset('images/banniere6.png') }}" alt="Partenaire 6">
+        <img src="{{ asset('images/banniere7.png') }}" alt="Partenaire 7">
+        <img src="{{ asset('images/banniere8.png') }}" alt="Partenaire 8">
+
+        {{-- Bloc 2 : copie exacte (crée la boucle infinie) --}}
+        <img src="{{ asset('images/banniere1.png') }}" alt="Partenaire 1">
+        <img src="{{ asset('images/banniere2.png') }}" alt="Partenaire 2">
+        <img src="{{ asset('images/banniere3.png') }}" alt="Partenaire 3">
+        <img src="{{ asset('images/banniere4.png') }}" alt="Partenaire 4">
+        <img src="{{ asset('images/banniere5.png') }}" alt="Partenaire 5">
+        <img src="{{ asset('images/banniere6.png') }}" alt="Partenaire 6">
+        <img src="{{ asset('images/banniere7.png') }}" alt="Partenaire 7">
+        <img src="{{ asset('images/banniere8.png') }}" alt="Partenaire 8">
     </div>
+</div>
 
     {{-- SECTION LOGO + CONTACT (identique à l'original) --}}
-    <div class="w-full h-36 py-6 border-b border-gray-200 overflow-hidden"
+    <div class="w-full h-[21rem] pt-[5.5rem] border-gray-200 overflow-hidden relative"
          style="background-image: url('{{ asset('images/fond-header-banniere.png') }}'); background-size: cover; background-position: center;">
         <div class=" container mx-auto px-4">
             <div class="flex justify-center items-center">
                 {{-- <img src="{{ asset('images/logo-bals.png') }}" alt="Bals Logo" class="h-16"> --}}
             </div>
         </div>
-        <div class="bg-white rounded-full px-4 py-2 flex items-center gap-3 shadow-md w-fit ml-auto mt-16">
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-                <a href="mailto:Info@bals-france.fr"
-                    class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
-                    Info@bals-france.fr
-                </a>
+        <div class="ml-[1rem] mt-48 w-fit">
+            <div class="bg-white rounded-full px-4 py-2 flex items-center gap-3 shadow-md w-fit">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    <a href="mailto:Info@bals-france.fr"
+                        class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap w-">
+                        Info@bals-france.fr
+                    </a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    <a href="tel:+33164786080"
+                        class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
+                        01 64 78 60 80
+                    </a>
+                </div>
             </div>
-            <div class="flex items-center gap-2">
+        </div>
+
+        <div class="absolute top-4 right-4 sm:right-8 bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-md w-fit">
+            <button
+                id="bals-ref-search-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="bals-ref-search-wrap"
+                class="flex items-center gap-2 text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap"
+            >
                 <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                 </svg>
-                <a href="tel:+33164786080"
-                    class="text-gray-800 text-sm font-normal hover:text-gray-600 transition whitespace-nowrap">
-                    01 64 78 60 80
-                </a>
-            </div>
+                Référence
+            </button>
+
+            <form id="bals-ref-search-wrap" action="#" method="get" class="hidden">
+                <input
+                    id="bals-ref-search-input"
+                    name="reference"
+                    type="search"
+                    placeholder="Saisir une référence"
+                    class="w-44 sm:w-52 bg-gray-50 border border-gray-200 rounded-full px-3 py-1 text-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#009EE3]"
+                >
+            </form>
         </div>
     </div>
 
@@ -167,13 +242,60 @@
         window.addEventListener('resize', function () { if (window.innerWidth >= 768) close_menu(); });
     }
 
+    function initReferenceSearch() {
+        var toggleBtn = document.getElementById('bals-ref-search-toggle');
+        var searchWrap = document.getElementById('bals-ref-search-wrap');
+        var searchInput = document.getElementById('bals-ref-search-input');
+
+        if (!toggleBtn || !searchWrap || !searchInput) return;
+        if (toggleBtn.dataset.init === '1') return;
+        toggleBtn.dataset.init = '1';
+
+        var opened = false;
+
+        function openSearch() {
+            opened = true;
+            searchWrap.classList.remove('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            opened = false;
+            searchWrap.classList.add('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        toggleBtn.addEventListener('click', function () {
+            opened ? closeSearch() : openSearch();
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!opened) return;
+            if (toggleBtn.contains(event.target) || searchWrap.contains(event.target)) return;
+            closeSearch();
+        });
+
+        searchInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeSearch();
+                toggleBtn.focus();
+            }
+        });
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initBurger);
+        document.addEventListener('DOMContentLoaded', function () {
+            initBurger();
+            initReferenceSearch();
+        });
     } else {
         initBurger();
+        initReferenceSearch();
     }
 
     // Relance après navigation Livewire
     document.addEventListener('livewire:navigated', initBurger);
+    document.addEventListener('livewire:navigated', initReferenceSearch);
 })();
 </script>

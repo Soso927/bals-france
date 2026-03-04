@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +15,14 @@
     <title>@yield('title', 'Configurateur BALS')</title>
 
     {{-- Google Fonts : police Outfit --}}
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     {{-- Tailwind CSS via CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,7 +33,7 @@
                 extend: {
                     colors: {
                         'bals-blue': '#009EE3',
-                        'bals-red':  '#DA291C',
+                        'bals-red': '#DA291C',
                     },
                     fontFamily: {
                         'sans': ['Outfit', 'sans-serif'],
@@ -67,4 +72,5 @@
     @livewireScripts
 
 </body>
+
 </html>
