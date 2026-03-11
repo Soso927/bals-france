@@ -4,31 +4,21 @@
    Compatible Tailwind v3 et v4
 ===================================================== */
 
-/* Directives Tailwind */
 @tailwind utilities;
 
-
-/* Déclaration de la police locale */
 @font-face {
     font-family: 'Etelka';
-    src: url('/fonts/Etelka_Medium_Pro_Regular.ttf') format('truetype'),
-         url('/fonts/Etelka_Medium_Pro_Regular.woff2') format('woff2');
-    font-weight: 400;
+    src: url('/fonts/Etelka_Medium_Pro_Regular.woff2') format('woff2'),
+         url('/fonts/Etelka_Medium_Pro_Regular.ttf') format('truetype');
+    font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
-/* Intégration dans le thème Tailwind v4 */
 @theme {
     --font-sans: 'Etelka', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Application globale sur toute la page */
-@layer base {
-    html, body {
-        font-family: var(--font-sans);
-    }
-}
 
 
 /* =====================================================
