@@ -23,6 +23,13 @@ Route::get('/gamme', function () {
 })->name('gamme');
 
 
+Route::get('/admin', function () {
+    return view('admin');
+})->name('admin');
+
+
+
+
 // ============================================
 // ROUTE PAGE ACTUALITÉS
 // ============================================

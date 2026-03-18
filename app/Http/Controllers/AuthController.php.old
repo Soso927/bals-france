@@ -1,0 +1,325 @@
+<?php
+
+/*
+|==========================================================================
+| CONTRÔLEUR : AuthController
+|==========================================================================
+|
+| Un contrôleur, c'est le "cerveau" de l'application. Il reçoit les
+| demandes de l'utilisateur (requêtes HTTP), exécute la logique métier,
+| et renvoie une réponse (une page, une redirection, etc.).
+|
+| Ce contrôleur gère TOUTE l'authentification :
+|   → Afficher le formulaire de connexion
+|   → Traiter la connexion (vérifier email + mot de passe)
+|   → Afficher le formulaire d'inscription
+|   → Traiter l'inscription (créer le compte)
+|   → Déconnecter l'utilisateur
+|
+| EMPLACEMENT : app/Http/Controllers/AuthController.php
+|
+| POUR CRÉER CE FICHIER AVEC ARTISAN :
+|   php artisan make:controller AuthController
+|   (puis remplacer le contenu par celui-ci)
+|
+*/
+
+namespace App\Http\Controllers;
+
+// On importe les classes dont on a besoin
+use App\Models\User;             // Le modèle User (pour accéder à la table users)
+use Illuminate\Http\Request;      // L'objet qui contient les données du formulaire
+use Illuminate\Support\Facades\Auth;    // Le système d'authentification de Laravel
+use Illuminate\Support\Facades\Hash;    // Pour chiffrer/vérifier les mots de passe
+
+class AuthController extends Controller
+{
+    /*
+    |======================================================================
+    |  1. AFFICHER LE FORMULAIRE DE CONNEXION
+    |======================================================================
+    |
+    | Méthode HTTP : GET
+    | URL : /login
+    |
+    | Cette méthode est appelée quand l'utilisateur visite la page /login.
+    | Elle ne fait qu'une chose : afficher le formulaire de connexion.
+    |
+    | return view('auth.login') signifie :
+    |   → Va chercher le fichier resources/views/auth/login.blade.php
+    |   → Affiche-le à l'écran
+    |
+    */
+    public function afficherFormulaireConnexion()
+    {
+        return view('auth.login');
+    }
+
+
+    /*
+    |======================================================================
+    |  2. TRAITER LA CONNEXION
+    |======================================================================
+    |
+    | Méthode HTTP : POST
+    | URL : /login
+    |
+    | Cette méthode est appelée quand l'utilisateur SOUMET le formulaire
+    | de connexion (quand il clique sur le bouton "Se connecter").
+    |
+    | ÉTAPES :
+    |   1. Valider les données du formulaire (email et mot de passe remplis ?)
+    |   2. Vérifier que l'email + mot de passe correspondent à un compte
+    |   3. Si OUI → connecter l'utilisateur et le rediriger
+    |   4. Si NON → afficher un message d'erreur
+    |
+    | $request contient toutes les données envoyées par le formulaire.
+    | $request->input('email') = la valeur du champ "email" du formulaire
+    |
+    */
+    public function traiterConnexion(Request $request)
+    {
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 1 : Validation des données
+        |------------------------------------------------------------------
+        |
+        | validate() vérifie que les données du formulaire respectent
+        | les règles qu'on définit. Si ce n'est pas le cas, Laravel
+        | renvoie automatiquement l'utilisateur au formulaire avec
+        | des messages d'erreur.
+        |
+        | 'required' = le champ est obligatoire (pas vide)
+        | 'email'    = le champ doit être un email valide (avec @)
+        | 'string'   = le champ doit être du texte
+        |
+        */
+        $request->validate([
+            'email' => 'required|email',          // Email obligatoire et valide
+            'password' => 'required|string',       // Mot de passe obligatoire
+        ], [
+            // Messages d'erreur personnalisés en français
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'L\'adresse email n\'est pas valide.',
+            'password.required' => 'Le mot de passe est obligatoire.',
+        ]);
+
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 2 : Tentative de connexion
+        |------------------------------------------------------------------
+        |
+        | Auth::attempt() fait TOUT le travail :
+        |   1. Cherche un utilisateur avec cet email dans la base de données
+        |   2. Compare le mot de passe envoyé avec le hash stocké en base
+        |   3. Si tout correspond → crée une session et retourne true
+        |   4. Si échec → retourne false
+        |
+        | C'est la méthode la plus sûre car :
+        |   → Elle utilise Hash::check() en interne (comparaison sécurisée)
+        |   → Elle ne révèle pas si c'est l'email ou le mot de passe qui est faux
+        |
+        */
+        $identifiants = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+
+        // On tente la connexion avec les identifiants du formulaire
+        if (Auth::attempt($identifiants)) {
+
+            /*
+            |--------------------------------------------------------------
+            | CONNEXION RÉUSSIE
+            |--------------------------------------------------------------
+            |
+            | regenerate() crée un nouvel identifiant de session.
+            | C'est une protection contre le "Session Fixation Attack" :
+            | un pirate qui aurait récupéré l'ancien ID de session
+            | ne pourra plus l'utiliser car il a changé.
+            |
+            */
+            $request->session()->regenerate();
+
+            /*
+            | On redirige l'utilisateur vers la carte interactive
+            | with('success', '...') envoie un message flash qui sera
+            | affiché une seule fois sur la page suivante
+            */
+            return redirect('/france-map')
+                ->with('success', 'Connexion réussie ! Bienvenue.');
+
+        }
+
+        /*
+        |------------------------------------------------------------------
+        | CONNEXION ÉCHOUÉE
+        |------------------------------------------------------------------
+        |
+        | Si on arrive ici, c'est que Auth::attempt() a retourné false.
+        | L'email ou le mot de passe est incorrect.
+        |
+        | back() = retourner à la page précédente (le formulaire)
+        | withErrors() = ajouter un message d'erreur
+        | withInput() = pré-remplir les champs (sauf le mot de passe)
+        |
+        | SÉCURITÉ : On ne dit PAS "email incorrect" ou "mot de passe incorrect"
+        | séparément. On dit simplement "identifiants incorrects".
+        | Pourquoi ? Pour ne pas aider un pirate à deviner si un email
+        | existe dans notre base de données.
+        |
+        */
+        return back()
+            ->withErrors(['email' => 'Email ou mot de passe incorrect.'])
+            ->withInput($request->only('email'));
+            // withInput('email') → pré-remplit le champ email mais PAS le mot de passe
+    }
+
+
+    /*
+    |======================================================================
+    |  3. AFFICHER LE FORMULAIRE D'INSCRIPTION
+    |======================================================================
+    |
+    | Méthode HTTP : GET
+    | URL : /register
+    |
+    | Affiche simplement la page d'inscription.
+    |
+    */
+    public function afficherFormulaireInscription()
+    {
+        return view('auth.register');
+    }
+
+
+    /*
+    |======================================================================
+    |  4. TRAITER L'INSCRIPTION
+    |======================================================================
+    |
+    | Méthode HTTP : POST
+    | URL : /register
+    |
+    | Quand l'utilisateur soumet le formulaire d'inscription :
+    |   1. On valide les données (nom, email, mot de passe)
+    |   2. On crée le compte dans la base de données
+    |   3. On connecte automatiquement l'utilisateur
+    |   4. On le redirige vers la carte
+    |
+    */
+    public function traiterInscription(Request $request)
+    {
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 1 : Validation des données
+        |------------------------------------------------------------------
+        |
+        | Règles de validation détaillées :
+        |
+        | 'required'   → le champ ne doit pas être vide
+        | 'string'     → le champ doit être du texte
+        | 'max:255'    → maximum 255 caractères
+        | 'email'      → doit être un format email valide
+        | 'unique:users' → cet email ne doit pas déjà exister dans la table users
+        | 'min:8'      → minimum 8 caractères (sécurité)
+        | 'confirmed'  → le champ "password" doit correspondre au champ "password_confirmation"
+        |
+        */
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            // Messages d'erreur personnalisés en français
+            'name.required' => 'Le nom est obligatoire.',
+            'name.max' => 'Le nom ne doit pas dépasser 255 caractères.',
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'L\'adresse email n\'est pas valide.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+            'password.confirmed' => 'Les deux mots de passe ne correspondent pas.',
+        ]);
+
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 2 : Création du compte en base de données
+        |------------------------------------------------------------------
+        |
+        | User::create() crée une nouvelle ligne dans la table "users".
+        |
+        | Le mot de passe est automatiquement chiffré grâce au
+        | 'password' => 'hashed' qu'on a défini dans le modèle User
+        | (dans la méthode casts()). On n'a donc PAS besoin d'appeler
+        | bcrypt() ou Hash::make() ici.
+        |
+        | IMPORTANT : is_admin n'est PAS défini ici.
+        | Par défaut, il vaudra false (défini dans la migration).
+        | Un utilisateur qui s'inscrit n'est JAMAIS admin automatiquement.
+        |
+        */
+        $utilisateur = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            // is_admin sera automatiquement false (valeur par défaut)
+        ]);
+
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 3 : Connexion automatique après inscription
+        |------------------------------------------------------------------
+        |
+        | Auth::login($utilisateur) connecte immédiatement le nouvel
+        | utilisateur. Comme ça, il n'a pas besoin de se re-connecter
+        | après s'être inscrit. C'est plus agréable pour l'utilisateur.
+        |
+        */
+        Auth::login($utilisateur);
+
+        /*
+        |------------------------------------------------------------------
+        | ÉTAPE 4 : Redirection avec message de succès
+        |------------------------------------------------------------------
+        */
+        return redirect('/france-map')
+            ->with('success', 'Compte créé avec succès ! Bienvenue.');
+    }
+
+
+    /*
+    |======================================================================
+    |  5. DÉCONNEXION
+    |======================================================================
+    |
+    | Méthode HTTP : POST
+    | URL : /logout
+    |
+    | On utilise POST et non GET pour la déconnexion. Pourquoi ?
+    | Parce qu'un lien <a href="/logout"> (qui fait un GET) pourrait
+    | être déclenché par un pirate via une image cachée, par exemple :
+    |   <img src="/logout"> → déconnecterait l'utilisateur à son insu !
+    |
+    | Avec POST + @csrf, c'est impossible car le pirate ne connaît pas
+    | le token CSRF (un code secret unique à chaque session).
+    |
+    */
+    public function deconnecter(Request $request)
+    {
+        // Auth::logout() supprime les infos de connexion de la session
+        Auth::logout();
+
+        // invalidate() détruit complètement la session actuelle
+        // Plus aucune donnée de session ne subsiste
+        $request->session()->invalidate();
+
+        // regenerateToken() crée un nouveau token CSRF
+        // L'ancien token ne pourra plus être utilisé
+        $request->session()->regenerateToken();
+
+        // On redirige vers la page d'accueil avec un message
+        return redirect('/')
+            ->with('success', 'Vous avez été déconnecté.');
+    }
+}

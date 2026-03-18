@@ -1,0 +1,134 @@
+<?php
+
+/*
+|==========================================================================
+| MIDDLEWARE : AdminMiddleware
+|==========================================================================
+|
+| QU'EST-CE QU'UN MIDDLEWARE ?
+|
+| Un middleware, c'est un "contrôle intermédiaire". Imagine un vigile
+| posté devant une porte : chaque personne qui veut entrer passe
+| d'abord par lui. Le vigile vérifie les papiers et décide :
+|   → "OK, tu peux passer" → il laisse la personne voir la page
+|   → "Non, tu ne peux pas" → il redirige vers une autre page
+|
+| Dans notre cas, le middleware AdminMiddleware vérifie DEUX choses :
+|   1. L'utilisateur est-il connecté ?
+|   2. L'utilisateur est-il administrateur ?
+|
+| QUAND EST-IL EXÉCUTÉ ?
+|
+| Le middleware s'exécute AVANT que la page ne s'affiche.
+| Le flux est le suivant :
+|
+|   Utilisateur tape l'URL /admin-agents
+|       ↓
+|   Laravel trouve la route correspondante
+|       ↓
+|   Laravel voit ->middleware('admin') sur cette route
+|       ↓
+|   Laravel exécute AdminMiddleware::handle()
+|       ↓
+|   Si OK → la page s'affiche normalement
+|   Si NON → redirection vers /login ou erreur 403
+|
+| EMPLACEMENT : app/Http/Middleware/AdminMiddleware.php
+|
+| POUR CRÉER CE FICHIER AVEC ARTISAN :
+|   php artisan make:middleware AdminMiddleware
+|   (puis remplacer le contenu par celui-ci)
+|
+*/
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class AdminMiddleware
+{
+    /**
+     * handle() — La méthode principale du middleware
+     *
+     * Cette méthode est appelée automatiquement par Laravel
+     * pour chaque requête qui passe par ce middleware.
+     *
+     * @param  Request  $request  — Toutes les infos sur la requête
+     *                              (URL, cookies, session, etc.)
+     *
+     * @param  Closure  $next     — La "suite du programme" : la page que
+     *                              l'utilisateur veut voir. Si on appelle
+     *                              $next($request), la page s'affiche.
+     *                              Si on ne l'appelle PAS, la page est bloquée.
+     *
+     * @return Response           — Ce qu'on renvoie à l'utilisateur
+     *                              (la page, ou une redirection)
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        /*
+        |------------------------------------------------------------------
+        | VÉRIFICATION 1 : L'utilisateur est-il connecté ?
+        |------------------------------------------------------------------
+        |
+        | auth()->check() est une méthode de Laravel qui retourne :
+        |   true  → si l'utilisateur est connecté (session active)
+        |   false → si l'utilisateur n'est PAS connecté
+        |
+        | Le "!" devant signifie "NON", donc :
+        |   !auth()->check() = "si l'utilisateur N'EST PAS connecté"
+        |
+        | Si pas connecté → on le redirige vers la page de connexion
+        | avec un message d'erreur pour lui expliquer pourquoi.
+        |
+        */
+        if (!auth()->check()) {
+
+            return redirect('/login')
+                ->with('error', 'Veuillez vous connecter pour accéder à cette page.');
+        }
+
+        /*
+        |------------------------------------------------------------------
+        | VÉRIFICATION 2 : L'utilisateur est-il administrateur ?
+        |------------------------------------------------------------------
+        |
+        | auth()->user() retourne l'objet User de l'utilisateur connecté
+        | (c'est-à-dire une instance du modèle User avec toutes ses infos)
+        |
+        | ->is_admin accède à la colonne "is_admin" de la table users
+        | Grâce au cast 'boolean' dans le modèle, c'est true ou false
+        |
+        | Si l'utilisateur est connecté MAIS n'est PAS admin :
+        | → On affiche une erreur 403 "Accès interdit"
+        |
+        | abort(403) crée une réponse HTTP avec le code 403 (Forbidden)
+        | Laravel cherchera automatiquement la vue errors/403.blade.php
+        | Si elle n'existe pas, il affichera une page d'erreur par défaut
+        |
+        */
+        if (!auth()->user()->is_admin) {
+
+            abort(403, 'Accès réservé aux administrateurs.');
+        }
+
+        /*
+        |------------------------------------------------------------------
+        | TOUT EST OK → On laisse passer
+        |------------------------------------------------------------------
+        |
+        | Si on arrive ici, c'est que :
+        |   ✓ L'utilisateur EST connecté
+        |   ✓ L'utilisateur EST administrateur
+        |
+        | $next($request) signifie :
+        |   "Continue le traitement normal, affiche la page demandée"
+        |
+        | C'est comme le vigile qui dit "Allez-y, vous pouvez passer"
+        |
+        */
+        return $next($request);
+    }
+}
