@@ -1,556 +1,321 @@
 // ============================================================
-// CONFIGURATEUR BALS - JAVASCRIPT CONSOLIDÉ
-// Fichier unique pour gérer tous les types de coffrets
-// Version Laravel + Tailwind
+// CONFIGURATEUR BALS — JavaScript unique pour tous les coffrets
+// Fonctions attendues par les templates Blade :
+//   toggleSection(id), mettreAJour(), changerQte(btn, delta),
+//   changerQteAlim(btn, delta), reinitialiser(), envoyerDevis(),
+//   copierResume(), soumettrePDF(), ajouterFichiers(files),
+//   gererDrop(event), gererTypeProduit(), gererPolaritePI()
 // ============================================================
 
-/**
- * Classe principale du configurateur
- * Gère l'état et toutes les interactions du formulaire
- */
-class ConfigurateurBALS {
-    constructor(typeConfigurator = 'chantier') {
-        // Type de configurateur (chantier, etage, industrie, evenementiel, prise-industrielle)
-        this.type = typeConfigurator;
-        
-        // État de l'application
-        this.state = {
-            distributeur: '',
-            contactDist: '',
-            installateur: '',
-            affaire: '',
-            email: '',
-            type: '',
-            materiau: '',
-            ip: '',
-            protections: {
-                tete: [],
-                prises: []
-            },
-            sockets: [],
-            observations: ''
-        };
-        
-        // Initialisation
-        this.init();
-    }
+var fichiersPJ = [];
 
-    /**
-     * Initialisation du configurateur
-     */
-    init() {
-        this.bindEvents();
-        this.initializeProtectionExclusivity();
-        this.updateProgress();
-    }
+// ── Accordéon ────────────────────────────────────────────────
+function toggleSection(id) {
+    var section = document.getElementById('section-' + id);
+    var arrow   = document.getElementById('arrow-' + id);
+    if (!section) return;
 
-    /**
-     * Liaison des événements
-     */
-    bindEvents() {
-        // Événements de saisie
-        this.bindInputEvents();
-        
-        // Événements de sélection de cartes
-        this.bindCardSelectionEvents();
-        
-        // Événements des checkboxes
-        this.bindCheckboxEvents();
-        
-        // Événements de génération de devis
-        this.bindQuoteGenerationEvents();
-    }
-
-    /**
-     * Liaison des événements de saisie de texte
-     */
-    bindInputEvents() {
-        const inputs = ['distributeur', 'contactDist', 'installateur', 'affaire', 'email', 'observations'];
-        
-        inputs.forEach(inputId => {
-            const element = document.getElementById(inputId);
-            if (element) {
-                element.addEventListener('input', (e) => {
-                    this.state[inputId] = e.target.value;
-                    this.updateProgress();
-                });
-            }
-        });
-    }
-
-    /**
-     * Liaison des événements de sélection de cartes
-     */
-    bindCardSelectionEvents() {
-        // Cartes de type
-        document.querySelectorAll('.selection-grid input[name="type"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                this.selectCard(e.target.closest('label'), 'type');
-            });
-        });
-
-        // Cartes de matériau
-        document.querySelectorAll('.selection-grid input[name="mat"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                this.selectCard(e.target.closest('label'), 'mat');
-            });
-        });
-
-        // Cartes IP
-        document.querySelectorAll('.ip-grid input[name="ip"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                this.selectIPCard(e.target.closest('label'));
-            });
-        });
-    }
-
-    /**
-     * Liaison des événements des checkboxes
-     */
-    bindCheckboxEvents() {
-        // Protections de tête
-        document.querySelectorAll('input[name="protTete"]').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                this.toggleCheckbox(e.target.closest('.checkbox-card'));
-                this.updateProtectionState('tete');
-            });
-        });
-
-        // Protections de prises
-        document.querySelectorAll('input[name="protPrises"]').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                this.toggleCheckbox(e.target.closest('.checkbox-card'));
-                this.updateProtectionState('prises');
-            });
-        });
-    }
-
-    /**
-     * Liaison des événements de génération de devis
-     */
-    bindQuoteGenerationEvents() {
-        const pdfBtn = document.getElementById('genererPDF');
-        const excelBtn = document.getElementById('genererExcel');
-
-        if (pdfBtn) {
-            pdfBtn.addEventListener('click', () => this.generatePDF());
-        }
-
-        if (excelBtn) {
-            excelBtn.addEventListener('click', () => this.generateExcel());
-        }
-    }
-
-    /**
-     * Toggle des sections accordéon
-     */
-    toggleSection(header) {
-        const content = header.nextElementSibling;
-        const icon = header.querySelector('.section-toggle');
-        
-        if (content.classList.contains('collapsed')) {
-            content.classList.remove('collapsed');
-            if (icon) icon.style.transform = 'rotate(180deg)';
-        } else {
-            content.classList.add('collapsed');
-            if (icon) icon.style.transform = 'rotate(0deg)';
-        }
-    }
-
-    /**
-     * Sélection d'une carte (type ou matériau)
-     */
-    selectCard(label, category) {
-        const container = label.closest('.selection-grid');
-        const allCards = container.querySelectorAll('label');
-        
-        allCards.forEach(card => card.classList.remove('active'));
-        label.classList.add('active');
-        
-        const radio = label.querySelector('input[type="radio"]');
-        if (radio) {
-            radio.checked = true;
-            
-            if (category === 'type') {
-                this.state.type = radio.value;
-            } else if (category === 'mat') {
-                this.state.materiau = radio.value;
-            }
-            
-            this.updateProgress();
-        }
-    }
-
-    /**
-     * Sélection d'une carte IP
-     */
-    selectIPCard(label) {
-        const container = label.closest('.ip-grid');
-        const allCards = container.querySelectorAll('label');
-        
-        allCards.forEach(card => card.classList.remove('active'));
-        label.classList.add('active');
-        
-        const radio = label.querySelector('input[type="radio"]');
-        if (radio) {
-            radio.checked = true;
-            this.state.ip = radio.value;
-            this.updateProgress();
-        }
-    }
-
-    /**
-     * Toggle d'une checkbox
-     */
-    toggleCheckbox(card) {
-        const checkbox = card.querySelector('input[type="checkbox"]');
-        const icon = card.querySelector('.checkbox-icon');
-        
-        if (checkbox.checked) {
-            card.classList.add('active');
-            if (icon) icon.textContent = '✓';
-        } else {
-            card.classList.remove('active');
-            if (icon) icon.textContent = '☐';
-        }
-    }
-
-    /**
-     * Mise à jour de l'état des protections
-     */
-    updateProtectionState(type) {
-        const name = type === 'tete' ? 'protTete' : 'protPrises';
-        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-        
-        this.state.protections[type] = Array.from(checkboxes).map(cb => cb.value);
-        this.updateProgress();
-    }
-
-    /**
-     * Calcul de la progression
-     */
-    calculateProgress() {
-        let completed = 0;
-        let total = 0;
-        
-        // Informations de contact (5 champs)
-        const contactFields = ['distributeur', 'contactDist', 'installateur', 'affaire', 'email'];
-        contactFields.forEach(field => {
-            total++;
-            if (this.state[field] && this.state[field].trim()) completed++;
-        });
-        
-        // Caractéristiques techniques (3 champs)
-        total += 3;
-        if (this.state.type) completed++;
-        if (this.state.materiau) completed++;
-        if (this.state.ip) completed++;
-        
-        // Protections (2 groupes)
-        total += 2;
-        if (this.state.protections.tete.length > 0) completed++;
-        if (this.state.protections.prises.length > 0) completed++;
-        
-        // Prises (au moins une)
-        total++;
-        if (this.state.sockets.length > 0) completed++;
-        
-        return Math.round((completed / total) * 100);
-    }
-
-    /**
-     * Mise à jour de la barre de progression
-     */
-    updateProgress() {
-        const percentage = this.calculateProgress();
-        const progressBar = document.getElementById('progressBar');
-        const progressLabel = document.querySelector('.progress-label');
-        
-        if (progressBar) {
-            progressBar.style.width = percentage + '%';
-        }
-        
-        if (progressLabel) {
-            progressLabel.textContent = `Progression du devis (${percentage}%)`;
-        }
-    }
-
-    /**
-     * Ajout d'une prise
-     */
-    addSocket(socketType, socketName, amperage, phases) {
-        const quantity = parseInt(document.getElementById(`qty-${socketType}`)?.value || 1);
-        
-        if (quantity > 0) {
-            const existingIndex = this.state.sockets.findIndex(s => s.type === socketType);
-            
-            if (existingIndex >= 0) {
-                this.state.sockets[existingIndex].quantity = quantity;
-            } else {
-                this.state.sockets.push({
-                    type: socketType,
-                    name: socketName,
-                    amperage: amperage,
-                    phases: phases,
-                    quantity: quantity
-                });
-            }
-            
-            this.updateSelectedSockets();
-            this.updateProgress();
-        }
-    }
-
-    /**
-     * Suppression d'une prise
-     */
-    removeSocket(socketType) {
-        this.state.sockets = this.state.sockets.filter(s => s.type !== socketType);
-        
-        const qtyInput = document.getElementById(`qty-${socketType}`);
-        if (qtyInput) qtyInput.value = 0;
-        
-        this.updateSelectedSockets();
-        this.updateProgress();
-    }
-
-    /**
-     * Mise à jour de l'affichage des prises sélectionnées
-     */
-    updateSelectedSockets() {
-        const container = document.getElementById('selectedSockets');
-        if (!container) return;
-        
-        if (this.state.sockets.length === 0) {
-            container.innerHTML = '<p class="text-sm text-gray-500 italic">Aucune prise sélectionnée</p>';
-            return;
-        }
-        
-        container.innerHTML = this.state.sockets.map(socket => `
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <div class="flex-1">
-                    <p class="font-medium text-gray-900">${socket.name}</p>
-                    <p class="text-sm text-gray-500">${socket.amperage} - ${socket.phases}</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                        Qté: ${socket.quantity}
-                    </span>
-                    <button onclick="configurateur.removeSocket('${socket.type}')" 
-                            class="text-red-600 hover:text-red-800 font-medium">
-                        ✕
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    /**
-     * Génération du PDF
-     */
-    async generatePDF() {
-        try {
-            const response = await fetch('/api/generate-quote/pdf', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
-                },
-                body: JSON.stringify({
-                    type: this.type,
-                    data: this.state
-                })
-            });
-
-            if (!response.ok) throw new Error('Erreur lors de la génération du PDF');
-
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `devis-bals-${Date.now()}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            
-            this.showNotification('PDF généré avec succès !', 'success');
-        } catch (error) {
-            console.error('Erreur:', error);
-            this.showNotification('Erreur lors de la génération du PDF', 'error');
-        }
-    }
-
-    /**
-     * Génération du fichier Excel
-     */
-    async generateExcel() {
-        try {
-            const response = await fetch('/api/generate-quote/excel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
-                },
-                body: JSON.stringify({
-                    type: this.type,
-                    data: this.state
-                })
-            });
-
-            if (!response.ok) throw new Error('Erreur lors de la génération du fichier Excel');
-
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `devis-bals-${Date.now()}.xlsx`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            
-            this.showNotification('Fichier Excel généré avec succès !', 'success');
-        } catch (error) {
-            console.error('Erreur:', error);
-            this.showNotification('Erreur lors de la génération du fichier Excel', 'error');
-        }
-    }
-
-    /**
-     * Affichage d'une notification
-     */
-    showNotification(message, type = 'info') {
-        // Vous pouvez utiliser une bibliothèque comme Toastr ou créer votre propre système
-        alert(message); // Temporaire - à remplacer par un vrai système de notification
-    }
-
-    // ============================================================
-    // GESTION DE L'EXCLUSIVITÉ DES PROTECTIONS
-    // ============================================================
-
-    /**
-     * Initialisation de l'exclusivité des protections
-     */
-    initializeProtectionExclusivity() {
-        // Protection de Tête
-        document.querySelectorAll('input[name="protTete"]').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                this.handleProtectionTete(e.target);
-            });
-        });
-
-        // Protection des Prises
-        document.querySelectorAll('input[name="protPrises"]').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                this.handleProtectionPrises(e.target);
-            });
-        });
-    }
-
-    /**
-     * Gestion de l'exclusivité pour Protection de Tête
-     */
-    handleProtectionTete(checkbox) {
-        const value = checkbox.value;
-        const isChecked = checkbox.checked;
-
-        // Règle 1: Interrupteur ↔ Inter différentiel
-        if (value === 'Interrupteur') {
-            this.greyOutOption('protTete', 'Inter différentiel', isChecked);
-        }
-        if (value === 'Inter différentiel') {
-            this.greyOutOption('protTete', 'Interrupteur', isChecked);
-        }
-
-        // Règle 2: Disjoncteur ↔ Disjoncteur Diff.
-        if (value === 'Disjoncteur') {
-            this.greyOutOption('protTete', 'Disjoncteur Diff.', isChecked);
-        }
-        if (value === 'Disjoncteur Diff.') {
-            this.greyOutOption('protTete', 'Disjoncteur', isChecked);
-        }
-    }
-
-    /**
-     * Gestion de l'exclusivité pour Protection des Prises
-     */
-    handleProtectionPrises(checkbox) {
-        const value = checkbox.value;
-        const isChecked = checkbox.checked;
-
-        // Règle 1: Par prise ↔ Par groupe
-        if (value === 'Par prise') {
-            this.greyOutOption('protPrises', 'Par groupe', isChecked);
-        }
-        if (value === 'Par groupe') {
-            this.greyOutOption('protPrises', 'Par prise', isChecked);
-        }
-
-        // Règle 2: Disjoncteur ↔ Disjoncteur Diff.
-        if (value === 'Disjoncteur') {
-            this.greyOutOption('protPrises', 'Disjoncteur Diff.', isChecked);
-        }
-        if (value === 'Disjoncteur Diff.') {
-            this.greyOutOption('protPrises', 'Disjoncteur', isChecked);
-        }
-    }
-
-    /**
-     * Griser ou dégriser une option
-     */
-    greyOutOption(groupName, value, shouldGrey) {
-        const checkboxes = document.querySelectorAll(`input[name="${groupName}"]`);
-        
-        checkboxes.forEach(checkbox => {
-            if (checkbox.value === value) {
-                const card = checkbox.closest('.checkbox-card');
-                const icon = card?.querySelector('.checkbox-icon');
-                
-                if (shouldGrey) {
-                    // Griser
-                    checkbox.disabled = true;
-                    checkbox.checked = false;
-                    
-                    if (card) {
-                        card.style.opacity = '0.4';
-                        card.style.cursor = 'not-allowed';
-                        card.style.pointerEvents = 'none';
-                        card.classList.remove('active');
-                        
-                        if (icon) icon.textContent = '☐';
-                    }
-                } else {
-                    // Dégriser
-                    checkbox.disabled = false;
-                    
-                    if (card) {
-                        card.style.opacity = '1';
-                        card.style.cursor = 'pointer';
-                        card.style.pointerEvents = '';
-                    }
-                }
-            }
-        });
+    if (section.classList.contains('hidden')) {
+        section.classList.remove('hidden');
+        if (arrow) arrow.textContent = '▲';
+    } else {
+        section.classList.add('hidden');
+        if (arrow) arrow.textContent = '▼';
     }
 }
 
-// ============================================================
-// INITIALISATION GLOBALE
-// ============================================================
+// ── Quantités prises ─────────────────────────────────────────
+function changerQte(btn, delta) {
+    var span = btn.parentElement.querySelector('span[data-type]');
+    if (!span) return;
+    var val = Math.max(0, (parseInt(span.textContent) || 0) + delta);
+    span.textContent = val;
+    mettreAJour();
+}
 
-let configurateur;
+// ── Quantités alimentation ───────────────────────────────────
+function changerQteAlim(btn, delta) {
+    var span = btn.parentElement.querySelector('span[data-alim]');
+    if (!span) return;
+    var val = Math.max(0, (parseInt(span.textContent) || 0) + delta);
+    span.textContent = val;
+    mettreAJour();
+}
 
+// ── Mise à jour globale ───────────────────────────────────────
+function mettreAJour() {
+    // Compteur caractères observations
+    var obs = document.getElementById('observations');
+    var nb  = document.getElementById('nb-caracteres');
+    if (obs && nb) nb.textContent = obs.value.length;
+
+    var data = collecterDonnees();
+    var pct  = calculerProgression(data);
+
+    var barre = document.getElementById('progression-barre');
+    var texte = document.getElementById('progression-texte');
+    if (barre) barre.style.width = pct + '%';
+    if (texte) texte.textContent = '(' + pct + '%)';
+
+    afficherResume(data, pct);
+}
+
+// ── Collecte de toutes les valeurs du formulaire ─────────────
+function collecterDonnees() {
+    var d = {};
+
+    // Champs texte
+    ['societe','contact','distributeur','contact_distributeur',
+     'installateur','contact_installateur','affaire','telephone',
+     'email','observations','quantite'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) d[id] = el.value.trim();
+    });
+
+    // Radios
+    ['montage','materiau','ip','produit','montage_type',
+     'tension','amp','pol'].forEach(function(name) {
+        var el = document.querySelector('input[name="' + name + '"]:checked');
+        if (el) d[name] = el.value;
+    });
+
+    // Checkboxes protections
+    d.prot_tete   = Array.from(document.querySelectorAll('input[name="prot_tete[]"]:checked')).map(function(el) { return el.value; });
+    d.prot_prises = Array.from(document.querySelectorAll('input[name="prot_prises[]"]:checked')).map(function(el) { return el.value; });
+
+    // Prises avec quantité > 0
+    d.prises = [];
+    document.querySelectorAll('span[data-type][data-brochage]').forEach(function(span) {
+        var qte = parseInt(span.textContent) || 0;
+        if (qte <= 0) return;
+        var tension = '';
+        var row = span.closest('tr');
+        if (row) {
+            var h = row.querySelector('input[data-field="tension"]');
+            var s = row.querySelector('select[data-field="tension"]');
+            if (h) tension = h.value;
+            else if (s) tension = s.value;
+        }
+        d.prises.push({ type: span.dataset.type, brochage: span.dataset.brochage, qte: qte, tension: tension });
+    });
+
+    // Alimentation avec quantité > 0
+    d.alim = [];
+    document.querySelectorAll('span[data-alim][data-brochage]').forEach(function(span) {
+        var qte = parseInt(span.textContent) || 0;
+        if (qte <= 0) return;
+        var tension = '';
+        var row = span.closest('tr');
+        if (row) {
+            var h = row.querySelector('input[data-field="tension-alim"]');
+            var s = row.querySelector('select[data-field="tension-alim"]');
+            if (h) tension = h.value;
+            else if (s) tension = s.value;
+        }
+        d.alim.push({ type: span.dataset.alim, brochage: span.dataset.brochage, qte: qte, tension: tension });
+    });
+
+    d.fichiers = fichiersPJ;
+    return d;
+}
+
+// ── Calcul du pourcentage de complétion ──────────────────────
+function calculerProgression(d) {
+    var score = 0, total = 0;
+
+    // Détecte les champs de contact présents dans le DOM
+    var contactCandidats = ['societe','contact','distributeur','contact_distributeur',
+                            'installateur','contact_installateur','affaire','email','telephone'];
+    contactCandidats.forEach(function(f) {
+        if (document.getElementById(f)) {
+            total++;
+            if (d[f]) score++;
+        }
+    });
+
+    // Caractéristiques techniques
+    ['montage','materiau','ip','tension','amp','pol'].forEach(function(name) {
+        if (document.querySelector('input[name="' + name + '"]')) {
+            total++;
+            if (d[name]) score++;
+        }
+    });
+
+    // Protections
+    if (document.querySelector('input[name="prot_tete[]"]'))   { total++; if (d.prot_tete.length)   score++; }
+    if (document.querySelector('input[name="prot_prises[]"]')) { total++; if (d.prot_prises.length) score++; }
+
+    // Au moins une prise ou alimentation
+    if (document.querySelector('span[data-type]') || document.querySelector('span[data-alim]')) {
+        total++;
+        if (d.prises.length > 0 || d.alim.length > 0) score++;
+    }
+
+    return total > 0 ? Math.round((score / total) * 100) : 0;
+}
+
+// ── Affichage du résumé ──────────────────────────────────────
+function afficherResume(d, pct) {
+    var zone    = document.getElementById('resume-zone');
+    var boutons = document.getElementById('boutons-action');
+    if (!zone) return;
+
+    var nom = (window.COFFRET && window.COFFRET.nom) ? window.COFFRET.nom : 'Coffret';
+
+    var lignes = [];
+    if (d.produit)     lignes.push({ l: 'Produit',       v: d.produit });
+    if (d.montage)     lignes.push({ l: 'Type',          v: d.montage });
+    if (d.materiau)    lignes.push({ l: 'Matériau',      v: d.materiau });
+    if (d.ip)          lignes.push({ l: 'IP',            v: d.ip });
+    if (d.tension)     lignes.push({ l: 'Tension',       v: d.tension });
+    if (d.amp)         lignes.push({ l: 'Intensité',     v: d.amp });
+    if (d.pol)         lignes.push({ l: 'Polarité',      v: d.pol });
+    if (d.prot_tete   && d.prot_tete.length)   lignes.push({ l: 'Prot. tête',   v: d.prot_tete.join(', ') });
+    if (d.prot_prises && d.prot_prises.length) lignes.push({ l: 'Prot. prises', v: d.prot_prises.join(', ') });
+
+    d.prises.forEach(function(p) {
+        lignes.push({ l: p.type + ' ' + p.brochage, v: '×' + p.qte + (p.tension ? ' — ' + p.tension : '') });
+    });
+    d.alim.forEach(function(a) {
+        lignes.push({ l: a.type + ' ' + a.brochage, v: '×' + a.qte + (a.tension ? ' — ' + a.tension : '') });
+    });
+
+    if (d.observations) {
+        var obs = d.observations.length > 80 ? d.observations.substring(0, 80) + '…' : d.observations;
+        lignes.push({ l: 'Notes', v: obs });
+    }
+    if (d.fichiers.length > 0) lignes.push({ l: 'Fichiers', v: d.fichiers.length + ' pièce(s)' });
+
+    if (lignes.length === 0) {
+        zone.innerHTML = '<p class="text-bals-blue font-bold text-sm opacity-40">Configurez votre ' +
+                         nom.toLowerCase() + '</p>' +
+                         '<p class="text-gray-400 text-xs mt-1">Les informations apparaîtront ici</p>';
+        if (boutons) boutons.classList.add('hidden');
+        return;
+    }
+
+    var html = '<div class="w-full text-left space-y-2">' +
+               '<p class="font-black text-gray-800 text-sm mb-3">' + nom + '</p>';
+    lignes.forEach(function(l) {
+        html += '<div class="flex justify-between items-start gap-2 text-xs border-b border-gray-50 pb-1.5">' +
+                '<span class="text-gray-400 shrink-0">' + l.l + '</span>' +
+                '<span class="text-gray-700 font-semibold text-right">' + l.v + '</span>' +
+                '</div>';
+    });
+    html += '</div>';
+    zone.innerHTML = html;
+
+    if (boutons) {
+        if (pct >= 20) boutons.classList.remove('hidden');
+        else            boutons.classList.add('hidden');
+    }
+}
+
+// ── Réinitialisation ─────────────────────────────────────────
+function reinitialiser() {
+    document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(function(el) {
+        el.value = '';
+    });
+    document.querySelectorAll('input[type="radio"]').forEach(function(el) { el.checked = false; });
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(el) { el.checked = false; });
+    document.querySelectorAll('span[data-type], span[data-alim]').forEach(function(span) { span.textContent = '0'; });
+    document.querySelectorAll('select[data-field]').forEach(function(el) { el.selectedIndex = 0; });
+
+    fichiersPJ = [];
+    var liste = document.getElementById('liste-fichiers');
+    if (liste) liste.innerHTML = '';
+    var input = document.getElementById('fichiers-input');
+    if (input) input.value = '';
+
+    mettreAJour();
+}
+
+// ── Actions panneau résumé ────────────────────────────────────
+function envoyerDevis() {
+    alert('Fonctionnalité d\'envoi en cours de développement.');
+}
+
+function copierResume() {
+    var zone = document.getElementById('resume-zone');
+    if (!zone) return;
+    navigator.clipboard.writeText(zone.innerText).then(function() {
+        var btn = document.querySelector('button[onclick="copierResume()"]');
+        if (btn) {
+            var orig = btn.textContent;
+            btn.textContent = '✓ Copié !';
+            setTimeout(function() { btn.textContent = orig; }, 1500);
+        }
+    }).catch(function() {
+        alert(zone.innerText);
+    });
+}
+
+function soumettrePDF() {
+    alert('Génération PDF en cours de développement.');
+}
+
+// ── Fichiers joints ──────────────────────────────────────────
+function ajouterFichiers(files) {
+    var liste = document.getElementById('liste-fichiers');
+    if (!liste) return;
+
+    Array.from(files).forEach(function(file) {
+        if (fichiersPJ.find(function(f) { return f.name === file.name; })) return;
+        if (file.size > 10 * 1024 * 1024) {
+            alert(file.name + ' dépasse 10 Mo.');
+            return;
+        }
+        fichiersPJ.push(file);
+
+        var li = document.createElement('li');
+        li.className = 'flex items-center justify-between bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 text-sm';
+        li.innerHTML = '<span class="text-gray-700 font-medium truncate max-w-50">' + file.name + '</span>' +
+                       '<span class="text-gray-400 text-xs ml-2 shrink-0">' + (file.size / 1024).toFixed(0) + ' Ko</span>' +
+                       '<button type="button" class="ml-3 text-red-400 hover:text-red-600 text-xs font-bold shrink-0">✕</button>';
+
+        li.querySelector('button').addEventListener('click', function() {
+            fichiersPJ = fichiersPJ.filter(function(f) { return f.name !== file.name; });
+            li.remove();
+            mettreAJour();
+        });
+
+        liste.appendChild(li);
+    });
+
+    var input = document.getElementById('fichiers-input');
+    if (input) input.value = '';
+
+    mettreAJour();
+}
+
+function gererDrop(event) {
+    event.preventDefault();
+    var dz = document.getElementById('drop-zone');
+    if (dz) dz.classList.remove('border-bals-blue', 'bg-blue-50');
+    if (event.dataTransfer && event.dataTransfer.files.length) {
+        ajouterFichiers(event.dataTransfer.files);
+    }
+}
+
+// ── Spécifique Prise Industrielle ────────────────────────────
+function gererTypeProduit() {
+    var sel = document.querySelector('input[name="produit"]:checked');
+    var zm  = document.getElementById('zone-montage');
+    if (zm) {
+        if (sel && (sel.value === 'Socle de prise' || sel.value === 'Socle connecteur')) {
+            zm.classList.remove('hidden');
+        } else {
+            zm.classList.add('hidden');
+        }
+    }
+    mettreAJour();
+}
+
+function gererPolaritePI() {
+    mettreAJour();
+}
+
+// ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-    // Récupérer le type de configurateur depuis l'attribut data
-    const appContainer = document.querySelector('[data-configurateur-type]');
-    const type = appContainer?.dataset.configurateurType || 'chantier';
-    
-    // Initialiser le configurateur
-    configurateur = new ConfigurateurBALS(type);
-    
-    // Exposer globalement pour les événements inline
-    window.configurateur = configurateur;
-    window.toggleSection = (header) => configurateur.toggleSection(header);
-
-n*** End Commentary**
+    mettreAJour();
+});

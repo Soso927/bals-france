@@ -2,7 +2,7 @@
 {{-- FICHIER : resources/views/configurateur/prise-industrielle.blade.php --}}
 {{-- RÔLE    : Page configurateur Prises Industrielles BALS       --}}
 {{-- ============================================================ --}}
-@extends('layouts.app')
+@extends('layouts.configurateur')
 
 @section('subtitle', 'Prises Industrielles BALS')
 

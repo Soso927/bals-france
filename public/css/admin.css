@@ -1,0 +1,124 @@
+/*
+ * admin.css
+ *
+ * Styles du back-office de gestion des agents commerciaux BALS France.
+ * Ce fichier est chargé uniquement sur la page /admin.
+ *
+ * Organisation :
+ *   1. Variables CSS (charte graphique BALS — mêmes couleurs que france-map.css)
+ *   2. Reset et base
+ *   3. Barre de marque bleue→rouge
+ *   4. Cartes d'agents (liste)
+ *   5. Formulaires de modification
+ *   6. Toast (message de confirmation)
+ */
+
+
+/* ════════════════════════════════════════════════════════════════
+   1. VARIABLES CSS — CHARTE GRAPHIQUE BALS (Style Guide V2016)
+   ════════════════════════════════════════════════════════════════ */
+:root {
+    --bals-blue:       #0095DA;   /* Bleu Bals officiel  */
+    --bals-red:        #ED1C24;   /* Rouge Bals officiel */
+    --bals-black:      #1A1A1A;   /* Noir pour le texte  */
+    --bals-grey:       #B3B3B3;   /* Gris clair          */
+    --bals-grey-light: #F4F6F8;   /* Fond de page        */
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   2. RESET ET BASE
+   ════════════════════════════════════════════════════════════════ */
+* {
+    font-family: 'Exo 2', sans-serif;
+    box-sizing:  border-box;
+}
+
+body {
+    background: var(--bals-grey-light);
+    color:      var(--bals-black);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   3. BARRE DE MARQUE (identité visuelle commune à tout le site)
+   ════════════════════════════════════════════════════════════════ */
+.brand-bar {
+    height:     4px;
+    background: linear-gradient(90deg, var(--bals-blue) 70%, var(--bals-red) 100%);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   4. CARTES D'AGENTS
+   ────────────────────────────────────────────────────────────────
+   Chaque agent est affiché dans une carte blanche avec un hover
+   qui met en avant la bordure bleue.
+   ════════════════════════════════════════════════════════════════ */
+.agent-card {
+    background:    white;
+    border:        1px solid #E2E6EA;
+    border-radius: 10px;
+    padding:       16px 20px;
+    margin-bottom: 12px;
+    transition:    box-shadow 0.2s, border-color 0.2s;
+}
+
+/* Au survol : légère ombre + bordure bleue */
+.agent-card:hover {
+    box-shadow:   0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: var(--bals-blue);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   5. FORMULAIRE DE MODIFICATION D'UN AGENT
+   ────────────────────────────────────────────────────────────────
+   Affiché à la place des infos de l'agent quand on clique "Modifier".
+   La classe .hidden (Tailwind) le masque par défaut.
+   ════════════════════════════════════════════════════════════════ */
+.edit-form input {
+    width:         100%;
+    padding:       8px 12px;
+    border:        1px solid #E2E6EA;
+    border-radius: 6px;
+    font-size:     13px;
+    font-family:   'Exo 2', sans-serif;
+    margin-bottom: 8px;
+    transition:    border-color 0.2s;
+}
+
+/* Bordure bleue quand le champ a le focus (click ou tabulation) */
+.edit-form input:focus {
+    outline:      none;
+    border-color: var(--bals-blue);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   6. TOAST — MESSAGE DE CONFIRMATION
+   ────────────────────────────────────────────────────────────────
+   Petit bandeau vert qui apparaît en bas à droite après chaque
+   sauvegarde, puis disparaît automatiquement après 2 secondes.
+   ════════════════════════════════════════════════════════════════ */
+.toast {
+    position:   fixed;
+    bottom:     24px;
+    right:      24px;
+    background: #059669;        /* Vert = succès */
+    color:      white;
+    padding:    12px 24px;
+    border-radius:8px;
+    font-weight:  600;
+    font-size:    13px;
+    opacity:      0;
+    transform:    translateY(20px);
+    transition:   all 0.3s;
+    z-index:      9999;
+}
+
+/* Classe ajoutée par JavaScript pour rendre le toast visible */
+.toast.visible {
+    opacity:   1;
+    transform: translateY(0);
+}

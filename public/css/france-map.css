@@ -1,0 +1,542 @@
+/*
+ * france-map.css
+ *
+ * Styles de la page "Carte interactive — Réseau commercial BALS France".
+ * Ce fichier est chargé uniquement sur la page /france-map.
+ *
+ * Organisation :
+ *   1. Variables CSS (charte graphique BALS)
+ *   2. Reset et base
+ *   3. En-tête de page
+ *   4. Grille principale (carte + panneau latéral)
+ *   5. Carte D3.js (SVG des départements)
+ *   6. Panneau latéral (info-box + liste des régions)
+ *   7. Tooltip (bulle au survol)
+ *   8. Animations
+ *   9. Lien vers le back-office
+ */
+
+
+/* ════════════════════════════════════════════════════════════════
+   1. VARIABLES CSS — CHARTE GRAPHIQUE BALS (Style Guide V2016)
+   Source : page 08 "Colours" du document BALS_2016_StyleGuide
+   ════════════════════════════════════════════════════════════════ */
+:root {
+    --bals-blue:       #0095DA;                  /* Bleu Bals — R0 G149 B218 */
+    --bals-red:        #ED1C24;                  /* Rouge Bals — R237 G28 B36 */
+    --bals-black:      #1A1A1A;                  /* Noir texte */
+    --bals-grey:       #B3B3B3;                  /* Gris clair — R179 G179 B179 */
+    --bals-grey-light: #F4F6F8;                  /* Fond de page */
+    --bals-grey-border:#E2E6EA;                  /* Couleur des bordures */
+    --bals-blue-10:    rgba(0, 149, 218, 0.10);  /* Bleu 10% (survol doux) */
+    --bals-blue-20:    rgba(0, 149, 218, 0.20);
+    --bals-red-10:     rgba(237, 28, 36, 0.10);  /* Rouge 10% (sélection) */
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   2. RESET ET BASE
+   ════════════════════════════════════════════════════════════════ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background:  var(--bals-grey-light);
+    color:       var(--bals-black);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
+    min-height:  100vh;
+}
+
+/* Barre bleue→rouge en haut de page (identité visuelle BALS) */
+.brand-bar {
+    height:     4px;
+    background: linear-gradient(90deg, var(--bals-blue) 70%, var(--bals-red) 100%);
+}
+
+/* Conteneur principal centré */
+.page-wrapper {
+    max-width: 1400px;
+    margin:    0 auto;
+    padding:   48px 32px 64px;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   3. EN-TÊTE DE PAGE
+   ════════════════════════════════════════════════════════════════ */
+.page-header {
+    margin-bottom: 48px;
+}
+
+/* Petit label "RÉSEAU COMMERCIAL" au-dessus du titre */
+.eyebrow {
+    display:        inline-flex;
+    align-items:    center;
+    gap:            10px;
+    font-size:      11px;
+    font-weight:    600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color:          var(--bals-blue);
+    margin-bottom:  16px;
+}
+
+/* Trait bleu avant le label */
+.eyebrow::before {
+    content:    '';
+    width:      28px;
+    height:     2px;
+    background: var(--bals-blue);
+}
+
+/* Titre H1 — taille fluide avec clamp() : s'adapte à la largeur d'écran */
+.page-header h1 {
+    font-size:      clamp(2rem, 3.5vw, 3rem);
+    font-weight:    800;
+    line-height:    1.1;
+    letter-spacing: -0.02em;
+    color:          var(--bals-black);
+    margin-bottom:  6px;
+}
+
+/* Le mot "commerciaux" en rouge (mise en valeur) */
+.page-header h1 span {
+    color: var(--bals-red);
+}
+
+/* Sous-titre descriptif */
+.page-header .tagline {
+    font-size:   15px;
+    font-weight: 300;
+    color:       #6b7280;
+    line-height: 1.7;
+    margin-top:  12px;
+    max-width:   580px;
+}
+
+.page-header a {
+    color:           var(--bals-blue);
+    text-decoration: none;
+    font-weight:     500;
+}
+
+.page-header a:hover {
+    text-decoration: underline;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   4. GRILLE PRINCIPALE
+   2 colonnes sur desktop : [carte flexible] [panneau 310px]
+   1 colonne sur mobile (< 1024px)
+   ════════════════════════════════════════════════════════════════ */
+.map-grid {
+    display:               grid;
+    grid-template-columns: 1fr 310px;
+    gap:                   24px;
+    align-items:           start;
+}
+
+@media (max-width: 1024px) {
+    .map-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   5. CARTE D3.js — CONTENEUR ET DÉPARTEMENTS SVG
+   ════════════════════════════════════════════════════════════════ */
+
+/* Carte : boîte blanche avec ombre légère */
+.map-card {
+    background:    #fff;
+    border:        1px solid var(--bals-grey-border);
+    border-radius: 12px;
+    overflow:      hidden;
+    box-shadow:    0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+.map-card-header {
+    padding:       18px 24px;
+    border-bottom: 1px solid var(--bals-grey-border);
+    border-left:   3px solid var(--bals-blue);
+    display:       flex;
+    align-items:   center;
+    justify-content: space-between;
+}
+
+.map-card-title {
+    font-size:      13px;
+    font-weight:    700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--bals-black);
+}
+
+/* Badge "13 régions" */
+.map-card-badge {
+    font-size:   11px;
+    font-weight: 600;
+    color:       var(--bals-blue);
+    background:  var(--bals-blue-10);
+    padding:     3px 10px;
+    border-radius: 999px;
+}
+
+#map-container {
+    padding:    20px;
+    min-height: 540px;
+}
+
+#map-container svg {
+    display: block;
+}
+
+/* Astuce affichée sous la carte */
+.map-hint {
+    font-size:      11px;
+    color:          var(--bals-grey);
+    text-align:     center;
+    padding:        10px 0 14px;
+    letter-spacing: 0.04em;
+}
+
+/* ── Chemins SVG des départements ── */
+.departement {
+    cursor:     pointer;
+    transition: opacity 0.2s, filter 0.2s;
+    stroke:       #fff;
+    stroke-width: 0.7px;
+}
+
+/* Au survol : légèrement plus lumineux */
+.departement:hover {
+    filter: brightness(1.15) saturate(1.2);
+}
+
+/* Quand une autre région est sélectionnée : département grisé */
+.departement.dimmed {
+    opacity: 0.15;
+}
+
+/* Département appartenant à la région sélectionnée */
+.departement.active {
+    opacity:      1;
+    filter:       brightness(1.08);
+    stroke-width: 1.4px;
+    stroke:       #fff;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   6. PANNEAU LATÉRAL
+   ════════════════════════════════════════════════════════════════ */
+.side-panel {
+    display:        flex;
+    flex-direction: column;
+    gap:            16px;
+}
+
+/* ── Info-box : affiche les contacts de la région sélectionnée ── */
+.info-box {
+    background:    #fff;
+    border:        1px solid var(--bals-grey-border);
+    border-left:   3px solid var(--bals-grey-border);
+    border-radius: 12px;
+    padding:       24px;
+    min-height:    200px;
+    box-shadow:    0 2px 16px rgba(0, 0, 0, 0.06);
+    transition:    border-left-color 0.3s;
+}
+
+/* Bordure rouge quand une région est sélectionnée */
+.info-box.has-selection {
+    border-left-color: var(--bals-red);
+}
+
+/* Message d'invitation initial (avant toute sélection) */
+.placeholder {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    justify-content:center;
+    gap:            12px;
+    padding:        28px 0;
+    text-align:     center;
+    color:          var(--bals-grey);
+    font-size:      13px;
+    font-weight:    300;
+    line-height:    1.6;
+}
+
+.placeholder svg {
+    opacity: 0.4;
+}
+
+/* Label "Zone commerciale" dans l'info-box */
+.info-zone-label {
+    display:        inline-flex;
+    align-items:    center;
+    gap:            8px;
+    font-size:      10px;
+    font-weight:    700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color:          var(--bals-red);
+    margin-bottom:  10px;
+}
+
+.info-zone-dot {
+    width:        8px;
+    height:       8px;
+    border-radius:50%;
+    flex-shrink:  0;
+}
+
+.info-region-name {
+    font-size:     20px;
+    font-weight:   800;
+    color:         var(--bals-black);
+    line-height:   1.15;
+    margin-bottom: 4px;
+}
+
+.info-dept-name {
+    font-size:     12px;
+    color:         #6b7280;
+    margin-bottom: 14px;
+}
+
+.info-depts-covered {
+    font-size:      11px;
+    color:          var(--bals-grey);
+    margin-bottom:  16px;
+    padding-bottom: 16px;
+    border-bottom:  1px solid var(--bals-grey-border);
+}
+
+/* ── Carte d'un agent commercial ── */
+.contact-card {
+    background:    var(--bals-grey-light);
+    border-radius: 8px;
+    padding:       12px 14px;
+    margin-bottom: 10px;
+}
+
+.contact-card:last-of-type {
+    margin-bottom: 16px;
+}
+
+.contact-agence {
+    font-size:      10px;
+    font-weight:    700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--bals-blue);
+    margin-bottom:  2px;
+}
+
+.contact-nom {
+    font-size:     13px;
+    font-weight:   700;
+    color:         var(--bals-black);
+    margin-bottom: 6px;
+}
+
+.contact-depts {
+    font-size:     11px;
+    color:         #6b7280;
+    margin-bottom: 6px;
+}
+
+.contact-links {
+    display:        flex;
+    flex-direction: column;
+    gap:            4px;
+}
+
+.contact-link {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             6px;
+    font-size:       12px;
+    color:           var(--bals-blue);
+    text-decoration: none;
+    font-weight:     500;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+.contact-link svg {
+    flex-shrink: 0;
+}
+
+/* ── Liste des régions (panneau droit) ── */
+.region-list-card {
+    background:    #fff;
+    border:        1px solid var(--bals-grey-border);
+    border-radius: 12px;
+    overflow:      hidden;
+    box-shadow:    0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+.region-list-header {
+    padding:        14px 20px;
+    border-bottom:  1px solid var(--bals-grey-border);
+    font-size:      11px;
+    font-weight:    700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color:          var(--bals-grey);
+    background:     var(--bals-grey-light);
+}
+
+.region-list {
+    max-height:     440px;
+    overflow-y:     auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--bals-grey-border) transparent;
+}
+
+.region-item {
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+    padding:       9px 20px;
+    cursor:        pointer;
+    transition:    background 0.12s;
+    border-bottom: 1px solid rgba(226, 230, 234, 0.6);
+    font-size:     13px;
+}
+
+.region-item:hover {
+    background: var(--bals-blue-10);
+}
+
+/* Région sélectionnée dans la liste */
+.region-item.active {
+    background:   var(--bals-red-10);
+    border-left:  3px solid var(--bals-red);
+    padding-left: 17px;
+}
+
+.region-dot {
+    width:        9px;
+    height:       9px;
+    border-radius:50%;
+    flex-shrink:  0;
+}
+
+.region-item-name {
+    flex:        1;
+    color:       var(--bals-black);
+    font-weight: 500;
+}
+
+/* Badge "X depts" */
+.region-item-count {
+    font-size:     11px;
+    color:         var(--bals-grey);
+    background:    var(--bals-grey-light);
+    padding:       2px 8px;
+    border-radius: 999px;
+    font-weight:   600;
+}
+
+/* Bouton "Réinitialiser la sélection" */
+.reset-btn {
+    display:        none;   /* caché par défaut, affiché par JS */
+    width:          100%;
+    padding:        10px;
+    background:     transparent;
+    border:         1px solid var(--bals-grey-border);
+    border-radius:  8px;
+    color:          var(--bals-grey);
+    font-size:      12px;
+    font-family:    'Exo 2', sans-serif;
+    font-weight:    600;
+    cursor:         pointer;
+    letter-spacing: 0.06em;
+    transition:     all 0.2s;
+}
+
+.reset-btn:hover {
+    border-color: var(--bals-blue);
+    color:        var(--bals-blue);
+    background:   var(--bals-blue-10);
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   7. TOOLTIP — bulle d'information au survol d'un département
+   ════════════════════════════════════════════════════════════════ */
+#tooltip {
+    position:      fixed;
+    background:    var(--bals-black);
+    color:         #fff;
+    padding:       8px 14px;
+    border-radius: 6px;
+    border-left:   3px solid var(--bals-blue);
+    font-family:   'Exo 2', sans-serif;
+    font-size:     12px;
+    pointer-events:none;   /* ne bloque pas les clics en dessous */
+    opacity:       0;
+    transition:    opacity 0.1s;
+    z-index:       9999;
+}
+
+#tooltip strong {
+    display:       block;
+    font-weight:   700;
+    margin-bottom: 1px;
+}
+
+#tooltip small {
+    color:     var(--bals-grey);
+    font-size: 11px;
+}
+
+
+/* ════════════════════════════════════════════════════════════════
+   8. ANIMATIONS D'APPARITION
+   ════════════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Chaque bloc de la page apparaît avec un léger délai échelonné */
+.map-card        { animation: fadeUp 0.45s ease 0.05s both; }
+.info-box        { animation: fadeUp 0.45s ease 0.15s both; }
+.region-list-card{ animation: fadeUp 0.45s ease 0.22s both; }
+
+
+/* ════════════════════════════════════════════════════════════════
+   9. LIEN VERS LE BACK-OFFICE (bouton "Gérer les agents")
+   ════════════════════════════════════════════════════════════════ */
+.admin-link {
+    display:     inline-flex;
+    align-items: center;
+    gap:         6px;
+    font-size:   12px;
+    font-weight: 600;
+    color:       var(--bals-blue);
+    text-decoration:none;
+    padding:     6px 14px;
+    border:      1px solid var(--bals-blue);
+    border-radius:6px;
+    transition:  all 0.2s;
+}
+
+.admin-link:hover {
+    background:      var(--bals-blue);
+    color:           white;
+    text-decoration: none;
+}

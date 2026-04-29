@@ -1,499 +1,503 @@
-/* =====================================================
-   CONFIGURATEUR BALS - STYLES AVEC TAILWIND
-   Version SANS @apply pour éviter les warnings VSCode
-   Compatible Tailwind v3 et v4
-===================================================== */
+/*
+ * resources/css/app.css
+ *
+ * Feuille de styles principale de l'application BALS France.
+ * Compilée par Vite et chargée sur toutes les pages via layouts/app.blade.php.
+ *
+ * Ce fichier contient :
+ *   1. Directives Tailwind CSS
+ *   2. Police personnalisée Etelka (charte BALS)
+ *   3. Variables CSS globales (couleurs BALS)
+ *   4. Composants réutilisables (boutons, cartes, formulaires)
+ *   5. Utilitaires personnalisés
+ *   6. Responsive (mobile)
+ *   7. Animations
+ *   8. Styles d'impression
+ *
+ * Note : les styles spécifiques à une page sont dans public/css/ :
+ *   - public/css/france-map.css  → carte interactive
+ *   - public/css/admin.css       → back-office agents
+ */
 
-@tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════
+   1. TAILWIND CSS v4
+   @import "tailwindcss" inclut base + utilities.
+   ════════════════════════════════════════════════════════════════ */
+@import "tailwindcss";
+
+
+/* ════════════════════════════════════════════════════════════════
+   2. THÈME — Police + Couleurs BALS (Tailwind v4 @theme)
+   Les variables --color-* génèrent bg-*, text-*, border-*, etc.
+   ════════════════════════════════════════════════════════════════ */
 @font-face {
     font-family: 'Etelka';
     src: url('/fonts/Etelka_Medium_Pro_Regular.woff2') format('woff2'),
-         url('/fonts/Etelka_Medium_Pro_Regular.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
+         url('/fonts/Etelka_Medium_Pro_Regular.ttf')   format('truetype');
+    font-weight:  700;
+    font-style:   normal;
     font-display: swap;
 }
 
 @theme {
     --font-sans: 'Etelka', ui-sans-serif, system-ui, sans-serif;
+
+    --color-bals-blue:       #0095DA;
+    --color-bals-red:        #ED1C24;
+    --color-bals-black:      #000000;
+    --color-bals-light-grey: #B3B3B3;
 }
 
 
-
-/* =====================================================
-   VARIABLES CSS PERSONNALISÉES
-===================================================== */
+/* ════════════════════════════════════════════════════════════════
+   3. VARIABLES CSS — alias pour usage dans les règles CSS
+   ════════════════════════════════════════════════════════════════ */
 :root {
-  /* Couleurs BALS */
-  --bals-blue: #0095DA;
-  --bals-red: #ED1C24;
-  --bals-black: #000000;
-  --bals-light-grey: #B3B3B3;
+    --bals-blue:       #0095DA;
+    --bals-red:        #ED1C24;
+    --bals-black:      #000000;
+    --bals-light-grey: #B3B3B3;
 }
 
-/* =====================================================
-   COMPOSANTS PERSONNALISÉS (CSS Vanilla - pas de @apply)
-   Styles qui complètent Tailwind
-===================================================== */
 
-/* Boutons */
-.btn-primary {
-  background-color: var(--bals-blue);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-}
+/* ════════════════════════════════════════════════════════════════
+   4. COMPOSANTS RÉUTILISABLES
+   ────────────────────────────────────────────────────────────────
+   Ces classes sont utilisées dans les vues Blade du configurateur.
+   ════════════════════════════════════════════════════════════════ */
 
+/* ── Carte SVG de la carte de France (page d'accueil) ── */
 #france-regions-map {
-  width: 100%;
-  height: 500px;
+    width:  100%;
+    height: 500px;
+}
+
+/* ── Bouton principal (bleu Bals) ── */
+.btn-primary {
+    background-color: var(--bals-blue);
+    color:            white;
+    padding:          0.75rem 1.5rem;
+    border-radius:    0.5rem;
+    font-weight:      500;
+    transition:       all 0.3s ease;
+    display:          inline-flex;
+    align-items:      center;
+    justify-content:  center;
+    cursor:           pointer;
+    border:           none;
 }
 
 .btn-primary:hover {
-  background-color: #007AB8;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background-color: #007AB8;
+    box-shadow:       0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
 
+/* ── Bouton secondaire (gris neutre) ── */
 .btn-secondary {
-  background-color: #E5E7EB;
-  color: #1F2937;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
+    background-color: #E5E7EB;
+    color:            #1F2937;
+    padding:          0.75rem 1.5rem;
+    border-radius:    0.5rem;
+    font-weight:      500;
+    transition:       all 0.3s ease;
+    display:          inline-flex;
+    align-items:      center;
+    justify-content:  center;
+    cursor:           pointer;
+    border:           none;
 }
 
 .btn-secondary:hover {
-  background-color: #D1D5DB;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #D1D5DB;
+    box-shadow:       0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
 
-/* Section accordéon */
+/* ── Accordéon — section pliable ── */
 .section-content {
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  max-height: 3000px;
-  opacity: 1;
+    transition:  all 0.3s ease-in-out;
+    overflow:    hidden;
+    max-height:  3000px;
+    opacity:     1;
 }
 
 .section-content.collapsed {
-  max-height: 0;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+    max-height:     0;
+    opacity:        0;
+    padding-top:    0;
+    padding-bottom: 0;
 }
 
-/* Toggle de section */
+/* Flèche de l'accordéon (rotation lors du pli) */
 .section-toggle {
-  transition: transform 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
-/* Cartes sélectionnables (type, matériau) */
+/* ── Cartes sélectionnables (type de coffret, matériau) ── */
 .selectable-card {
-  position: relative;
-  border: 2px solid #E5E7EB;
-  border-radius: 0.5rem;
-  padding: 1.25rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: white;
+    position:         relative;
+    border:           2px solid #E5E7EB;
+    border-radius:    0.5rem;
+    padding:          1.25rem;
+    cursor:           pointer;
+    transition:       all 0.3s ease;
+    background-color: white;
 }
 
+/* Radio caché visuellement mais actif pour l'accessibilité */
 .selectable-card input[type="radio"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+    position:   absolute;
+    width:      1px;
+    height:     1px;
+    padding:    0;
+    margin:     -1px;
+    overflow:   hidden;
+    clip:       rect(0, 0, 0, 0);
+    white-space:nowrap;
+    border-width:0;
 }
 
 .selectable-card:hover {
-  border-color: var(--bals-blue);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: var(--bals-blue);
+    transform:    translateY(-4px);
+    box-shadow:   0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .selectable-card.active {
-  border-color: var(--bals-blue);
-  background-color: #EFF6FF;
-  box-shadow: 0 0 0 3px rgba(0, 149, 218, 0.1);
+    border-color:     var(--bals-blue);
+    background-color: #EFF6FF;
+    box-shadow:       0 0 0 3px rgba(0, 149, 218, 0.1);
 }
 
 .selectable-card .card-icon {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  margin-bottom: 0.5rem;
-  display: block;
-  text-align: center;
+    font-size:     2.25rem;
+    line-height:   2.5rem;
+    margin-bottom: 0.5rem;
+    display:       block;
+    text-align:    center;
 }
 
 .selectable-card .card-label {
-  font-weight: 600;
-  color: #111827;
-  display: block;
-  text-align: center;
+    font-weight: 600;
+    color:       #111827;
+    display:     block;
+    text-align:  center;
 }
 
-/* Cartes IP */
+/* ── Cartes IP (indice de protection) ── */
 .ip-card {
-  position: relative;
-  border: 2px solid #E5E7EB;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: white;
+    position:         relative;
+    border:           2px solid #E5E7EB;
+    border-radius:    0.5rem;
+    padding:          1rem;
+    cursor:           pointer;
+    transition:       all 0.3s ease;
+    background-color: white;
 }
 
 .ip-card input[type="radio"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+    position:   absolute;
+    width:      1px;
+    height:     1px;
+    padding:    0;
+    margin:     -1px;
+    overflow:   hidden;
+    clip:       rect(0, 0, 0, 0);
+    white-space:nowrap;
+    border-width:0;
 }
 
 .ip-card:hover {
-  border-color: var(--bals-blue);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: var(--bals-blue);
+    box-shadow:   0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .ip-card.active {
-  border-color: var(--bals-blue);
-  background-color: #EFF6FF;
+    border-color:     var(--bals-blue);
+    background-color: #EFF6FF;
 }
 
 .ip-card .ip-badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #111827;
-  color: white;
-  font-weight: 700;
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
+    display:          inline-block;
+    padding:          0.5rem 1rem;
+    background-color: #111827;
+    color:            white;
+    font-weight:      700;
+    border-radius:    0.5rem;
+    margin-bottom:    0.5rem;
 }
 
 .ip-card.active .ip-badge {
-  background-color: var(--bals-blue);
+    background-color: var(--bals-blue);
 }
 
-/* Cartes checkbox (protections) */
+/* ── Cartes checkbox (protections optionnelles) ── */
 .checkbox-card {
-  position: relative;
-  border: 2px solid #E5E7EB;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: white;
+    position:         relative;
+    border:           2px solid #E5E7EB;
+    border-radius:    0.5rem;
+    padding:          1rem;
+    cursor:           pointer;
+    transition:       all 0.3s ease;
+    background-color: white;
 }
 
 .checkbox-card input[type="checkbox"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+    position:   absolute;
+    width:      1px;
+    height:     1px;
+    padding:    0;
+    margin:     -1px;
+    overflow:   hidden;
+    clip:       rect(0, 0, 0, 0);
+    white-space:nowrap;
+    border-width:0;
 }
 
 .checkbox-card:hover {
-  border-color: #9CA3AF;
+    border-color: #9CA3AF;
 }
 
 .checkbox-card.active {
-  border-color: var(--bals-blue);
-  background-color: #EFF6FF;
+    border-color:     var(--bals-blue);
+    background-color: #EFF6FF;
 }
 
 .checkbox-card .checkbox-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #9CA3AF;
-  border-radius: 0.25rem;
-  color: transparent;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+    width:        1.5rem;
+    height:       1.5rem;
+    display:      flex;
+    align-items:  center;
+    justify-content:center;
+    border:       2px solid #9CA3AF;
+    border-radius:0.25rem;
+    color:        transparent;
+    transition:   all 0.2s ease;
+    flex-shrink:  0;
 }
 
 .checkbox-card.active .checkbox-icon {
-  border-color: var(--bals-blue);
-  background-color: var(--bals-blue);
-  color: white;
+    border-color:     var(--bals-blue);
+    background-color: var(--bals-blue);
+    color:            white;
 }
 
-/* Cartes de prises avec quantité */
+/* ── Cartes de prises avec sélecteur de quantité ── */
 .socket-card {
-  border: 2px solid #E5E7EB;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  transition: all 0.3s ease;
-  background-color: white;
+    border:           2px solid #E5E7EB;
+    border-radius:    0.5rem;
+    padding:          1rem;
+    transition:       all 0.3s ease;
+    background-color: white;
 }
 
 .socket-card:hover {
-  border-color: #D1D5DB;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border-color: #D1D5DB;
+    box-shadow:   0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .socket-card .socket-icon {
-  width: 4rem;
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #F3F4F6;
-  border-radius: 0.5rem;
-  margin-bottom: 0.75rem;
+    width:            4rem;
+    height:           4rem;
+    display:          flex;
+    align-items:      center;
+    justify-content:  center;
+    background-color: #F3F4F6;
+    border-radius:    0.5rem;
+    margin-bottom:    0.75rem;
 }
 
 .socket-card .socket-name {
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 0.25rem;
+    font-weight:   600;
+    color:         #111827;
+    margin-bottom: 0.25rem;
 }
 
 .socket-card .socket-specs {
-  font-size: 0.875rem;
-  color: #6B7280;
+    font-size: 0.875rem;
+    color:     #6B7280;
 }
 
-/* Champs de quantité */
+/* ── Champ de quantité ── */
 .qty-input {
-  width: 5rem;
-  padding: 0.5rem 0.75rem;
-  border: 2px solid #D1D5DB;
-  border-radius: 0.5rem;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.2s ease;
+    width:       5rem;
+    padding:     0.5rem 0.75rem;
+    border:      2px solid #D1D5DB;
+    border-radius:0.5rem;
+    text-align:  center;
+    font-weight: 600;
+    transition:  all 0.2s ease;
 }
 
 .qty-input:focus {
-  border-color: var(--bals-blue);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 149, 218, 0.1);
+    border-color: var(--bals-blue);
+    outline:      none;
+    box-shadow:   0 0 0 3px rgba(0, 149, 218, 0.1);
 }
 
-/* Barre de progression */
+/* ── Barre de progression ── */
 .progress-bar {
-  height: 0.625rem;
-  background-color: var(--bals-blue);
-  border-radius: 9999px;
-  transition: width 0.5s ease-out;
+    height:        0.625rem;
+    background-color:var(--bals-blue);
+    border-radius: 9999px;
+    transition:    width 0.5s ease-out;
 }
 
-/* Menu de navigation */
+/* ── Liens de navigation (configurateur) ── */
 .nav-link {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  color: #374151;
-  text-decoration: none;
-  display: inline-block;
+    padding:        0.5rem 1rem;
+    border-radius:  0.5rem;
+    font-weight:    500;
+    white-space:    nowrap;
+    transition:     all 0.2s ease;
+    color:          #374151;
+    text-decoration:none;
+    display:        inline-block;
 }
 
 .nav-link:hover {
-  background-color: #F3F4F6;
+    background-color: #F3F4F6;
 }
 
 .nav-link.active {
-  background-color: var(--bals-blue);
-  color: white;
+    background-color: var(--bals-blue);
+    color:            white;
 }
 
-/* Inputs de formulaire */
+/* ── Champs de formulaire ── */
 .input-field {
-  width: 100%;
-  padding: 0.625rem 1rem;
-  border: 2px solid #E5E7EB;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
+    width:        100%;
+    padding:      0.625rem 1rem;
+    border:       2px solid #E5E7EB;
+    border-radius:0.5rem;
+    transition:   all 0.2s ease;
 }
 
 .input-field:focus {
-  border-color: var(--bals-blue);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 149, 218, 0.1);
+    border-color: var(--bals-blue);
+    outline:      none;
+    box-shadow:   0 0 0 3px rgba(0, 149, 218, 0.1);
 }
 
 .input-field:disabled {
-  background-color: #F3F4F6;
-  cursor: not-allowed;
+    background-color: #F3F4F6;
+    cursor:           not-allowed;
 }
 
-/* Résumé des prises sélectionnées */
+/* ── Résumé des prises sélectionnées ── */
 .selected-socket-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  background-color: #F9FAFB;
-  border-radius: 0.5rem;
-  border: 1px solid #E5E7EB;
-  transition: box-shadow 0.2s ease;
+    display:        flex;
+    align-items:    center;
+    justify-content:space-between;
+    padding:        0.75rem;
+    background-color:#F9FAFB;
+    border-radius:  0.5rem;
+    border:         1px solid #E5E7EB;
+    transition:     box-shadow 0.2s ease;
 }
 
 .selected-socket-item:hover {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
-.selected-socket-item .socket-info {
-  flex: 1;
-}
-
-.selected-socket-item .socket-title {
-  font-weight: 500;
-  color: #111827;
-}
-
-.selected-socket-item .socket-details {
-  font-size: 0.875rem;
-  color: #6B7280;
-}
+.selected-socket-item .socket-info    { flex: 1; }
+.selected-socket-item .socket-title   { font-weight: 500; color: #111827; }
+.selected-socket-item .socket-details { font-size: 0.875rem; color: #6B7280; }
 
 .selected-socket-item .socket-quantity {
-  padding: 0.25rem 0.75rem;
-  background-color: #DBEAFE;
-  color: #1E40AF;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
+    padding:      0.25rem 0.75rem;
+    background-color:#DBEAFE;
+    color:        #1E40AF;
+    border-radius:9999px;
+    font-size:    0.875rem;
+    font-weight:  500;
 }
 
 .selected-socket-item .remove-btn {
-  color: #DC2626;
-  font-weight: 500;
-  transition: color 0.2s ease;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.25rem 0.5rem;
+    color:      #DC2626;
+    font-weight:500;
+    transition: color 0.2s ease;
+    cursor:     pointer;
+    background: none;
+    border:     none;
+    padding:    0.25rem 0.5rem;
 }
 
 .selected-socket-item .remove-btn:hover {
-  color: #991B1B;
+    color: #991B1B;
 }
 
-/* =====================================================
-   UTILITAIRES PERSONNALISÉS
-===================================================== */
 
-/* Gradient de fond */
+/* ════════════════════════════════════════════════════════════════
+   5. UTILITAIRES PERSONNALISÉS
+   ════════════════════════════════════════════════════════════════ */
+
+/* Fond avec dégradé gris clair */
 .bg-gradient-bals {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
 }
 
-/* Scrollbar personnalisée */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
+/* Scrollbar personnalisée (navigateurs Webkit) */
+.custom-scrollbar::-webkit-scrollbar       { width: 8px; }
+.custom-scrollbar::-webkit-scrollbar-track { background-color: #F3F4F6; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: #9CA3AF; border-radius: 9999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #6B7280; }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #F3F4F6;
-}
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #9CA3AF;
-  border-radius: 9999px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #6B7280;
-}
-
-/* =====================================================
-   RESPONSIVE - MOBILE
-===================================================== */
+/* ════════════════════════════════════════════════════════════════
+   6. RESPONSIVE — MOBILE (max 1024px)
+   ════════════════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .app-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .summary-column {
-    position: relative;
-    height: auto;
-  }
+    .app-container {
+        display:        flex;
+        flex-direction: column;
+    }
+
+    .summary-column {
+        position: relative;
+        height:   auto;
+    }
 }
 
-/* =====================================================
-   ANIMATIONS
-===================================================== */
+
+/* ════════════════════════════════════════════════════════════════
+   7. ANIMATIONS
+   ════════════════════════════════════════════════════════════════ */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0);     }
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes slideDown {
-  from {
-    max-height: 0;
-    opacity: 0;
-  }
-  to {
-    max-height: 3000px;
-    opacity: 1;
-  }
+    from { max-height: 0;    opacity: 0; }
+    to   { max-height: 3000px; opacity: 1; }
 }
 
-/* =====================================================
-   PRINT - Styles d'impression
-===================================================== */
+
+/* ════════════════════════════════════════════════════════════════
+   8. IMPRESSION (@media print)
+   Force l'affichage des sections pliées pour une impression complète
+   ════════════════════════════════════════════════════════════════ */
 @media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  .section-content.collapsed {
-    max-height: none !important;
-    opacity: 1 !important;
-    padding: 1.5rem !important;
-  }
+    .no-print {
+        display: none !important;
+    }
+
+    .section-content.collapsed {
+        max-height: none !important;
+        opacity:    1 !important;
+        padding:    1.5rem !important;
+    }
 }

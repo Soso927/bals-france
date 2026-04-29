@@ -6,232 +6,217 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Contrôleur du Configurateur BALS
- * 
- * Gère l'affichage des différents configurateurs et la génération de devis
+ * ConfigurateurController
+ *
+ * Contrôleur responsable du configurateur de coffrets électriques BALS.
+ *
+ * Ce configurateur permet à un client de composer son coffret personnalisé
+ * (chantier, étage, événementiel, industrie, prise industrielle) et d'obtenir
+ * un devis.
+ *
+ * Méthodes d'affichage (GET) : index, chantier, etage, evenementiel, industrie, priseIndustrielle
+ * Méthodes de traitement (POST) : generatePDF, saveQuote, sendQuote
+ *
+ * TODO pour aller plus loin :
+ *   - Installer DomPDF : composer require barryvdh/laravel-dompdf
+ *   - Installer PhpSpreadsheet : composer require maatwebsite/excel
+ *   - Créer un modèle Devis et une migration pour stocker les configs
  */
 class ConfigurateurController extends Controller
 {
     /**
-     * Affiche le configurateur de coffret de chantier
-     * 
-     * @return \Illuminate\View\View
+     * Page d'accueil du configurateur.
+     * Affiche la liste des 5 types de coffrets disponibles.
+     *
+     * Route : GET /configurateur
+     * Nom   : configurateur.index
+     */
+    public function index()
+    {
+        return view('configurateur.index');
+    }
+
+    /**
+     * Configurateur — Coffret de Chantier Maçon (réf. 53 930).
+     *
+     * Route : GET /configurateur/chantier
+     * Nom   : configurateur.chantier
      */
     public function chantier()
     {
         return view('configurateur.chantier', [
             'pageTitle' => 'Configurateur Coffret de Chantier',
-            'type' => 'chantier'
+            'type'      => 'chantier',
         ]);
     }
 
     /**
-     * Affiche le configurateur de coffret d'étage
-     * 
-     * @return \Illuminate\View\View
+     * Configurateur — Coffret d'Étage (réf. 510 802).
+     *
+     * Route : GET /configurateur/etage
+     * Nom   : configurateur.etage
      */
     public function etage()
     {
         return view('configurateur.etage', [
             'pageTitle' => 'Configurateur Coffret d\'Étage',
-            'type' => 'etage'
+            'type'      => 'etage',
         ]);
     }
 
     /**
-     * Affiche le configurateur de coffret industrie
-     * 
-     * @return \Illuminate\View\View
+     * Configurateur — Coffret Événementiel EVOBOX (réf. 53 83).
+     *
+     * Route : GET /configurateur/coffret-evenementiel
+     * Nom   : configurateur.evenementiel
+     */
+    public function evenementiel()
+    {
+        return view('configurateur.evenementiel', [
+            'pageTitle' => 'Configurateur Coffret Événementiel',
+            'type'      => 'evenementiel',
+        ]);
+    }
+
+    /**
+     * Configurateur — Coffret Industrie (réf. 512 399).
+     *
+     * Route : GET /configurateur/coffret-industrie
+     * Nom   : configurateur.industrie
      */
     public function industrie()
     {
         return view('configurateur.industrie', [
             'pageTitle' => 'Configurateur Coffret Industrie',
-            'type' => 'industrie'
+            'type'      => 'industrie',
         ]);
     }
 
     /**
-     * Affiche le configurateur de coffret événementiel
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function evenementiel()
-    {
-        return view('configurateur.evenementiel', [ 
-            'pageTitle' => 'Configurateur Coffret Evenementiel',
-            'type' => 'evenementiel'
-        ]);
-    }
-
-    /**
-     * Affiche le configurateur de prise industrielle
-     * 
-     * @return \Illuminate\View\View
+     * Configurateur — Prise Industrielle.
+     *
+     * Route : GET /configurateur/prise-industrielle
+     * Nom   : configurateur.prise-industrielle
      */
     public function priseIndustrielle()
     {
         return view('configurateur.prise-industrielle', [
             'pageTitle' => 'Configurateur Prise Industrielle',
-            'type' => 'prise-industrielle'
+            'type'      => 'prise-industrielle',
         ]);
     }
 
+    // =========================================================================
+    // ROUTES POST — traitements de formulaires
+    // =========================================================================
+
     /**
-     * Génère un devis au format PDF
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * Générer un devis au format PDF.
+     *
+     * Route : POST /configurateur/generer-pdf
+     * Nom   : configurateur.pdf
+     *
+     * À implémenter avec : composer require barryvdh/laravel-dompdf
+     *
+     * @param  Request  $request
      */
     public function generatePDF(Request $request)
     {
-        // Validation des données
         $validator = Validator::make($request->all(), [
-            'type' => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
-            'data' => 'required|array',
-            'data.distributeur' => 'nullable|string|max:255',
-            'data.contactDist' => 'nullable|string|max:255',
-            'data.installateur' => 'nullable|string|max:255',
-            'data.affaire' => 'nullable|string|max:255',
-            'data.email' => 'nullable|email|max:255',
+            'type'                 => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
+            'data'                 => 'required|array',
+            'data.distributeur'    => 'nullable|string|max:255',
+            'data.contactDist'     => 'nullable|string|max:255',
+            'data.installateur'    => 'nullable|string|max:255',
+            'data.affaire'         => 'nullable|string|max:255',
+            'data.email'           => 'nullable|email|max:255',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
-        $data = $request->input('data');
-        $type = $request->input('type');
-
-        // TODO: Implémenter la génération de PDF
-        // 
-        // Installation de DomPDF :
-        // composer require barryvdh/laravel-dompdf
-        //
-        // Exemple d'utilisation :
+        // TODO : implémenter avec DomPDF
         // use Barryvdh\DomPDF\Facade\Pdf;
-        // 
-        // $pdf = Pdf::loadView('pdf.devis', [
-        //     'data' => $data,
-        //     'type' => $type,
-        //     'generatedAt' => now()
-        // ]);
-        // 
+        // $pdf = Pdf::loadView('pdf.devis', ['data' => $request->data, 'type' => $request->type]);
         // return $pdf->download('devis-bals-' . time() . '.pdf');
 
-        // Réponse temporaire
         return response()->json([
             'success' => false,
-            'message' => 'La génération de PDF doit être implémentée avec DomPDF ou Snappy',
-            'data' => [
-                'type' => $type,
-                'received' => array_keys($data)
-            ]
+            'message' => 'Génération PDF à implémenter (installer barryvdh/laravel-dompdf)',
         ], 501);
     }
 
     /**
-     * Génère un devis au format Excel
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function generateExcel(Request $request)
-    {
-        // Validation des données
-        $validator = Validator::make($request->all(), [
-            'type' => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
-            'data' => 'required|array',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $data = $request->input('data');
-        $type = $request->input('type');
-
-        // TODO: Implémenter la génération Excel
-        // 
-        // Installation de PhpSpreadsheet :
-        // composer require maatwebsite/excel
-        //
-        // Création d'une classe Export :
-        // php artisan make:export DevisExport --model=Devis
-        //
-        // Exemple d'utilisation :
-        // use Maatwebsite\Excel\Facades\Excel;
-        // use App\Exports\DevisExport;
-        // 
-        // return Excel::download(
-        //     new DevisExport($data, $type),
-        //     'devis-bals-' . time() . '.xlsx'
-        // );
-
-        // Réponse temporaire
-        return response()->json([
-            'success' => false,
-            'message' => 'La génération Excel doit être implémentée avec PhpSpreadsheet',
-            'data' => [
-                'type' => $type,
-                'received' => array_keys($data)
-            ]
-        ], 501);
-    }
-
-    /**
-     * Sauvegarde un devis en base de données (optionnel)
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * Sauvegarder un devis en base de données.
+     *
+     * Route : POST /configurateur/sauvegarder
+     * Nom   : configurateur.sauvegarder
+     *
+     * À implémenter : créer une table `devis` via une migration Laravel.
+     *
+     * @param  Request  $request
      */
     public function saveQuote(Request $request)
     {
-        // TODO: Implémenter la sauvegarde en base de données
-        // 
-        // 1. Créer une migration :
-        // php artisan make:migration create_devis_table
-        //
-        // 2. Créer un modèle :
-        // php artisan make:model Devis
-        //
-        // 3. Sauvegarder :
-        // $devis = Devis::create([
-        //     'type' => $request->input('type'),
-        //     'data' => json_encode($request->input('data')),
-        //     'user_id' => auth()->id(), // si authentification
-        // ]);
+        // TODO : implémenter la sauvegarde
+        // php artisan make:model Devis -m
+        // $devis = Devis::create(['type' => $request->type, 'data' => json_encode($request->data)]);
 
         return response()->json([
             'success' => false,
-            'message' => 'Sauvegarde à implémenter'
+            'message' => 'Sauvegarde à implémenter (créer le modèle Devis)',
         ], 501);
     }
 
     /**
-     * Liste tous les devis (optionnel)
-     * 
-     * @return \Illuminate\Http\JsonResponse
+     * Soumettre le configurateur et générer un PDF téléchargeable.
+     *
+     * Route : POST /configurateur/soumettre
+     * Nom   : configurateur.soumettre
+     *
+     * @param  Request  $request
      */
-    public function listQuotes()
+    public function soumettre(Request $request)
     {
-        // TODO: Implémenter la récupération des devis
-        // 
-        // $devis = Devis::where('user_id', auth()->id())
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(10);
-        //
-        // return response()->json($devis);
+        // TODO : générer un vrai PDF avec barryvdh/laravel-dompdf
+        // Pour l'instant on retourne un JSON de confirmation
+        return response()->json([
+            'success' => false,
+            'message' => 'Génération PDF à implémenter (installer barryvdh/laravel-dompdf)',
+        ], 501);
+    }
+
+    /**
+     * Envoyer un devis par email.
+     *
+     * Route : POST /configurateur/envoyer-devis
+     * Nom   : configurateur.email
+     *
+     * À implémenter avec Laravel Mail + un Mailable dédié.
+     *
+     * @param  Request  $request
+     */
+    public function sendQuote(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:255',
+            'type'  => 'required|string',
+            'data'  => 'required|array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        // TODO : implémenter l'envoi email
+        // use Illuminate\Support\Facades\Mail;
+        // use App\Mail\DevisMail;
+        // Mail::to($request->email)->send(new DevisMail($request->data));
 
         return response()->json([
             'success' => false,
-            'message' => 'Liste des devis à implémenter'
+            'message' => 'Envoi email à implémenter (créer un Mailable Laravel)',
         ], 501);
     }
 }

@@ -1,179 +1,57 @@
 <?php
 
+/**
+ * routes/web.php
+ *
+ * Ce fichier définit toutes les URLs (routes) du site BALS France.
+ * Chaque route fait le lien entre une URL et un contrôleur (ou une vue directe).
+ *
+ * Syntaxe :
+ *   Route::get('/url', action) → répond aux requêtes GET (affichage de page)
+ *   Route::post('/url', action) → répond aux requêtes POST (envoi de formulaire)
+ *   ->name('nom') → donne un nom à la route pour l'utiliser dans les vues :
+ *                   {{ route('nom') }} au lieu de coder l'URL en dur
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ConfigurateurController;
-use Livewire\Volt\Volt;
+
+
+// ── Page d'accueil ──────────────────────────────────────────────────────────
+Route::get('/', fn () => view('livewire.home'))->name('home');
+
+
+// ── Carte interactive du réseau commercial ──────────────────────────────────
+// MapController@index affiche la carte avec D3.js et les agents par région.
+Route::get('/france-map', [MapController::class, 'index'])->name('map.index');
+
+
+// ── Page de présentation de la gamme produits ───────────────────────────────
+Route::get('/gamme', fn () => view('gamme'))->name('gamme');
 
 
 
+// ── Configurateur de coffrets électriques ────────────────────────────────────
+// Route::prefix() regroupe toutes les URLs sous /configurateur/...
+// Route::name()   préfixe tous les noms : configurateur.index, configurateur.chantier, etc.
+Route::prefix('configurateur')->name('configurateur.')->group(function () {
 
+    // Page d'accueil du configurateur (liste des 5 types de coffrets)
+    Route::get('/', [ConfigurateurController::class, 'index'])->name('index');
 
-// ============================================
-// ROUTE PAGE D'ACCUEIL
-// ============================================
-Route::get('/', function () {
-    return view('livewire.home');
-})->name('home');
+    // ── Pages configurateur par type de coffret ──────────────────────────
+    Route::get('/chantier',            [ConfigurateurController::class, 'chantier'])->name('chantier');
+    Route::get('/etage',               [ConfigurateurController::class, 'etage'])->name('etage');
+    Route::get('/coffret-evenementiel',[ConfigurateurController::class, 'evenementiel'])->name('evenementiel');
+    Route::get('/coffret-industrie',   [ConfigurateurController::class, 'industrie'])->name('industrie');
+    Route::get('/prise-industrielle',  [ConfigurateurController::class, 'priseIndustrielle'])->name('prise-industrielle');
 
-Route::get('france-map',[MapController::class, 'index'])->name('map.index');
-
-Route::get('/gamme', function () {
-    return view('gamme');
-})->name('gamme');
-
-
-Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
-
-
-
-
-// ============================================
-// ROUTE PAGE ACTUALITÉS
-// ============================================
-// Route::get('/actualites', function () {
-//     return view('livewire.layout.actualites');
-// })->name('actualites');
-
-// Volt::route('/', 'pages.index')->name('home');
-
-
-
-// =============================================================================
-// FICHIER : routes/web.php
-// ROUTES DU CONFIGURATEUR BALS
-// =============================================================================
-
-/**
- * INSTRUCTIONS :
- * 
- * 1. Copiez ce code dans votre fichier routes/web.php
- * 2. Placez-le APRÈS vos autres routes
- * 3. Assurez-vous d'avoir importé le contrôleur en haut du fichier
- */
-
-
-// -----------------------------------------------------------------------------
-// GROUPE DE ROUTES DU CONFIGURATEUR
-// -----------------------------------------------------------------------------
-
-/**
- * Route principale : Page d'accueil du configurateur
- * 
- * URL : /configurateur
- * Méthode : GET
- * Contrôleur : ConfigurateurController@index
- * Nom : configurateur.index
- * 
- * Cette route affiche la liste de tous les types de coffrets disponibles
- */
-// Route::get('/configurateur', [ConfigurateurController::class, 'index'])
-//     ->name('configurateur.index');
-
-/**
- * Route : Coffret de Chantier Maçon
- * 
- * URL : /configurateur/coffret-macon
- * Référence produit : 53 930
- */
-Route::get('/configurateur/chantier', [ConfigurateurController::class, 'chantier'])
-    ->name('configurateur.chantier');
-
-/**
- * Route : Coffret d'Étage
- * 
- * URL : /configurateur/coffret-etage
- * Référence produit : 510 802
- */
-Route::get('/configurateur/etage', [ConfigurateurController::class, 'etage'])
-    ->name('configurateur.etage');
-
-/**
- * Route : Coffret Événementiel EVOBOX
- * 
- * URL : /configurateur/coffret-evenementiel
- * Référence produit : 53 83
- */
-Route::get('/configurateur/coffret-evenementiel', [ConfigurateurController::class, 'evenementiel'])
-    ->name('configurateur.evenementiel');
-
-/**
- * Route : Coffret Industrie
- * 
- * URL : /configurateur/coffret-industrie
- * Référence produit : 512 399
- */
-Route::get('/configurateur/coffret-industrie', [ConfigurateurController::class, 'industrie'])
-    ->name('configurateur.industrie');
-
-/**
- * Route : Prise Industrielle
- * 
- * URL : /configurateur/prise-industrielle
- * Référence produit : PI-001
- */
-Route::get('/configurateur/prise-industrielle', [ConfigurateurController::class, 'priseIndustrielle'])
-    ->name('configurateur.prise-industrielle');
-
-// -----------------------------------------------------------------------------
-// ROUTES SUPPLÉMENTAIRES (OPTIONNELLES)
-// -----------------------------------------------------------------------------
-
-/**
- * Route : Sauvegarde de configuration (POST)
- * 
- * Cette route permet de sauvegarder une configuration en base de données
- * Vous pouvez l'implémenter plus tard si nécessaire
- */
-Route::post('/configurateur/sauvegarder', [ConfigurateurController::class, 'sauvegarder'])
-    ->name('configurateur.sauvegarder');
-
-/**
- * Route : Génération de devis PDF
- * 
- * Cette route génère un PDF à partir de la configuration
- * À implémenter avec une bibliothèque comme DomPDF
- */
-Route::post('/configurateur/generer-pdf', [ConfigurateurController::class, 'genererPDF'])
-    ->name('configurateur.pdf');
-
-/**
- * Route : Envoi de devis par email
- * 
- * Cette route envoie le devis configuré par email
- */
-Route::post('/configurateur/envoyer-devis', [ConfigurateurController::class, 'envoyerDevis'])
-    ->name('configurateur.email');
-
-// =============================================================================
-// NOTES POUR LE JURY :
-// =============================================================================
-
-/**
- * EXPLICATION DU SYSTÈME DE NOMMAGE DES ROUTES :
- * 
- * route('configurateur.index')  → /configurateur
- * route('configurateur.chantier')  → /configurateur/coffret-chantier
- * route('configurateur.etage')  → /configurateur/coffret-etage
- * 
- * AVANTAGES :
- * 
- * 1. URLs propres et compréhensibles
- * 2. Facile à mémoriser
- * 3. SEO-friendly (référencement Google)
- * 4. Maintenabilité : si on change l'URL, tous les liens se mettent à jour
- * 
- * COMMENT UTILISER CES ROUTES DANS VOS VUES :
- * 
- * Dans un fichier Blade :
- * <a href="{{ route('configurateur.index') }}">Configurateur</a>
- * <a href="{{ route('configurateur.macon') }}">Coffret Maçon</a>
- * 
- * Dans un contrôleur :
- * return redirect()->route('configurateur.index');
- * 
- * Dans JavaScript :
- * window.location.href = "{{ route('configurateur.macon') }}";
- */
+    // // ── Routes POST (traitements de formulaires) ─────────────────────────
+    // // Ces routes reçoivent les données du configurateur et les traitent.
+    // // À implémenter : DomPDF pour le PDF, PhpSpreadsheet pour l'Excel.
+    // Route::post('/generer-pdf',   [ConfigurateurController::class, 'generatePDF'])->name('pdf');
+    // Route::post('/sauvegarder',   [ConfigurateurController::class, 'saveQuote'])->name('sauvegarder');
+    // Route::post('/envoyer-devis', [ConfigurateurController::class, 'sendQuote'])->name('email');
+    // Route::post('/soumettre',     [ConfigurateurController::class, 'soumettre'])->name('soumettre');
+});
