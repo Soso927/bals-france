@@ -315,7 +315,46 @@ function gererPolaritePI() {
     mettreAJour();
 }
 
+// ── Interactivité tension alimentation → prises CEI ─────────
+// • 230V    : griser les lignes 3P+T et 3P+N+T (incompatibles)
+// • 400V    : activer et forcer 400V sur 3P+T et 3P+N+T
+// • Tri 230V: activer et forcer 230V sur 3P+T et 3P+N+T
+function gererInteractiviteTension() {
+    var selectAlim = document.getElementById('alim-tension');
+    var tensionAlim = selectAlim ? selectAlim.value : '';
+
+    ['3P+T', '3P+N+T'].forEach(function (brochage) {
+        document.querySelectorAll(
+            '[data-type^="Prises CEI"][data-brochage="' + brochage + '"][data-field="tension"]'
+        ).forEach(function (input) {
+            var tr = input.closest('tr');
+            var spanDisplay = input.previousElementSibling;
+            var spanQte = tr ? tr.querySelector('span[data-brochage]') : null;
+
+            if (tensionAlim === '230V') {
+                if (tr) tr.classList.add('opacity-50', 'pointer-events-none');
+                if (spanQte) spanQte.textContent = '0';
+            } else if (tensionAlim === '400V') {
+                if (tr) tr.classList.remove('opacity-50', 'pointer-events-none');
+                input.value = '400V';
+                if (spanDisplay) spanDisplay.textContent = '400V';
+            } else if (tensionAlim === 'Tri 230V') {
+                if (tr) tr.classList.remove('opacity-50', 'pointer-events-none');
+                input.value = '230V';
+                if (spanDisplay) spanDisplay.textContent = '230V';
+            } else {
+                if (tr) tr.classList.remove('opacity-50', 'pointer-events-none');
+                input.value = '400V';
+                if (spanDisplay) spanDisplay.textContent = '400V';
+            }
+        });
+    });
+
+    mettreAJour();
+}
+
 // ── Init ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
+    gererInteractiviteTension();
     mettreAJour();
 });

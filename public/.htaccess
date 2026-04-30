@@ -13,6 +13,10 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # /configurateur est à la fois un dossier physique (assets JS) et une route Laravel.
+    # On force le chemin exact vers index.php avant que la règle !-d ne le bloque.
+    RewriteRule ^configurateur/?$ index.php [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
