@@ -321,7 +321,7 @@
                         </div>
 
                         {{-- ── CARTES CEI (16A, 32A, 63A, 125A) générées par @foreach ── --}}
-                        @foreach (['Prises  CEI 16A', 'Prises  CEI 32A', 'Prises  CEI 63A', 'Prises  CEI 125A'] as $cei)
+                        @foreach (['Prises CEI 16A', 'Prises CEI 32A', 'Prises CEI 63A', 'Prises CEI 125A'] as $cei)
                             <div class="rounded-xl border border-gray-200 overflow-hidden">
 
                                 {{-- En-tête de la carte --}}

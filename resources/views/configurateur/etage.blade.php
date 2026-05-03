@@ -142,7 +142,7 @@
                     </div>
                 </div>
             </div>
-                            {{-- ====================================================== --}}
+                {{-- ====================================================== --}}
                 {{-- SECTION ALIMENTATION : Tension, Polarité, Raccordement --}}
                 {{-- ====================================================== --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
