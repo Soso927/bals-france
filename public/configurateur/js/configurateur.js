@@ -250,8 +250,59 @@ function copierResume() {
     });
 }
 
-function soumettrePDF() {
-    alert('Génération PDF en cours de développement.');
+async function soumettrePDF() {
+    var config  = window.COFFRET || {};
+    var slug    = config.slug || 'chantier';
+    var donnees = collecterDonnees();
+
+    // Les File objects ne sont pas sérialisables en JSON — on garde uniquement les métadonnées
+    donnees.fichiers = (donnees.fichiers || []).map(function(f) {
+        return { name: f.name, size: f.size, type: f.type };
+    });
+
+    var btn = document.getElementById('btn-soumettre-pdf');
+    if (btn) { btn.disabled = true; btn.textContent = 'Génération en cours…'; }
+
+    try {
+        var csrfToken = document.querySelector('meta[name="csrf-token"]');
+        var response  = await fetch('/configurateur/soumettre', {
+            method:  'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept':       'application/pdf',
+                'X-CSRF-TOKEN': csrfToken ? csrfToken.content : '',
+            },
+            body: JSON.stringify({ type_coffret: slug, donnees: donnees }),
+        });
+
+        if (!response.ok) {
+            var err = await response.json().catch(function() { return {}; });
+            var msg = err.message || (err.errors ? JSON.stringify(err.errors) : 'Erreur serveur (' + response.status + ').');
+            alert('Erreur : ' + msg);
+            if (btn) { btn.disabled = false; btn.textContent = 'Générer mon devis PDF'; }
+            return;
+        }
+
+        var blob = await response.blob();
+        var url  = URL.createObjectURL(blob);
+        var a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'Devis-BALS-' + (config.nom || 'coffret').replace(/\s+/g, '-') + '.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        if (btn) { btn.textContent = '✓ Devis généré !'; }
+        setTimeout(function() {
+            if (btn) { btn.disabled = false; btn.textContent = 'Générer mon devis PDF'; }
+        }, 3000);
+
+    } catch (e) {
+        alert('Erreur réseau. Vérifiez votre connexion et réessayez.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Générer mon devis PDF'; }
+    }
 }
 
 // ── Fichiers joints ──────────────────────────────────────────

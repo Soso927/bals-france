@@ -264,7 +264,7 @@
 
 @section('scripts')
 <script>
-    window.COFFRET = { nom: 'Prise Industrielle', type: 'prise' };
+    window.COFFRET = { nom: 'Prise Industrielle', type: 'prise', slug: 'prise-industrielle' };
 
     function gererTypeProduit() {
         const produitEl = document.querySelector('input[name="produit"]:checked');

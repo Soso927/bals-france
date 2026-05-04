@@ -516,7 +516,7 @@
 
 @section('scripts')
     <script>
-        window.COFFRET = { nom: 'Coffret Événementiel', type: 'coffret' };
+        window.COFFRET = { nom: 'Coffret Événementiel', type: 'coffret', slug: 'evenementiel' };
     </script>
     <script src="{{ asset('configurateur/js/configurateur.js') }}"></script>
 @endsection

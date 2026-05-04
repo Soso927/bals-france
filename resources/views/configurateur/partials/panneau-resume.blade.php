@@ -45,7 +45,7 @@
                 Copier le résumé
             </button>
 
-            <button onclick="soumettrePDF()" class="w-full rounded-xl border border-gray-200 text-gray-700 font-bold py-2.5 text-sm hover:bg-gray-50 transition-colors id="btn-soumettre-pdf">Générer mon devis PDF</button>
+            <button onclick="soumettrePDF()" id="btn-soumettre-pdf" class="w-full rounded-xl border border-gray-200 text-gray-700 font-bold py-2.5 text-sm hover:bg-gray-50 transition-colors">Générer mon devis PDF</button>
 
             <button onclick="reinitialiser()"
                     class="w-full rounded-xl border border-red-100 text-red-500 font-bold py-2.5 text-sm hover:bg-red-50 transition-colors">

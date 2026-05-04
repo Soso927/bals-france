@@ -16,6 +16,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ConfigurateurController;
+use App\Http\Controllers\DevisController;
 
 
 // ── Page d'accueil ──────────────────────────────────────────────────────────
@@ -47,11 +48,9 @@ Route::prefix('configurateur')->name('configurateur.')->group(function () {
     Route::get('/coffret-industrie',   [ConfigurateurController::class, 'industrie'])->name('industrie');
     Route::get('/prise-industrielle',  [ConfigurateurController::class, 'priseIndustrielle'])->name('prise-industrielle');
 
-    // // ── Routes POST (traitements de formulaires) ─────────────────────────
-    // // Ces routes reçoivent les données du configurateur et les traitent.
-    // // À implémenter : DomPDF pour le PDF, PhpSpreadsheet pour l'Excel.
-    // Route::post('/generer-pdf',   [ConfigurateurController::class, 'generatePDF'])->name('pdf');
-    // Route::post('/sauvegarder',   [ConfigurateurController::class, 'saveQuote'])->name('sauvegarder');
-    // Route::post('/envoyer-devis', [ConfigurateurController::class, 'sendQuote'])->name('email');
-    // Route::post('/soumettre',     [ConfigurateurController::class, 'soumettre'])->name('soumettre');
+    // ── Soumission du configurateur → sauvegarde BDD + génération PDF ────
+    Route::post('/soumettre', [DevisController::class, 'store'])->name('soumettre');
 });
+
+// ── Admin : téléchargement PDF d'un devis ───────────────────────────────
+Route::get('/admin/devis/{devis}/pdf', [DevisController::class, 'exportPdf'])->name('admin.devis.pdf');

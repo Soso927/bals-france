@@ -726,7 +726,8 @@
     <script>
         window.COFFRET = {
             nom: 'Coffret Chantier',
-            type: 'coffret'
+            type: 'coffret',
+            slug: 'chantier'
         };
     </script>
     <script src="{{ asset('configurateur/js/configurateur.js') }}"></script>

@@ -169,9 +169,9 @@
                                 onchange="gererInteractiviteTension()"
                                 class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 w-64 bg-white
                focus:outline-none focus:ring-2 focus:ring-bals-blue">
-                                <option value="230V">230V</option>
-                                <option value="400V">400V</option>
-                                <option value="Tri 230V">TRI 230V</option>
+                                <option value="230V" onchange="mettreAJour()">230V</option>
+                                <option value="400V" onchange="mettreAJour()">400V</option>
+                                <option value="Tri 230V" onchange="mettreAJour()">TRI 230V</option>
 
                             </select>
                         </div>
@@ -487,7 +487,7 @@
 
 @section('scripts')
 <script>
-    window.COFFRET = { nom: "Coffret d'Étage", type: 'coffret' };
+    window.COFFRET = { nom: "Coffret d'Étage", type: 'coffret', slug: 'etage' };
 </script>
 <script src="{{ asset('configurateur/js/configurateur.js') }}"></script>
 @endsection

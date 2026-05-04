@@ -483,7 +483,7 @@
 
 @section('scripts')
     <script>
-        window.COFFRET = { nom: 'Coffret Industrie', type: 'coffret' };
+        window.COFFRET = { nom: 'Coffret Industrie', type: 'coffret', slug: 'industrie' };
     </script>
     <script src="{{ asset('configurateur/js/configurateur.js') }}"></script>
 @endsection
