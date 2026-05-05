@@ -477,66 +477,46 @@
 
                         <div class="grid grid-cols-2 gap-3">
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Sans" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div
-                                        class="w-5 h-5 rounded border-2 border-gray-300 flex items-center justify-center shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue">
-                                    </div>
-                                    <span class="text-sm font-bold text-gray-700">Sans</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Sans</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Interrupteur" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Interrupteur</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Interrupteur</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Inter différentiel"
                                     class="peer sr-only" onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Inter différentiel</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Inter différentiel</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Disjoncteur" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Disjoncteur Diff." class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_tete[]" value="Arrêt d'urgence" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-red-600">Arrêt d'urgence</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-red-600">Arrêt d'urgence</span>
                             </label>
 
                         </div>
@@ -569,54 +549,39 @@
 
                         <div class="grid grid-cols-2 gap-3">
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_prises[]" value="Sans" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Sans</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Sans</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_prises[]" value="Par prise" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Par prise</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Par prise</span>
                             </label>
 
-                            <label class="cursor-pointer col-span-2">
+                            <label class="cursor-pointer col-span-2 border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_prises[]" value="Par groupe de prises"
                                     class="peer sr-only" onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Par groupe de prises</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Par groupe de prises</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_prises[]" value="Disjoncteur" class="peer sr-only"
                                     onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Disjoncteur</span>
                             </label>
 
-                            <label class="cursor-pointer">
+                            <label class="cursor-pointer border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all hover:border-bals-blue has-checked:border-bals-blue has-checked:bg-blue-50">
                                 <input type="checkbox" name="prot_prises[]" value="Disjoncteur Diff."
                                     class="peer sr-only" onchange="mettreAJour()">
-                                <div
-                                    class="border-2 border-gray-200 rounded-xl p-3 flex items-center gap-3 transition-all peer-checked:border-bals-blue peer-checked:bg-blue-50 hover:border-bals-blue cursor-pointer">
-                                    <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0"></div>
-                                    <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
-                                </div>
+                                <div class="w-5 h-5 rounded border-2 border-gray-300 shrink-0 peer-checked:bg-bals-blue peer-checked:border-bals-blue flex items-center justify-center text-transparent peer-checked:text-white text-xs font-bold leading-none">✓</div>
+                                <span class="text-sm font-bold text-gray-700">Disjoncteur Diff.</span>
                             </label>
 
                         </div>

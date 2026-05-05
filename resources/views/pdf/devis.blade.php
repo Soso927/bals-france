@@ -280,7 +280,7 @@
 {{-- Mention légale --}}
 <div class="mention">
     Ce document est une demande de devis générée automatiquement. Il ne constitue pas un engagement contractuel.
-    Notre équipe commerciale vous contactera sous 48h.
+    Notre équipe commerciale vous contactera sous 48h. Veuillez adressez cette demande à jacques@bals-france.fr 
 </div>
 
 </div>
