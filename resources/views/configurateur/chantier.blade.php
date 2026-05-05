@@ -224,6 +224,7 @@
                                 Polarité
                             </span>
                             <select name="polarite"
+                                onchange="mettreAJour()"
                                 class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 w-64 bg-white
                                 focus:outline-none focus:ring-2 focus:ring-bals-blue">
                                 <option value="2P+T">2P+T</option>
@@ -239,6 +240,7 @@
                                 Raccordement
                             </span>
                             <select name="raccordement"
+                                onchange="mettreAJour()"
                                 class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 w-64 bg-white
                        focus:outline-none focus:ring-2 focus:ring-bals-blue">
                                 <option value="protection-tete">Protection de Tête</option>

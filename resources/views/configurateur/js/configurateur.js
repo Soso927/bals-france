@@ -107,6 +107,7 @@ function gererInteractiviteTension() {
             }
         });
     });
+    mettreAJour();
 }
 
 
@@ -283,6 +284,7 @@ function _mettreAJourCoffret(config) {
     var protPrises = _multiselectionne('prot_prises[]');
     var prises = lirePrises();
     var alimentations = lireAlimentations();
+    var alimInfo = mettreAJourAlimentation(config);
 
     // Progression : 5 champs principaux
     var remplis = _compterRemplis([identite, email, montage, materiau, ip]);
@@ -338,14 +340,13 @@ function _mettreAJourCoffret(config) {
             + '<p class="text-xs font-bold text-gray-700">' + listePrises + '</p></div>';
     }
 
-    if (alimentations.length > 0) {
-        var listeAlim = alimentations.map(function (a) {
-            return a.quantite + 'x ' + a.type + ' ' + a.brochage
-                + (a.tension ? ' ' + a.tension : '');
-        }).join('<br>');
+    if (alimInfo) {
         html += '<div class="border-t border-gray-100 pt-2">'
             + '<p class="text-xs text-gray-400 font-bold mb-1">Alimentation :</p>'
-            + '<p class="text-xs font-bold text-gray-700">' + listeAlim + '</p></div>';
+            + _ligne('Tension', alimInfo.tension)
+            + (alimInfo.polarite     ? _ligne('Polarité',     alimInfo.polarite)     : '')
+            + (alimInfo.raccordement ? _ligne('Raccordement', alimInfo.raccordement) : '')
+            + '</div>';
     }
 
     if (protTete.length > 0) {
@@ -364,6 +365,22 @@ function _mettreAJourCoffret(config) {
     zone.innerHTML = html;
     _afficherBoutons(true);
 }
+
+function mettreAJourAlimentation(config) {
+    var tension      = _valeur('alim-tension');
+    var polEl        = document.querySelector('[name="polarite"]');
+    var racEl        = document.querySelector('[name="raccordement"]');
+    var polarite     = polEl ? polEl.value : '';
+    var raccordement = racEl ? racEl.options[racEl.selectedIndex].text : '';
+
+    if (!tension && !polarite && !raccordement) return null;
+    return { tension: tension, polarite: polarite, raccordement: raccordement };
+}
+
+
+
+
+
 
 // ── Résumé pour la prise industrielle ───────────────────────────────────
 function _mettreAJourPrise(config) {

@@ -17,10 +17,7 @@ use Illuminate\Support\Facades\Validator;
  * Méthodes d'affichage (GET) : index, chantier, etage, evenementiel, industrie, priseIndustrielle
  * Méthodes de traitement (POST) : generatePDF, saveQuote, sendQuote
  *
- * TODO pour aller plus loin :
- *   - Installer DomPDF : composer require barryvdh/laravel-dompdf
- *   - Installer PhpSpreadsheet : composer require maatwebsite/excel
- *   - Créer un modèle Devis et une migration pour stocker les configs
+
  */
 class ConfigurateurController extends Controller
 {
@@ -110,113 +107,5 @@ class ConfigurateurController extends Controller
     // ROUTES POST — traitements de formulaires
     // =========================================================================
 
-    /**
-     * Générer un devis au format PDF.
-     *
-     * Route : POST /configurateur/generer-pdf
-     * Nom   : configurateur.pdf
-     *
-     * À implémenter avec : composer require barryvdh/laravel-dompdf
-     *
-     * @param  Request  $request
-     */
-    public function generatePDF(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'type'                 => 'required|string|in:chantier,etage,industrie,evenementiel,prise-industrielle',
-            'data'                 => 'required|array',
-            'data.distributeur'    => 'nullable|string|max:255',
-            'data.contactDist'     => 'nullable|string|max:255',
-            'data.installateur'    => 'nullable|string|max:255',
-            'data.affaire'         => 'nullable|string|max:255',
-            'data.email'           => 'nullable|email|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-        }
-
-        // TODO : implémenter avec DomPDF
-        // use Barryvdh\DomPDF\Facade\Pdf;
-        // $pdf = Pdf::loadView('pdf.devis', ['data' => $request->data, 'type' => $request->type]);
-        // return $pdf->download('devis-bals-' . time() . '.pdf');
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Génération PDF à implémenter (installer barryvdh/laravel-dompdf)',
-        ], 501);
-    }
-
-    /**
-     * Sauvegarder un devis en base de données.
-     *
-     * Route : POST /configurateur/sauvegarder
-     * Nom   : configurateur.sauvegarder
-     *
-     * À implémenter : créer une table `devis` via une migration Laravel.
-     *
-     * @param  Request  $request
-     */
-    public function saveQuote(Request $request)
-    {
-        // TODO : implémenter la sauvegarde
-        // php artisan make:model Devis -m
-        // $devis = Devis::create(['type' => $request->type, 'data' => json_encode($request->data)]);
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Sauvegarde à implémenter (créer le modèle Devis)',
-        ], 501);
-    }
-
-    /**
-     * Soumettre le configurateur et générer un PDF téléchargeable.
-     *
-     * Route : POST /configurateur/soumettre
-     * Nom   : configurateur.soumettre
-     *
-     * @param  Request  $request
-     */
-    public function soumettre(Request $request)
-    {
-        // TODO : générer un vrai PDF avec barryvdh/laravel-dompdf
-        // Pour l'instant on retourne un JSON de confirmation
-        return response()->json([
-            'success' => false,
-            'message' => 'Génération PDF à implémenter (installer barryvdh/laravel-dompdf)',
-        ], 501);
-    }
-
-    /**
-     * Envoyer un devis par email.
-     *
-     * Route : POST /configurateur/envoyer-devis
-     * Nom   : configurateur.email
-     *
-     * À implémenter avec Laravel Mail + un Mailable dédié.
-     *
-     * @param  Request  $request
-     */
-    public function sendQuote(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:255',
-            'type'  => 'required|string',
-            'data'  => 'required|array',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
-        }
-
-        // TODO : implémenter l'envoi email
-        // use Illuminate\Support\Facades\Mail;
-        // use App\Mail\DevisMail;
-        // Mail::to($request->email)->send(new DevisMail($request->data));
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Envoi email à implémenter (créer un Mailable Laravel)',
-        ], 501);
-    }
+   
 }

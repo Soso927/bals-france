@@ -99,6 +99,14 @@ function collecterDonnees() {
         d.prises.push({ type: span.dataset.type, brochage: span.dataset.brochage, qte: qte, tension: tension });
     });
 
+    // Selects alimentation coffret (tension, polarité, raccordement)
+    var elAlimTension = document.getElementById('alim-tension');
+    if (elAlimTension) d.alim_tension = elAlimTension.value;
+    var elPolarite = document.querySelector('select[name="polarite"]');
+    if (elPolarite) d.alim_polarite = elPolarite.value;
+    var elRacc = document.querySelector('select[name="raccordement"]');
+    if (elRacc) d.alim_raccordement = elRacc.options[elRacc.selectedIndex].text;
+
     // Alimentation avec quantité > 0
     d.alim = [];
     document.querySelectorAll('span[data-alim][data-brochage]').forEach(function(span) {
@@ -172,6 +180,9 @@ function afficherResume(d, pct) {
     if (d.pol)         lignes.push({ l: 'Polarité',      v: d.pol });
     if (d.prot_tete   && d.prot_tete.length)   lignes.push({ l: 'Prot. tête',   v: d.prot_tete.join(', ') });
     if (d.prot_prises && d.prot_prises.length) lignes.push({ l: 'Prot. prises', v: d.prot_prises.join(', ') });
+    if (d.alim_tension)      lignes.push({ l: 'Tension',      v: d.alim_tension });
+    if (d.alim_polarite)     lignes.push({ l: 'Polarité',     v: d.alim_polarite });
+    if (d.alim_raccordement) lignes.push({ l: 'Raccordement', v: d.alim_raccordement });
 
     d.prises.forEach(function(p) {
         lignes.push({ l: p.type + ' ' + p.brochage, v: '×' + p.qte + (p.tension ? ' — ' + p.tension : '') });
