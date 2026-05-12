@@ -1,11 +1,11 @@
 @extends('layouts.configurateur')
 
 @section('title', "Configurateur Coffret d'Étage — BALS")
+@section('hideAccueil')@endsection
 
 @section('content')
 <div>
 
-    @include('configurateur.partials.header')
     @include('configurateur.partials.nav-type', ['activeType' => 'etage'])
     @include('configurateur.partials.progress-bar')
 

@@ -25,17 +25,23 @@
 
             {{-- Gauche : lien retour --}}
             <div>
+                @unless(View::hasSection('hideAccueil'))
                 <a href="{{ route('home') }}" class="text-sm font-semibold text-stone-600 hover:text-bals-blue transition-colors">
                     Accueil
                 </a>
                 <p class="text-xs text-stone-400 mt-0.5">Configurateur de devis</p>
+                @endunless
             </div>
 
             {{-- Centre : Logo --}}
             <div class="flex justify-center">
-                <a href="{{ route('home') }}">
+                @if(View::hasSection('hideAccueil'))
                     <img src="{{ asset('images/logo-Bals.png') }}" alt="BALS France" class="h-10 w-auto">
-                </a>
+                @else
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo-Bals.png') }}" alt="BALS France" class="h-10 w-auto">
+                    </a>
+                @endif
             </div>
 
             {{-- Droite : contact --}}
@@ -68,8 +74,10 @@
 
         {{-- Menu mobile --}}
         <div id="mobile-menu-cfg" class="hidden sm:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-2 text-sm font-semibold text-gray-700">
+            @unless(View::hasSection('hideAccueil'))
             <a href="{{ route('home') }}" class="block py-2 hover:text-bals-blue">Accueil</a>
             <a href="{{ route('configurateur.index') }}" class="block py-2 text-bals-blue">Configurateur de devis</a>
+            @endunless
             <a href="mailto:info@bals-france.fr" class="block py-2 hover:text-bals-blue">Nous contacter</a>
             <a href="tel:+33164786080" class="block py-2 hover:text-bals-blue">01 64 78 60 80</a>
         </div>

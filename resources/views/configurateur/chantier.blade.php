@@ -1,11 +1,11 @@
 @extends('layouts.configurateur')
 
 @section('title', 'Configurateur Coffret Chantier — BALS')
+@section('hideAccueil')@endsection
 
 @section('content')
     <div>
 
-        @include('configurateur.partials.header')
         @include('configurateur.partials.nav-type', ['activeType' => 'chantier'])
         @include('configurateur.partials.progress-bar')
 
@@ -183,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 {{-- ====================================================== --}}
                 {{-- SECTION ALIMENTATION : Tension, Polarité, Raccordement --}}
                 {{-- ====================================================== --}}

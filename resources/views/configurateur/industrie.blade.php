@@ -1,11 +1,11 @@
 @extends('layouts.configurateur')
 
 @section('title', 'Configurateur Coffret Industrie — BALS')
+@section('hideAccueil')@endsection
 
 @section('content')
     <div>
 
-        @include('configurateur.partials.header')
         @include('configurateur.partials.nav-type', ['activeType' => 'industrie'])
         @include('configurateur.partials.progress-bar')
 
