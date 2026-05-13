@@ -1,12 +1,14 @@
 ﻿@extends('layouts.configurateur')
 
 @section('title', 'Configurateur Coffret Chantier — BALS')
-@section('hideAccueil')@endsection
-@section('hideFooter')@endsection
+
+
+@include('livewire.layout.header')
+
+
 
 @section('content')
     <div>
-
         @include('configurateur.partials.nav-type', ['activeType' => 'chantier'])
         @include('configurateur.partials.progress-bar')
 
@@ -680,6 +682,7 @@
             </div>{{-- fin lg:col-span-2 --}}
 
             @include('configurateur.partials.panneau-resume')
+
 
         </div>{{-- fin grid --}}
     </div>

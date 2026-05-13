@@ -35,17 +35,12 @@
         {{-- Boutons d'action — masqués par défaut, affichés par le JS quand le formulaire est rempli --}}
         <div id="boutons-action" class="hidden mt-4 space-y-2 border-t border-gray-100 pt-4">
 
-            <button onclick="envoyerDevis()"
-                    class="w-full rounded-xl bg-bals-blue text-white font-bold py-3 text-sm hover:opacity-90 transition-opacity">
-                ✉ Envoyer le devis
-            </button>
-
             <button onclick="copierResume()"
                     class="w-full rounded-xl border border-gray-200 text-gray-700 font-bold py-2.5 text-sm hover:bg-gray-50 transition-colors">
                 Copier le résumé
             </button>
 
-            <button onclick="soumettrePDF()" id="btn-soumettre-pdf" class="w-full rounded-xl border border-gray-200 text-gray-700 font-bold py-2.5 text-sm hover:bg-gray-50 transition-colors">Générer mon devis PDF</button>
+            <button onclick="soumettrePDF()" id="btn-soumettre-pdf" class="w-full rounded-xl border border-gray-200 text-gray-700 font-bold py-2.5 text-sm hover:bg-gray-50 transition-colors">Générer mon devis PDF (veuillez l'envoyer à l'adresse mail suivante : jacques@bals-france.fr )</button>
 
             <button onclick="reinitialiser()"
                     class="w-full rounded-xl border border-red-100 text-red-500 font-bold py-2.5 text-sm hover:bg-red-50 transition-colors">

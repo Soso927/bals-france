@@ -46,12 +46,5 @@
                 </div>
             </div>
         </nav>
-
-        {{-- CTA
-        <a href="{{ route('configurateur.chantier') }}"
-           class="rounded-2xl bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-stone-700">
-            Devis en ligne
-        </a> --}}
-
     </div>
 </header>

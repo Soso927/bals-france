@@ -20,31 +20,10 @@
 
     {{-- ── Header client centré ───────────────────────────────────────── --}}
     <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto grid grid-cols-3 items-center px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-end px-6 py-4">
 
-            {{-- Gauche : lien retour --}}
-            <div>
-                @unless(View::hasSection('hideAccueil'))
-                <a href="{{ route('home') }}" class="text-sm font-semibold text-stone-600 hover:text-bals-blue transition-colors">
-                    Accueil
-                </a>
-                <p class="text-xs text-stone-400 mt-0.5">Configurateur de devis</p>
-                @endunless
-            </div>
-
-            {{-- Centre : Logo --}}
-            <div class="flex justify-center">
-                @if(View::hasSection('hideAccueil'))
-                    <img src="{{ asset('images/logo-Bals.png') }}" alt="BALS France" class="h-10 w-auto">
-                @else
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo-Bals.png') }}" alt="BALS France" class="h-10 w-auto">
-                    </a>
-                @endif
-            </div>
-
-            {{-- Droite : contact --}}
-            <div class="flex items-center justify-end gap-3">
+            {{-- Contact --}}
+            <div class="flex items-center gap-3">
                 <a href="mailto:info@bals-france.fr"
                    class="hidden sm:flex items-center gap-1.5 text-sm text-stone-600 hover:text-bals-blue transition-colors">
                     <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -58,7 +37,7 @@
                     <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                     </svg>
-                    01 64 78 60 80
+                    01 64 78 60 83
                 </a>
 
                 {{-- Burger mobile --}}
@@ -73,10 +52,6 @@
 
         {{-- Menu mobile --}}
         <div id="mobile-menu-cfg" class="hidden sm:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-2 text-sm font-semibold text-gray-700">
-            @unless(View::hasSection('hideAccueil'))
-            <a href="{{ route('home') }}" class="block py-2 hover:text-bals-blue">Accueil</a>
-            <a href="{{ route('configurateur.index') }}" class="block py-2 text-bals-blue">Configurateur de devis</a>
-            @endunless
             <a href="mailto:info@bals-france.fr" class="block py-2 hover:text-bals-blue">Nous contacter</a>
             <a href="tel:+33164786080" class="block py-2 hover:text-bals-blue">01 64 78 60 80</a>
         </div>

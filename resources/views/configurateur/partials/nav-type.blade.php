@@ -51,5 +51,6 @@
                data-type="Prise industrielle">Prise industrielle</a>
         @endif
 
+
     </div>
 </div>
