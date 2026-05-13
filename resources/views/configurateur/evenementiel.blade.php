@@ -1,7 +1,8 @@
-@extends('layouts.configurateur')
+﻿@extends('layouts.configurateur')
 
 @section('title', 'Configurateur Coffret Événementiel — BALS')
 @section('hideAccueil')@endsection
+@section('hideFooter')@endsection
 
 @section('content')
     <div>

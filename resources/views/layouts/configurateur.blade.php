@@ -89,7 +89,9 @@
     </main>
 
     {{-- ── Footer ──────────────────────────────────────────────────────── --}}
+    @unless(View::hasSection('hideFooter'))
     @include('livewire.layout.footer')
+    @endunless
 
     @yield('scripts')
 
