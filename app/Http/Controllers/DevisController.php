@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Devis;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Mpdf\Mpdf;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Config\FontVariables;
@@ -45,39 +43,45 @@ class DevisController extends Controller
     }
 
     /**
-     * Reçoit le JSON du configurateur JS, sauvegarde le devis et retourne le PDF.
-     */
-    public function store(Request $request): \Illuminate\Http\Response
-    {
-        $request->validate([
-            'type_coffret'  => ['required', 'string', 'in:chantier,industrie,prise-industrielle,etage,evenementiel'],
-            'donnees'       => ['required', 'array'],
-            'donnees.email' => ['nullable', 'email', 'max:255'],
-        ]);
+ * Reçoit le JSON du configurateur JS et retourne le PDF directement,
+ * sans passer par la base de données.
+ */
+public function store(Request $request): \Illuminate\Http\Response
+{
+    $request->validate([
+        'type_coffret'  => ['required', 'string', 'in:chantier,industrie,prise-industrielle,etage,evenementiel'],
+        'donnees'       => ['required', 'array'],
+        'donnees.email' => ['nullable', 'email', 'max:255'],
+    ]);
 
-        $devis = Devis::create([
-            'type_coffret' => $request->type_coffret,
-            'donnees'      => $request->donnees,
-            'statut'       => 'nouveau',
-        ]);
+    // On génère une référence unique basée sur la date et un identifiant aléatoire,
+    // exactement comme le ferait la base de données, mais sans y toucher.
+    $reference = 'DEV-' . strtoupper(date('Ymd')) . '-' . strtoupper(substr(uniqid(), -5));
 
-        $html = view('pdf.devis', compact('devis'))->render();
+    // On crée un objet générique qui se comporte comme un modèle Eloquent
+    // aux yeux de la vue PDF — même structure, zéro base de données.
+    $devis = (object) [
+        'type_coffret' => $request->type_coffret,
+        'donnees'      => $request->donnees,
+        'reference'    => $reference,
+        'statut'       => 'nouveau',
+    ];
 
-        $mpdf = $this->creerMpdf();
-        $mpdf->SetHTMLFooter($this->pied($devis->reference));
-        $mpdf->WriteHTML($html);
+    // On génère le PDF exactement comme avant — la vue ne voit aucune différence.
+    $html = view('pdf.devis', compact('devis'))->render();
 
-        $contenuPdf    = $mpdf->Output('', 'S');
-        $cheminRelatif = "devis/{$devis->reference}.pdf";
-        Storage::disk('local')->put($cheminRelatif, $contenuPdf);
-        $devis->update(['pdf_path' => $cheminRelatif]);
+    $mpdf = $this->creerMpdf();
+    $mpdf->SetHTMLFooter($this->pied($devis->reference));
+    $mpdf->WriteHTML($html);
 
-        return response($contenuPdf, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => "attachment; filename=\"Devis-{$devis->reference}.pdf\"",
-        ]);
-    }
+    $contenuPdf = $mpdf->Output('', 'S');
 
+    // On retourne directement le PDF au navigateur sans rien stocker.
+    return response($contenuPdf, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => "attachment; filename=\"Devis-{$devis->reference}.pdf\"",
+    ]);
+}
     /**
      * Télécharge ou régénère le PDF d'un devis depuis l'admin.
      */
