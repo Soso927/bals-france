@@ -24,10 +24,6 @@
 
   
 
-    {{-- ✅ Alpine.js : nécessaire pour le menu burger et les interactions --}}
-    {{-- Doit être en defer et placé AVANT la fermeture du </head>        --}}
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     @yield('styles')
 
     {{-- Livewire styles --}}
