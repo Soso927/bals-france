@@ -3,7 +3,7 @@
 
         {{-- Logo --}}
         
-            <img src="{{ asset('images/logo-Bals.png') }}" alt="Bals" class="h-10 w-auto">
+            <img src="{{ asset('images/logo-bals.png') }}" alt="Bals" class="h-10 w-auto">
         
 
         {{-- Navigation centrale --}}
